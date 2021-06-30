@@ -1,0 +1,36 @@
+{% extends "tasks/basic.html" %} {% block content %}
+<div class="row">
+<div class="content-section col-6">
+  <div class="media border my-4 px-2">
+    <div class="media-body">
+      <h2 class="account-heading"><u>{{user.profile.name}}</u></h2>
+      <p class="text-secondary">{{user.email}}</p>
+      <p class="text-secondary">
+        <strong>Roll No. :</strong> {{user.profile.roll}}
+      </p>
+      <p class="text-secondary">
+        <strong>Current Semester :</strong> {{user.profile.semester}}
+      </p>
+      <p class="text-secondary">
+        <strong>Department :</strong> {{user.profile.department}}
+      </p>
+
+    </div>
+      
+  </div>
+</div>
+<div class="content-section border mt-4 col-6">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+          <legend class="border-top mb-4">Update Profile</legend>
+          <div class="border-top py-2 px-2">{{ u_form.as_p }}</div>
+          <div class="border-bottom py-2 px-2">{{ p_form.as_p }}</div>
+        </fieldset>
+        <div class="form-group my-2">
+          <button class="btn btn-outline-info" type="submit">Update</button>
+        </div>
+      </form>
+  </div>
+  </div>
+{% endblock content %}

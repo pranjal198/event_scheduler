@@ -1,0 +1,14 @@
+{% extends "tasks/basic.html" %} 
+{% block content %}
+<div class="content-section col-6">
+    <fieldset class="form-group">
+      <legend class="border-bottom mb-4">You have been sucessfully logged out</legend>
+    </fieldset>
+
+  <div class="pt-3">
+    <small class="text-muted">
+        <a class="ml-2" href="{% url 'login' %}">Login again </a>
+    </small>
+  </div>
+</div>
+{% endblock content %}
