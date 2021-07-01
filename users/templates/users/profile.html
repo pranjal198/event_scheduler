@@ -3,10 +3,13 @@
 <div class="content-section col-6">
   <div class="media border my-4 px-2">
     <div class="media-body">
-      <h2 class="account-heading"><u>{{user.profile.name}}</u></h2>
-      <p class="text-secondary">{{user.email}}</p>
+      <h2 class="account-heading ps-4 pb-2"><u>{{user.profile.name}}</u></h2>
+      <p class="text-secondary"><strong>Email ID :</strong> {{user.email}}</p>
       <p class="text-secondary">
         <strong>Roll No. :</strong> {{user.profile.roll}}
+      </p>
+      <p class="text-secondary">
+        <strong>Batch :</strong> {{user.profile.batch}}
       </p>
       <p class="text-secondary">
         <strong>Current Semester :</strong> {{user.profile.semester}}

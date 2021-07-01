@@ -35,7 +35,18 @@ class ProfileUpdateForm(forms.ModelForm):
     ("Engineering Physics","Engineering Physics"),
     ("Humanities and Social Sciences","Humanities and Social Sciences"),
     )
-
+    BAT_CHOICE = (
+        ("0", "select"),
+        ("All Batches", "All Batches"),
+        ("B.Tech 20", "B.Tech 20"),
+        ("B.Tech 19", "B.Tech 19"),
+        ("B.Tech 18", "B.Tech 18"),
+        ("B.Tech 17", "B.Tech 17"),
+        ("B.Des 20", "B.Des 20"),
+        ("B.Des 19", "B.Des 19"),
+        ("B.Des 18", "B.Des 18"),
+        ("B.Des 17", "B.Des 17"),
+    )
     SEM_CHOICE = (
     ("0", "select"),
     ("1st", "1st"),
@@ -49,10 +60,11 @@ class ProfileUpdateForm(forms.ModelForm):
     )
     name = forms.CharField(max_length=50)
     roll = forms.IntegerField()
+    batch = forms.ChoiceField(choices = BAT_CHOICE)
     semester = forms.ChoiceField(choices = SEM_CHOICE)
     department = forms.ChoiceField(choices = DEP_CHOICE)
 
     class Meta:
         model = Profile
-        fields = ['name','roll','semester','department']
+        fields = ['name','roll','batch','semester','department']
 

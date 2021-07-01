@@ -11,7 +11,27 @@
         <small class="ms-3 fst-italic">on {{ task.date }} , from {{ task.time_from }}  to  {{ task.time_to }}</small>
       </div>  
     </div>
-  {% elif task.event_type == "Branch related Activities" and task.target_branch == user.profile.department%}
+  {% elif task.event_type == "Branch related Activities" and task.target_branch == user.profile.department and task.target_batch == "All Batches" or task.target_batch == user.profile.batch%}
+      <div class="my-3">
+        <div class="container my-1 border col-5">
+          <h5 class="text-muted mx-2">
+          Event Title : 
+          <a class="text-primary" href="{% url 'tasks-detail' task.id%}">{{ task.title }}</a>
+          </h5>
+          <small class="ms-3 fst-italic">on {{ task.date }} , from {{ task.time_from }}  to  {{ task.time_to }}</small>
+        </div>  
+      </div>
+  {% elif task.event_type == "Academic Activities" and task.target_branch == "All Branches" and task.target_batch == "All Batches" or task.target_batch == user.profile.batch %}
+      <div class="my-3">
+        <div class="container my-1 border col-5">
+          <h5 class="text-muted mx-2">
+          Event Title : 
+          <a class="text-primary" href="{% url 'tasks-detail' task.id%}">{{ task.title }}</a>
+          </h5>
+          <small class="ms-3 fst-italic">on {{ task.date }} , from {{ task.time_from }}  to  {{ task.time_to }}</small>
+        </div>  
+      </div>
+  {% elif task.event_type == "Academic Activities" and task.target_branch == user.profile.department and task.target_batch == "All Batches" or task.target_batch == user.profile.batch %}
       <div class="my-3">
         <div class="container my-1 border col-5">
           <h5 class="text-muted mx-2">

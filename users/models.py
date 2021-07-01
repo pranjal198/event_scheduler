@@ -19,7 +19,17 @@ class Profile(models.Model):
     ("Engineering Physics","Engineering Physics"),
     ("Humanities and Social Sciences","Humanities and Social Sciences"),
     )
-
+    BAT_CHOICE = (
+        ("0", "select"),
+        ("B.Tech 20", "B.Tech 20"),
+        ("B.Tech 19", "B.Tech 19"),
+        ("B.Tech 18", "B.Tech 18"),
+        ("B.Tech 17", "B.Tech 17"),
+        ("B.Des 20", "B.Des 20"),
+        ("B.Des 19", "B.Des 19"),
+        ("B.Des 18", "B.Des 18"),
+        ("B.Des 17", "B.Des 17"),
+    )
     SEM_CHOICE = (
     ("0", "select"),
     ("1st", "1st"),
@@ -34,6 +44,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50,default="Name")
     roll = models.IntegerField(default=0)
+    batch = models.CharField(max_length=13,choices = BAT_CHOICE,default="0")
     semester = models.CharField(max_length=3,choices = SEM_CHOICE,default="0")
     department = models.CharField(max_length=50,choices = DEP_CHOICE,default="0")
 
