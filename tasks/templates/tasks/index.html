@@ -1,13 +1,26 @@
-{% extends 'tasks/basic.html' %} {% block content %} {% for task in tasks %}
-{% if task.author == user %}
-  <div class="my-3">
-    <div class="container my-1 border col-5">
-      <h5 class="text-muted mx-2">
-      Event Title : 
-      <a class="text-primary" href="{% url 'tasks-detail' task.id%}">{{ task.title }}</a>
-      </h5>
-      <small class="ms-3 fst-italic">on {{ task.date }} , from {{ task.time_from }}  to  {{ task.time_to }}</small>
-    </div>  
-  </div>
+{% extends 'tasks/basic.html' %} 
+{% block content %} 
+{% for task in tasks %}
+  {% if task.author == user and task.event_type == "Personal Tasks"%}
+    <div class="my-3">
+      <div class="container my-1 border col-5">
+        <h5 class="text-muted mx-2">
+        Event Title : 
+        <a class="text-primary" href="{% url 'tasks-detail' task.id%}">{{ task.title }}</a>
+        </h5>
+        <small class="ms-3 fst-italic">on {{ task.date }} , from {{ task.time_from }}  to  {{ task.time_to }}</small>
+      </div>  
+    </div>
+  {% elif task.event_type == "Branch related Activities" and task.target_branch == user.profile.department%}
+      <div class="my-3">
+        <div class="container my-1 border col-5">
+          <h5 class="text-muted mx-2">
+          Event Title : 
+          <a class="text-primary" href="{% url 'tasks-detail' task.id%}">{{ task.title }}</a>
+          </h5>
+          <small class="ms-3 fst-italic">on {{ task.date }} , from {{ task.time_from }}  to  {{ task.time_to }}</small>
+        </div>  
+      </div>
   {% endif %}
-{% endfor %} {% endblock content %}
+{% endfor %} 
+{% endblock content %}

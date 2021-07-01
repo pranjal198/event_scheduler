@@ -17,19 +17,15 @@ class TaskListView(LoginRequiredMixin,ListView):
     ordering = ['date']
 
 
-class TaskDetailView(UserPassesTestMixin,LoginRequiredMixin,DetailView):
+class TaskDetailView(LoginRequiredMixin,DetailView):
     model = Task
 
-    def test_func(self):
-        task = self.get_object()
-        if self.request.user == task.author:
-            return True
-        return False
+    
 
 
 class TaskCreateView(LoginRequiredMixin,CreateView):
     model = Task
-    fields = ['title','date','time_from','time_to','desc']
+    fields = ['title','event_type','target_branch','date','time_from','time_to','description']
 
     def form_valid(self,form):
         form.instance.author = self.request.user
@@ -39,7 +35,7 @@ class TaskCreateView(LoginRequiredMixin,CreateView):
 
 class TaskUpdateView(UserPassesTestMixin,LoginRequiredMixin,UpdateView):
     model = Task
-    fields = ['title','date','time_from','time_to','desc']
+    fields = ['title','event_type','target_branch','date','time_from','time_to','description']
 
     def form_valid(self,form):
         form.instance.author = self.request.user
