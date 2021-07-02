@@ -1,7 +1,7 @@
 {% extends 'tasks/basic.html' %} 
 {% block content %} 
 {% for task in tasks %}
-  {% if task.author == user and task.event_type == "Personal Tasks" and task.target_batch == "self" and task.target_branch == "self" %}
+  {% if task.author == user and task.event_type == "Personal Tasks" %}
     <div class="my-3">
       <div class="container my-1 border col-5">
         <h5 class="text-muted mx-2">
