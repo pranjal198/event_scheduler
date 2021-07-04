@@ -18,28 +18,18 @@
           aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
               <a href="{% url 'home' %}" class="nav-link{% if request.resolver_match.view_name == 'home' %} active{% endif %}">Home</a>
             </li>
-
           </ul>
-          <ul class="navbar-nav justify-content-end">
-            <li class="nav-item">
+          <a class="btn btn-primary" href="/accounts/microsoft/login/?process=login" role="button">Sign-In</a>
 
 
-          <li class="nav-item dropdown">
-                <a class="nav-link avatar-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                  <h5 class="dropdown-item-text mb-0">{{ user.name }}</h5>
-                  <p class="dropdown-item-text text-muted mb-0">{{ user.email }}</p>
-                  <div class="dropdown-divider"></div>
-
-                </div>
-              </li>
-  <a class="btn btn-primary" href="/accounts/login" role="button">Log-In</a>
+        </div>
+      </div>
 </body>
 </html>

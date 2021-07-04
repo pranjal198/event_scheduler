@@ -5,5 +5,6 @@ from django.urls import path
 from .import views
 urlpatterns = [
     path('',views.home,name="home"),
-    path('accounts/profile/', views.login,name="login")
+    path('accounts/profile/', views.login,name="login"),
+    path('signout', views.sign_out, name='signout'),
 ]
