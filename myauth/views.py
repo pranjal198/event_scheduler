@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.template import RequestContext
 from django.urls import reverse
+from django.contrib.auth import logout as auth_logout
 # Create your views here.
 def home(request):
     return render(request, 'myauth/home.html')
@@ -19,3 +21,5 @@ def remove_user_and_token(request):
 def sign_out(request):
     remove_user_and_token(request)
     return HttpResponseRedirect(reverse('home'))
+
+

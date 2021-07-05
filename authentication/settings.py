@@ -94,11 +94,11 @@ DATABASES = {
     }
 }
 
-SOCIALACCOUNT_PROVIDERS = {
-    'microsoft': {
-        'tenant': 'organizations',
-    }
-}
+# SOCIALACCOUNT_PROVIDERS = {
+#     'microsoft': {
+#         'tenant': 'organizations',
+#     }
+# }
 
 AUTHENTICATION_BACKENDS = [
 
