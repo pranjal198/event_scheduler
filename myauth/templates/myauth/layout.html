@@ -40,9 +40,11 @@
                   </a>
                   <div class="dropdown-menu dropdown-menu-right">
                     <h5 class="dropdown-item-text mb-0">{{ user.first_name }}</h5>
-                    <p class="dropdown-item-text text-muted mb-0">{{ user.email }}</p>
-                    <div class="dropdown-divider"></div>
 
+
+                    <div class="dropdown-divider"></div>
+                    <p class="dropdown-item-text text-muted mb-0">{{ user.email }}</p>
+                    <p class="dropdown-item-text text-muted mb-0">{{ user.last_name }}</p>
                   </div>
                 </li>
                 <form method="POST" action="/accounts/logout/">{% csrf_token %}
@@ -50,10 +52,8 @@
 
                   <button type="submit">Sign Out</button>
                 </form>
-              {% else %}
-                <li class="nav-item">
-                  <a href="{% url 'signin' %}" class="nav-link">Sign In</a>
-                </li>
+
+
               {% endif %}
             </ul>
           </div>

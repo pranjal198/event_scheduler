@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-+2$x*1%tu1ov2yg0b0%%i@j4*-_vxawjv+%ll7p!hxgf$j+bd1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["micorauthapp.herokuapp.com"]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -94,11 +94,11 @@ DATABASES = {
     }
 }
 
-# SOCIALACCOUNT_PROVIDERS = {
-#     'microsoft': {
-#         'tenant': 'organizations',
-#     }
-# }
+SOCIALACCOUNT_PROVIDERS = {
+    'microsoft': {
+        'tenant': 'organizations',
+    }
+}
 
 AUTHENTICATION_BACKENDS = [
 
