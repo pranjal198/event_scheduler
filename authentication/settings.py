@@ -96,12 +96,12 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
-SOCIALACCOUNT_PROVIDERS = {
-    'microsoft': {
-        'tenant': 'organizations',
-    }
-}
+#
+# SOCIALACCOUNT_PROVIDERS = {
+#     'microsoft': {
+#         'tenant': 'organizations',
+#     }
+# }
 
 AUTHENTICATION_BACKENDS = [
 

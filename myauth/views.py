@@ -5,10 +5,10 @@ from django.urls import reverse
 from django.contrib.auth import logout as auth_logout
 # Create your views here.
 def home(request):
-    return render(request, 'myauth/home.html')
+    return render(request, 'myauth/index.html')
 
 def login(request):
-    return render(request, 'myauth/file.html')
+    return render(request, 'myauth/index.html')
 
 def remove_user_and_token(request):
   if 'token_cache' in request.session:
@@ -17,9 +17,10 @@ def remove_user_and_token(request):
   if 'user' in request.session:
     del request.session['user']
 
-
+def preloader(request):
+    return render(request, 'myauth/index.html')
 def sign_out(request):
     remove_user_and_token(request)
-    return HttpResponseRedirect(reverse('home'))
+    return HttpResponseRedirect(reverse('index'))
 
 
