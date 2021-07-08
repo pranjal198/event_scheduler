@@ -1,0 +1,11 @@
+{% extends "myauth/layout.html" %}
+{% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<div class="jumbotron">
+  <h1>Welcome</h1>
+  <h4>Please Sign In</h4>
+  <p class="lead">Microsoft Login/SignIn</p>
+  <a class="btn btn-primary" href="/accounts/microsoft/login/?process=login" role="button">Sign-In</a>
+</div>
+{% endblock %}
