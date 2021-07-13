@@ -32,12 +32,21 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'tasks.apps.TasksConfig',
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'microsoft_authentication',
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.microsoft',
 ]
 
 MIDDLEWARE = [
@@ -81,6 +90,21 @@ DATABASES = {
     }
 }
 
+SOCIALACCOUNT_PROVIDERS = {
+    'microsoft': {
+        'tenant': 'organizations',
+    }
+}
+
+AUTHENTICATION_BACKENDS = [
+
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -100,9 +124,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+SITE_ID=1
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
+
+SESSION_COOKIE_SECURE = True
 
 LANGUAGE_CODE = 'en-us'
 
@@ -129,10 +155,11 @@ MEDIA_URL = '/media/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = 'tasks-home'
+LOGIN_URL = 'login'
 
-EMAIL_HOST='smtp.gmail.com'
-EMAIL_HOST_USER=''
-EMAIL_HOST_PASSWORD=''
-EMAIL_USE_TLS=True
-EMAIL_PORT=587
+# EMAIL_HOST='smtp.gmail.com'
+# EMAIL_HOST_USER=''
+# EMAIL_HOST_PASSWORD=''
+# EMAIL_USE_TLS=True
+# EMAIL_PORT=587
