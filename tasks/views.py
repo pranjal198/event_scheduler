@@ -2,6 +2,43 @@ from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
 from .models import Task
+from django.http import HttpResponse, JsonResponse
+from rest_framework.parsers import JSONParser
+from .serializers import TaskSerializer
+from rest_framework.response import Response
+from rest_framework import status, permissions
+from rest_framework.views import APIView
+from rest_framework import generics, mixins
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
+import django_filters.rest_framework
+
+
+
+
+class TaskListAPI(generics.ListAPIView):
+    serializer_class = TaskSerializer
+    permission_class=(permissions.IsAuthenticatedOrReadOnly,)
+    queryset = Task.objects.all()
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ('title','description','author__name')
+
+
+class TaskDetailAPI(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = TaskSerializer
+    queryset = Task.objects.all()
+    permission_class=(permissions.IsAuthenticatedOrReadOnly,)
+
+
+
+class TaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
+    serializer_class = TaskSerializer
+    queryset = Task.objects.all()
+    permission_class=(permissions.IsAuthenticatedOrReadOnly,)
+
+
+    def post(self, request):
+        return self.create(request)
 
 # Create your views here.
 def index(request):
@@ -20,7 +57,7 @@ class TaskListView(LoginRequiredMixin,ListView):
 class TaskDetailView(LoginRequiredMixin,DetailView):
     model = Task
 
-    
+
 
 
 class TaskCreateView(LoginRequiredMixin,CreateView):
