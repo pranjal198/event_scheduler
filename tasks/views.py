@@ -25,7 +25,7 @@ class TaskDetailView(LoginRequiredMixin,DetailView):
 
 class TaskCreateView(LoginRequiredMixin,CreateView):
     model = Task
-    fields = ['title','event_type','target_batch','target_branch','date','time_from','time_to','description']
+    fields = ['title','event_type','target_batch','target_branch','date','time_from','time_to','remainder','remainder_date','remainder_time','description']
 
     def form_valid(self,form):
         form.instance.author = self.request.user
@@ -35,7 +35,7 @@ class TaskCreateView(LoginRequiredMixin,CreateView):
 
 class TaskUpdateView(UserPassesTestMixin,LoginRequiredMixin,UpdateView):
     model = Task
-    fields = ['title','event_type','target_batch','target_branch','date','time_from','time_to','description']
+    fields = ['title','event_type','target_batch','target_branch','date','time_from','time_to','remainder','remainder_date','remainder_time','description']
 
     def form_valid(self,form):
         form.instance.author = self.request.user

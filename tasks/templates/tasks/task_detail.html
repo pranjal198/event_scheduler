@@ -178,20 +178,20 @@ form {
 </style>
 <div class="my-3">
   <div class="container my-1 border pb-3 col-6">
-    <h3 class="text-muted mx-2">
-    <u style="color:white;">Event Title : {{ object.title }}</u>
-    </h3>
-    <small class="ms-3 mb-4 fst-italic">on {{ object.date }} , from {{ object.time_from }}  to  {{ object.time_to }}</small>
+    <h2 class="text-muted mx-2 pt-3" style="text-align:center;">
+    <div style="color:white;">Event Title : {{ object.title }}</div>
+    </h2>
+    <p style="text-align:center;font-size:16px;" class="mb-2 fst-italic">on {{ object.date }} , from {{ object.time_from }}  to  {{ object.time_to }}</p>
 
-  <h5><p class="mb-3 mt-2 ms-2 pb-1 border-bottom">Description : {{ object.description}}</p></h5>
+  <h5><p class="mb-3 mt-2 ms-2 py-3 border-bottom border-top"><strong>Description :</strong> {{ object.description}}</p></h5>
   <h6><p class="mb-2 mt-1 ms-2">Target Audience : {{ object.target_batch}}</p></h6>
-  <h6><p class="mx-2 border-bottom pb-2">Target Branch : {{ object.target_branch}}</p></h6>
+  <h6><p class="mx-2 border-bottom pb-3">Target Branch : {{ object.target_branch}}</p></h6>
   {% if object.author == user %}
     <a href="{% url 'tasks-update' object.id%}"
-            ><button class="btn btn-outline-info">Edit Event</button></a
+            ><button class="m-2 btn btn-info">Edit Event</button></a
           >
     <a href="{% url 'tasks-delete' object.id%}"
-            ><button class="btn btn-outline-danger">Delete Event</button></a
+            ><button class="m-2 btn btn-danger">Delete Event</button></a
           >
   {% else%}
    <p class="ms-2">Event Creator: {{object.author.profile.name}}</p>

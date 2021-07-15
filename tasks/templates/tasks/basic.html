@@ -47,16 +47,6 @@
                 >Home</a
               >
             </li>
-            {% comment %} <li class="nav-item mx-4">
-              <a
-                class="nav-link"
-                aria-current="page"
-                href="{% url 'doubt_about' %}"
-                >About</a
-              >
-            </li> {% endcomment %}
-
-
           </ul>
         </div>
         <div class="navbar-nav">
@@ -76,19 +66,14 @@
             Welcome {{ user.first_name}}
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{% url 'profile' %}">Your Profile</a></li>
+            <li><a style="color:black;" class="dropdown-item" href="{% url 'profile' %}">Your Profile</a></li>
             <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="#">Change Password</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+            <li><a style="color:black;" class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
           </ul>
           </li>
           {% else %}
           <a class="nav-item nav-link" href="{% url 'login' %}"
             ><button class="btn btn-outline-info">Login</button></a
-          >
-          <a class="nav-item nav-link" href="{% url 'register' %}"
-            ><button class="btn btn-outline-primary">Sign up</button></a
           >
           {% endif %}
         </div>

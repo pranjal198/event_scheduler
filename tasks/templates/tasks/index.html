@@ -177,13 +177,26 @@ form {
   cursor: pointer;
 }
 a:link {
-  color: #265301;
+  color: #e8e531;
+}
+a:visited {
+  color: #e8e531;
+}
+a:active {
+  color: #e8e531;
+}
+a:hover {
+  color: #bab825;
+}
+a {
+  text-decoration : none;
 }
 </style>
-{% for task in tasks %}
+{% comment %} whole b.tech  b.tech 20 {% endcomment %}
+{% for task in tasks %}   
   {% if task.author == user and task.event_type == "Personal Tasks" %}
     <div class="my-3" style="text-align:center;" >
-      <div class="container my-1 border col-3">
+      <div class="container my-3 py-3 col-8">
         <h2 class=" mx-2">
         Event Title : 
         <a href="{% url 'tasks-detail' task.id%}">{{ task.title }}</a>
@@ -193,7 +206,7 @@ a:link {
     </div>
   {% elif task.event_type == "Branch related Activities" and task.target_branch == user.profile.department and task.target_batch == user.profile.batch %}
       <div class="my-3" style="text-align:center;">
-        <div class="container my-1 border col-3">
+        <div class="container my-3 py-3 col-8">
           <h2 class=" mx-2">
           Event Title : 
           <a href="{% url 'tasks-detail' task.id%}">{{ task.title }}</a>
@@ -203,7 +216,17 @@ a:link {
       </div>
   {% elif task.event_type == "Branch related Activities" and task.target_branch == user.profile.department and task.target_batch == "All Batches"%}
       <div class="my-3" style="text-align:center;">
-        <div class="container my-1 border col-3">
+        <div class="container my-3 py-3 col-8">
+          <h2 class=" mx-2">
+          Event Title : 
+          <a href="{% url 'tasks-detail' task.id%}">{{ task.title }}</a>
+          </h2>
+          <p class="ms-3 fst-italic">on {{ task.date }} , from {{ task.time_from }}  to  {{ task.time_to }}</p>
+        </div>  
+      </div>
+  {% elif task.event_type == "Branch related Activities" and task.target_branch == user.profile.department and task.target_batch == user.profile.programme %}
+      <div class="my-3" style="text-align:center;">
+        <div class="container my-3 py-3 col-8">
           <h2 class=" mx-2">
           Event Title : 
           <a href="{% url 'tasks-detail' task.id%}">{{ task.title }}</a>
@@ -213,7 +236,17 @@ a:link {
       </div>
   {% elif task.event_type == "Academic Activities" and task.target_branch == "All Branches" and task.target_batch == "All Batches" %}
       <div class="my-3" style="text-align:center;">
-        <div class="container my-1 border col-3">
+        <div class="container my-3 py-3 col-8">
+          <h2 class=" mx-2">
+          Event Title : 
+          <a href="{% url 'tasks-detail' task.id%}">{{ task.title }}</a>
+          </h2>
+          <p class="ms-3 fst-italic">on {{ task.date }} , from {{ task.time_from }}  to  {{ task.time_to }}</p>
+        </div>  
+      </div>
+  {% elif task.event_type == "Academic Activities" and task.target_branch == "All Branches" and task.target_batch == user.profile.programme %}
+      <div class="my-3" style="text-align:center;">
+        <div class="container my-3 py-3 col-8">
           <h2 class=" mx-2">
           Event Title : 
           <a href="{% url 'tasks-detail' task.id%}">{{ task.title }}</a>
@@ -223,7 +256,7 @@ a:link {
       </div>
   {% elif task.event_type == "Academic Activities" and task.target_branch == "All Branches" and task.target_batch == user.profile.batch %}
       <div class="my-3" style="text-align:center;">
-        <div class="container my-1 border col-3">
+        <div class="container my-3 py-3 col-8">
           <h2 class=" mx-2">
           Event Title : 
           <a href="{% url 'tasks-detail' task.id%}">{{ task.title }}</a>
@@ -233,7 +266,7 @@ a:link {
       </div>
   {% elif task.event_type == "Academic Activities" and task.target_branch == user.profile.department and task.target_batch == "All Batches" %}
       <div class="my-3" style="text-align:center;">
-        <div class="container my-1 border col-3">
+        <div class="container my-3 py-3 col-8">
           <h2 class=" mx-2">
           Event Title : 
           <a href="{% url 'tasks-detail' task.id%}">{{ task.title }}</a>
@@ -243,7 +276,17 @@ a:link {
       </div>
   {% elif task.event_type == "Academic Activities" and task.target_branch == user.profile.department and task.target_batch == user.profile.batch %}
       <div class="my-3" style="text-align:center;">
-        <div class="container my-1 border col-3">
+        <div class="container my-3 py-3 col-8">
+          <h2 class=" mx-2">
+          Event Title : 
+          <a href="{% url 'tasks-detail' task.id%}">{{ task.title }}</a>
+          </h2>
+          <p class="ms-3 fst-italic">on {{ task.date }} , from {{ task.time_from }}  to  {{ task.time_to }}</p>
+        </div>  
+      </div>
+  {% elif task.event_type == "Academic Activities" and task.target_branch == user.profile.department and task.target_batch == user.profile.programme %}
+      <div class="my-3" style="text-align:center;">
+        <div class="container my-3 py-3 col-8">
           <h2 class=" mx-2">
           Event Title : 
           <a href="{% url 'tasks-detail' task.id%}">{{ task.title }}</a>

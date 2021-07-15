@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'microsoft_authentication',
     'django.contrib.sites',
-
+    'crispy_forms',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -158,6 +158,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'tasks-home'
 LOGIN_URL = 'login'
 
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 # EMAIL_HOST='smtp.gmail.com'
 # EMAIL_HOST_USER=''
 # EMAIL_HOST_PASSWORD=''
