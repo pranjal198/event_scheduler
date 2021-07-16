@@ -8,5 +8,11 @@ urlpatterns = [
     path('task/<int:pk>/update/',TaskUpdateView.as_view(),name='tasks-update'),
     path('task/<int:pk>/delete/',TaskDeleteView.as_view(),name='tasks-delete'),
     path('task/new/',TaskCreateView.as_view(),name='tasks-create'),
+    path('task/',views.task,name='TASK'),
+    path('task/branch/',views.acad,name='acad'),
+    path('task/club/', views.club, name='club'),
+    path('task/oca/',views.occ,name='occasional'),
+    path('task/cal',views.cal,name='calendar'),
+
 
 ]

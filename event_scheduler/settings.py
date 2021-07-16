@@ -32,8 +32,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'tasks.apps.TasksConfig',
-    'users.apps.UsersConfig',
+    'tasks',
+    'users',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'microsoft_authentication',
     'django.contrib.sites',
-
+    'rest_framework',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',

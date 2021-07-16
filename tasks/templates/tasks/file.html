@@ -1,0 +1,21 @@
+{% load rest_framework %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+
+    />
+</head>
+<div class="container">
+        <form method="POST" id="id-login-form" class="panel-body">
+            {% csrf_token %}
+            {% render_form serializer %}
+            {% render_field serializer.title style=style %}
+
+            {% render_field serializer.code style=style %}
+
+            <input type="submit" value="Save">
+        </form>
+    </div>

@@ -46,22 +46,24 @@
                 href="{% url 'tasks-home' %}"
                 >Home</a
               >
+
+
             </li>
-            {% comment %} <li class="nav-item mx-4">
+
               <a
-                class="nav-link"
+                class="nav-link active mx-4"
                 aria-current="page"
-                href="{% url 'doubt_about' %}"
-                >About</a
+                {% if user.is_authenticated %}
+                    <a href="https://www.iitg.ac.in/acad/academic_calender.php" target="_blank">Academic Calendar</a>
+                {% endif %}
+
+                </a
               >
-            </li> {% endcomment %}
-
-
           </ul>
         </div>
         <div class="navbar-nav">
           {% if user.is_authenticated %}
-          <a class="nav-item nav-link" href="{% url 'tasks-create'%}"
+          <a class="nav-item nav-link" href="/task/"
             ><button class="btn btn-outline-info">New Event</button></a
           >
           <li class="nav-item dropdown">
@@ -76,11 +78,9 @@
             Welcome {{ user.first_name}}
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{% url 'profile' %}">Your Profile</a></li>
+            <li><a style="color:black;" class="dropdown-item" href="{% url 'profile' %}">Your Profile</a></li>
             <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="#">Change Password</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+            <li><a style="color:black;" class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
           </ul>
           </li>
           {% else %}
