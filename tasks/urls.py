@@ -13,6 +13,7 @@ urlpatterns = [
     path('task/club/', views.club, name='club'),
     path('task/oca/',views.occ,name='occasional'),
     path('task/cal',views.cal,name='calendar'),
+    path('task/org/',views.org,name='organisational'),
 
 
 ]

@@ -29,8 +29,9 @@ admin.site.register(UGCLUB)
 admin.site.register(ALCHERCLUB)
 admin.site.register(TechnicheCLUB)
 admin.site.register(OTHERCLUB)
-
-
+admin.site.register(SAILCLUB)
+admin.site.register(CCDCLUB)
+admin.site.register(AICLUB)
 
 
 

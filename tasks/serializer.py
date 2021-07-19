@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Task, BT, CH, CL, CE, CSE, DES, ECE, EEE, MA, ME, PH, CODINGCLUB, SWC, AEROCLUB, ASTROCLUB, CACLUB, \
-    EECLUB, PRAKRITICLUB, FNCCLUB, ROBOTICSCLUB, EDCLUB, UGCLUB, ALCHERCLUB, TechnicheCLUB, OTHERCLUB
+    EECLUB, PRAKRITICLUB, FNCCLUB, ROBOTICSCLUB, EDCLUB, UGCLUB, ALCHERCLUB, TechnicheCLUB, OTHERCLUB, SAILCLUB, AICLUB, \
+    CCDCLUB
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -145,4 +146,21 @@ class TechnicheSerializer(serializers.ModelSerializer):
 class OTHERSerializer(serializers.ModelSerializer):
     class Meta:
         model =OTHERCLUB
+        fields = '__all__'
+
+
+class SAILSerializer(serializers.ModelSerializer):
+    class Meta:
+        model =SAILCLUB
+        fields = '__all__'
+
+class AISerializer(serializers.ModelSerializer):
+    class Meta:
+        model =AICLUB
+        fields = '__all__'
+
+
+class CCDSerializer(serializers.ModelSerializer):
+    class Meta:
+        model =CCDCLUB
         fields = '__all__'

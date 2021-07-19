@@ -1,10 +1,9 @@
-
 from django.shortcuts import render
-from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
-from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Task, AEROCLUB, ASTROCLUB, CACLUB, EECLUB, PRAKRITICLUB, FNCCLUB, ROBOTICSCLUB, EDCLUB, UGCLUB, \
-    ALCHERCLUB, TechnicheCLUB, OTHERCLUB
-from .models import BT,CH,CL,CE,CSE,DES,ECE,EEE,MA,ME,PH,CODINGCLUB,SWC
+    ALCHERCLUB, TechnicheCLUB, OTHERCLUB, SAILCLUB, AICLUB, CCDCLUB
+from .models import BT, CH, CL, CE, CSE, DES, ECE, EEE, MA, ME, PH, CODINGCLUB, SWC
 from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
 from .aserializer import TaskSerializer
@@ -12,7 +11,7 @@ from .serializer import BTSerializer, CHSerializer, CLSerializer, CESerializer, 
     ECESerializer, EEESerializer, MASerializer, MESerializer, PHSerializer, CODINGCLUBSerializer, SWCSerializer, \
     AEROCLUBSerializer, ASTROCLUBSerializer, CACLUBSerializer, EECLUBSerializer, PRAKRITICLUBSerializer, \
     FNCCLUBSerializer, ROBOTICSCLUBSerializer, EDCLUBSerializer, UGCLUBSerializer, ALCHERSerializer, \
-    TechnicheSerializer, OTHERSerializer
+    TechnicheSerializer, OTHERSerializer, SAILSerializer, AISerializer, CCDSerializer
 from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.views import APIView
@@ -20,6 +19,7 @@ from rest_framework import generics, mixins
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 import django_filters.rest_framework
+
 
 # Create your views here.
 def index(request):
@@ -84,8 +84,6 @@ def TASKSEE(request, pk):
     return JsonResponse(serializer.data)
 
 
-
-
 # @csrf_exempt
 # def CREATETASK(request):
 #     if request.method == "POST":
@@ -106,83 +104,70 @@ def TASKSEE(request, pk):
 #     return HttpResponse(json_data, content_type='application/json')
 
 
-
-
-
 class TaskListAPI(generics.ListAPIView):
-
     serializer_class = TaskSerializer
-    permission_class=(permissions.IsAuthenticatedOrReadOnly,)
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = Task.objects.all()
     filter_backends = [SearchFilter, OrderingFilter]
-    search_fields = ('title','description','author__name')
+    search_fields = ('title', 'description', 'author__name')
 
 
 class TaskDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
-    permission_class=(permissions.IsAuthenticatedOrReadOnly,)
-
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 class TaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
-    permission_class=(permissions.IsAuthenticatedOrReadOnly,)
-
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
 
     def post(self, request):
         return self.create(request)
 
 
 class BTTaskListAPI(generics.ListAPIView):
-
     serializer_class = BTSerializer
-    permission_class=(permissions.IsAuthenticatedOrReadOnly,)
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = BT.objects.all()
     filter_backends = [SearchFilter, OrderingFilter]
-    search_fields = ('title','description','author__name')
+    search_fields = ('title', 'description', 'author__name')
 
 
 class BTTaskDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = BTSerializer
     queryset = BT.objects.all()
-    permission_class=(permissions.IsAuthenticatedOrReadOnly,)
-
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 class BTTaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
     serializer_class = BTSerializer
     queryset = BT.objects.all()
-    permission_class=(permissions.IsAuthenticatedOrReadOnly,)
-
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
 
     def post(self, request):
         return self.create(request)
 
 
-
 class CHTaskListAPI(generics.ListAPIView):
-
     serializer_class = CHSerializer
-    permission_class=(permissions.IsAuthenticatedOrReadOnly,)
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = CH.objects.all()
     filter_backends = [SearchFilter, OrderingFilter]
-    search_fields = ('title','description','author__name')
+    search_fields = ('title', 'description', 'author__name')
 
 
 class CHTaskDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CHSerializer
     queryset = CH.objects.all()
-    permission_class=(permissions.IsAuthenticatedOrReadOnly,)
-
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
 
 
 class CHTaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
     serializer_class = CHSerializer
     queryset = CH.objects.all()
-    permission_class=(permissions.IsAuthenticatedOrReadOnly,)
-
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
 
     def post(self, request):
         return self.create(request)
@@ -395,7 +380,6 @@ class PHTaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
         return self.create(request)
 
 
-
 class SWCTaskListAPI(generics.ListAPIView):
     serializer_class = SWCSerializer
     permission_class = (permissions.IsAuthenticatedOrReadOnly,)
@@ -417,9 +401,6 @@ class SWCTaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
 
     def post(self, request):
         return self.create(request)
-
-
-
 
 
 class CODINGCLUBTaskListAPI(generics.ListAPIView):
@@ -445,7 +426,6 @@ class CODINGCLUBTaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
         return self.create(request)
 
 
-
 class AEROCLUBTaskListAPI(generics.ListAPIView):
     serializer_class = AEROCLUBSerializer
     permission_class = (permissions.IsAuthenticatedOrReadOnly,)
@@ -467,7 +447,6 @@ class AEROCLUBTaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
 
     def post(self, request):
         return self.create(request)
-
 
 
 class ASTROCLUBTaskListAPI(generics.ListAPIView):
@@ -492,6 +471,7 @@ class ASTROCLUBTaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
     def post(self, request):
         return self.create(request)
 
+
 class CACLUBTaskListAPI(generics.ListAPIView):
     serializer_class = CACLUBSerializer
     permission_class = (permissions.IsAuthenticatedOrReadOnly,)
@@ -513,6 +493,7 @@ class CACLUBTaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
 
     def post(self, request):
         return self.create(request)
+
 
 class EECLUBTaskListAPI(generics.ListAPIView):
     serializer_class = EECLUBSerializer
@@ -536,6 +517,7 @@ class EECLUBTaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
     def post(self, request):
         return self.create(request)
 
+
 class PRAKRITICLUBTaskListAPI(generics.ListAPIView):
     serializer_class = PRAKRITICLUBSerializer
     permission_class = (permissions.IsAuthenticatedOrReadOnly,)
@@ -558,6 +540,7 @@ class PRAKRITICLUBTaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin
     def post(self, request):
         return self.create(request)
 
+
 class FNCCLUBTaskListAPI(generics.ListAPIView):
     serializer_class = FNCCLUBSerializer
     permission_class = (permissions.IsAuthenticatedOrReadOnly,)
@@ -579,7 +562,6 @@ class FNCCLUBTaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
 
     def post(self, request):
         return self.create(request)
-
 
 
 class ROBOTICSCLUBTaskListAPI(generics.ListAPIView):
@@ -650,6 +632,7 @@ class UGCLUBTaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
     def post(self, request):
         return self.create(request)
 
+
 class ALCHERTaskListAPI(generics.ListAPIView):
     serializer_class = ALCHERSerializer
     permission_class = (permissions.IsAuthenticatedOrReadOnly,)
@@ -671,7 +654,6 @@ class ALCHERTaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
 
     def post(self, request):
         return self.create(request)
-
 
 
 class TechnicheTaskListAPI(generics.ListAPIView):
@@ -719,20 +701,101 @@ class OTHERTaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
     def post(self, request):
         return self.create(request)
 
+
+class SAILTaskListAPI(generics.ListAPIView):
+    serializer_class = SAILSerializer
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
+    queryset = SAILCLUB.objects.all()
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ('title', 'description', 'author__name')
+
+
+class SAILTaskDetailAPI(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = SAILSerializer
+    queryset = SAILCLUB.objects.all()
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
+
+
+class SAILTaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
+    serializer_class = SAILSerializer
+    queryset = SAILCLUB.objects.all()
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def post(self, request):
+        return self.create(request)
+
+
+class AITaskListAPI(generics.ListAPIView):
+    serializer_class = AISerializer
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
+    queryset = AICLUB.objects.all()
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ('title', 'description', 'author__name')
+
+
+class AITaskDetailAPI(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = AISerializer
+    queryset = AICLUB.objects.all()
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
+
+
+class AITaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
+    serializer_class = AISerializer
+    queryset = AICLUB.objects.all()
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def post(self, request):
+        return self.create(request)
+
+
+class CCDTaskListAPI(generics.ListAPIView):
+    serializer_class = CCDSerializer
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
+    queryset = CCDCLUB.objects.all()
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ('title', 'description', 'author__name')
+
+
+class CCDTaskDetailAPI(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = CCDSerializer
+    queryset = CCDCLUB.objects.all()
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
+
+
+class CCDTaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
+    serializer_class = CCDSerializer
+    queryset = CCDCLUB.objects.all()
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def post(self, request):
+        return self.create(request)
+
+
+
 def task(request):
-    return render(request,'tasks/TaskView.html')
+    return render(request, 'tasks/TaskView.html')
+
 
 def acad(request):
-    return render(request,'tasks/branchAC.html')
+    return render(request, 'tasks/branchAC.html')
+
 
 def club(request):
-    return render(request,'tasks/clubs.html')
+    return render(request, 'tasks/clubs.html')
+
 
 def occ(request):
-    return render(request,'tasks/ocaasional.html')
+    return render(request, 'tasks/ocaasional.html')
+
 
 def cal(request):
-    return render(request,'tasks/calendar.html')
+    return render(request, 'tasks/calendar.html')
+
+
+def org(request):
+    return render(request, 'tasks/organisation.html')
+
+
 
 
 

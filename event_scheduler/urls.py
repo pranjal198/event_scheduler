@@ -136,4 +136,17 @@ urlpatterns = [
     path('OTHERCLUBAPI/', views.OTHERTaskListAPI.as_view(), name='tasks-list'),
     path('OTHERCLUBAPI/<int:pk>/', views.OTHERTaskDetailAPI.as_view(), name='tasks-detail'),
     path('OTHERCLUBAPI/new/', views.OTHERTaskCreateAPI.as_view(), name='tasks-create'),
+
+
+    path('SAILCLUBAPI/', views.SAILTaskListAPI.as_view(), name='tasks-list'),
+    path('SAILCLUBAPI/<int:pk>/', views.SAILTaskDetailAPI.as_view(), name='tasks-detail'),
+    path('SAILCLUBAPI/new/', views.SAILTaskCreateAPI.as_view(), name='tasks-create'),
+
+    path('AICLUBAPI/', views.AITaskListAPI.as_view(), name='tasks-list'),
+    path('AICLUBAPI/<int:pk>/', views.AITaskDetailAPI.as_view(), name='tasks-detail'),
+    path('AICLUBAPI/new/', views.AITaskCreateAPI.as_view(), name='tasks-create'),
+
+    path('CCDCLUBAPI/', views.CCDTaskListAPI.as_view(), name='tasks-list'),
+    path('CCDCLUBAPI/<int:pk>/', views.CCDTaskDetailAPI.as_view(), name='tasks-detail'),
+    path('CCDCLUBAPI/new/', views.CCDTaskCreateAPI.as_view(), name='tasks-create'),
 ]

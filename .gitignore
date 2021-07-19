@@ -1,0 +1,5 @@
+event_scheduler/__pycache__/
+tasks/__pycache__/
+tasks/migrations/__pycache__/
+users/__pycache__/
+users/migrations/__pycache__/

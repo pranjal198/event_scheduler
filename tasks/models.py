@@ -1302,7 +1302,7 @@ class PH(models.Model):
 
 class SWC(models.Model):
     CAT_CHOICE = (
-        ("0", "CLUB RELATED ACTIVITIES"),
+        ("0", "OCCASIONAL ACTIVITIES"),
 
     )
     EVENT_TYPE = (
@@ -1326,7 +1326,7 @@ class SWC(models.Model):
 
     title = models.CharField(max_length=20)
     description = models.TextField()
-    club=models.CharField(max_length=40,choices=CLUB_CHOICE,default='0')
+    ORGANISATION=models.CharField(max_length=40,choices=CLUB_CHOICE,default='0')
     event_type = models.CharField(max_length=40, choices=CAT_CHOICE, default="0")
     sub_event = models.CharField(max_length=40, choices=EVENT_TYPE, default="0")
     target_batch = models.CharField(max_length=13, choices=BAT_CHOICE, default="Self")
@@ -1906,17 +1906,173 @@ class OTHERCLUB(models.Model):
 
     )
 
-    CLUB_CHOICE = (
-        ("0", "TECHNICHE"),
-
-
-    )
+    # CLUB_CHOICE = (
+    #     ("0", "Other "),
+    #
+    #
+    # )  # CLUB_CHOICE = (
+    #     ("0", "Other "),
+    #
+    #
+    # )
 
     title = models.CharField(max_length=20)
     description = models.TextField()
     event_type = models.CharField(max_length=40, choices=CAT_CHOICE, default="0")
     sub_event = models.CharField(max_length=40, choices=EVENT_TYPE, default="0")
-    club = models.CharField(max_length=40, choices=CLUB_CHOICE, default='0')
+    # club = models.CharField(max_length=40, choices=CLUB_CHOICE, default='0')
+    target_batch = models.CharField(max_length=13, choices=BAT_CHOICE, default="Self")
+    target_branch = models.CharField(max_length=45, choices=DEP_CHOICE, default="Self")
+    date = models.DateField(default=timezone.localtime(timezone.now()))
+    deadline = models.DateField(default=timezone.localtime(timezone.now()))
+    time_from = models.TimeField(default=timezone.localtime(timezone.now()))
+    time_to = models.TimeField(default=timezone.localtime(timezone.now()))
+    remainder_date = models.DateField(default=timezone.localtime(timezone.now()))
+    remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
+    remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('tasks-detail', kwargs={"pk": self.pk})
+
+
+class SAILCLUB(models.Model):
+    CAT_CHOICE = (
+        ("0", "Organisation Activities"),
+
+    )
+    EVENT_TYPE = (
+        ("0", "Select"),
+        ("INTERNSHIP", "INTERNSHIP"),
+        ("PLACEMENT", "PLACEMENT"),
+        ("HACKATHONS", "HACKATHONS"),
+        ('PROJECTS','PROJECTS'),
+        ('TALKS','TALKS'),
+        ('OTHER','OTHER'),
+
+    )
+
+    CLUB_CHOICE = (
+        ("0", "SAIL "),
+    )
+    #
+    #
+    # )  # CLUB_CHOICE = (
+    #     ("0", "Other "),
+    #
+    #
+    # )
+
+    title = models.CharField(max_length=20)
+    description = models.TextField()
+    event_type = models.CharField(max_length=40, choices=CAT_CHOICE, default="0")
+    sub_event = models.CharField(max_length=40, choices=EVENT_TYPE, default="0")
+    ORGANISATION = models.CharField(max_length=40, choices=CLUB_CHOICE, default='0')
+    target_batch = models.CharField(max_length=13, choices=BAT_CHOICE, default="Self")
+    target_branch = models.CharField(max_length=45, choices=DEP_CHOICE, default="Self")
+    date = models.DateField(default=timezone.localtime(timezone.now()))
+    deadline = models.DateField(default=timezone.localtime(timezone.now()))
+    time_from = models.TimeField(default=timezone.localtime(timezone.now()))
+    time_to = models.TimeField(default=timezone.localtime(timezone.now()))
+    remainder_date = models.DateField(default=timezone.localtime(timezone.now()))
+    remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
+    remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('tasks-detail', kwargs={"pk": self.pk})
+
+
+
+class AICLUB(models.Model):
+    CAT_CHOICE = (
+        ("0", "Organisation Activities"),
+
+    )
+    EVENT_TYPE = (
+        ("0", "Select"),
+        ("INTERNSHIP", "INTERNSHIP"),
+        ("PLACEMENT", "PLACEMENT"),
+        ("HACKATHONS", "HACKATHONS"),
+        ('PROJECTS','PROJECTS'),
+        ('TALKS','TALKS'),
+        ('OTHER','OTHER'),
+
+    )
+
+    CLUB_CHOICE = (
+        ("0", "IITG.AI "),
+    )
+    #
+    #
+    # )  # CLUB_CHOICE = (
+    #     ("0", "Other "),
+    #
+    #
+    # )
+
+    title = models.CharField(max_length=20)
+    description = models.TextField()
+    event_type = models.CharField(max_length=40, choices=CAT_CHOICE, default="0")
+    sub_event = models.CharField(max_length=40, choices=EVENT_TYPE, default="0")
+    ORGANISATION = models.CharField(max_length=40, choices=CLUB_CHOICE, default='0')
+    target_batch = models.CharField(max_length=13, choices=BAT_CHOICE, default="Self")
+    target_branch = models.CharField(max_length=45, choices=DEP_CHOICE, default="Self")
+    date = models.DateField(default=timezone.localtime(timezone.now()))
+    deadline = models.DateField(default=timezone.localtime(timezone.now()))
+    time_from = models.TimeField(default=timezone.localtime(timezone.now()))
+    time_to = models.TimeField(default=timezone.localtime(timezone.now()))
+    remainder_date = models.DateField(default=timezone.localtime(timezone.now()))
+    remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
+    remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('tasks-detail', kwargs={"pk": self.pk})
+
+
+
+class CCDCLUB(models.Model):
+    CAT_CHOICE = (
+        ("0", "Organisation Activities"),
+
+    )
+    EVENT_TYPE = (
+        ("0", "Select"),
+        ("INTERNSHIP", "INTERNSHIP"),
+        ("PLACEMENT", "PLACEMENT"),
+        ("HACKATHONS", "HACKATHONS"),
+        ('PROJECTS','PROJECTS'),
+        ('TALKS','TALKS'),
+        ('OTHER','OTHER'),
+
+    )
+
+    CLUB_CHOICE = (
+        ("0", "CCD "),
+    )
+    #
+    #
+    # )  # CLUB_CHOICE = (
+    #     ("0", "Other "),
+    #
+    #
+    # )
+
+    title = models.CharField(max_length=20)
+    description = models.TextField()
+    event_type = models.CharField(max_length=40, choices=CAT_CHOICE, default="0")
+    sub_event = models.CharField(max_length=40, choices=EVENT_TYPE, default="0")
+    ORGANISATION = models.CharField(max_length=40, choices=CLUB_CHOICE, default='0')
     target_batch = models.CharField(max_length=13, choices=BAT_CHOICE, default="Self")
     target_branch = models.CharField(max_length=45, choices=DEP_CHOICE, default="Self")
     date = models.DateField(default=timezone.localtime(timezone.now()))
