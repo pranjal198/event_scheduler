@@ -28,7 +28,7 @@ app.conf.beat_schedule = {
     },
     'send-mail-weekly': {
        'task': 'event_scheduler.tasks.debug_task_weekly',
-       'schedule':crontab(hour=7, minute=30, day_of_week=0),
+       'schedule':crontab(hour=7, minute=30, day_of_week=1),
        'args':(),
     },
     'send-mail-monthly': {
