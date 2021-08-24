@@ -28,13 +28,13 @@ Create an event under CLUB activities section in which we can create a new task 
 Create an event under OCCASIONAL activities section in which we can create a new task specific to an OCCASION, with given sub features as MEETINGS, PARTIES, TUTORIAL, WORKSHOP. Then we can add common features such as DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME.  And almost all clubs are there like ALCHERINGA, TECHNICHE, UDGAM.
 **
 
-!image](https://user-images.githubusercontent.com/84286157/130615002-a74164f7-9244-4da2-a9ea-dcf4e1b2a84e.png)
- ![image](https://user-images.githubusercontent.com/84286157/130615088-9b974d13-87d7-4745-8d51-90cfdee2c5c0.png)
+![image](https://user-images.githubusercontent.com/84286157/130615002-a74164f7-9244-4da2-a9ea-dcf4e1b2a84e.png)
+![image](https://user-images.githubusercontent.com/84286157/130615088-9b974d13-87d7-4745-8d51-90cfdee2c5c0.png)
 
 **5.ORGANIZATIONAL Activities: 
 Create an event under ORGANIZATION activities section in which we can create a new task specific to An ORGANIZATION, with given sub features as MEETINGS, PARTIES, TUTORIAL, WORKSHOP, PROJECTS. Then we can add common features such as DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME.  And almost all clubs are there like SWC, CCD, IITG.AI, SAIL.
 
-image](https://user-images.githubusercontent.com/84286157/130615591-cca02da9-7f9c-4bd4-9f33-ee2762f5df55.png)
+![image](https://user-images.githubusercontent.com/84286157/130615591-cca02da9-7f9c-4bd4-9f33-ee2762f5df55.png)
 ![image](https://user-images.githubusercontent.com/84286157/130615631-ebe65b87-6cf9-4ee6-aeb3-7fc22c8089d6.png)
 
 
