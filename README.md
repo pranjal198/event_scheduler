@@ -1,5 +1,5 @@
-# event_scheduler
-# APIs Description
+**# event_scheduler
+# APIs Description**
 
 
 
@@ -52,7 +52,7 @@
 
 
 
-**4. OCCASSIONAL Activities: **\
+4. **OCCASSIONAL Activities:** \
 **Description**: Create a new event for special ocassions.\
 **Fields**:MEETINGS, PARTIES, WORKSHOP, PROJECTS, DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME\
 **Database**: ALl types of ocassional activities are added in the database. Like **Alcheringa**, **UDGAM**\
