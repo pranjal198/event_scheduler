@@ -70,7 +70,7 @@
 
 
 
-5.**ORGANIZATIONAL Activities: **\
+5.**ORGANIZATIONAL Activities:**\
 **Description**:  Create a new event for organization.\
 **Fields**:MEETINGS, PARTIES, TUTORIAL, WORKSHOP, PROJECTS, DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME\
 **Database**: All the organizations are added in the database. Like SWC, SAIL, IITG.AI
