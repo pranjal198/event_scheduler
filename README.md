@@ -4,8 +4,11 @@
 
 
 
- 1. ACADEMIC Activities: 
-Create an event under academic activities section, with given sub features as ASSINGMENTS, QUIZZES, EXAM, VIVA, LAB-REPORTS. We can add COURSE NAME, INSTRUCTORS NAME, MARKS FOR THE TASK etc. and common features such as DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME.  And added almost all the COURSE NAME in the database.
+**1. ACADEMIC Activities:**
+**Description**: Create an academic activity event.
+**Fields**: ASSINGMENTS, QUIZZES, EXAM, VIVA, LAB-REPORTS, COURSE NAME, INSTRUCTORS NAME, MARKS, DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, REMINDER TIME.
+**Database**: All COURSE NAMEs added to the db.
+
 
 ![image](https://user-images.githubusercontent.com/84286157/130612621-7dd05c7f-2ead-4775-95a1-94893dd4c3d5.png)
 
@@ -16,8 +19,10 @@ Create an event under academic activities section, with given sub features as AS
 
 
 
- 2.BRANCH Related Activities: 
-Create an event under branch activities section in which we can create a new task specific to a branch, with given sub features as ASSINGMENTS, QUIZZES, EXAM, VIVA, LAB-REPORTS. We can add COURSE NAME, INSTRUCTORS NAME, MARKS FOR THE TASK etc. and common features such as DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME.  And added almost all the COURSE NAME in the database.
+ 2.**BRANCH Related Activities:** 
+ **Description**: Create an activity event specific to a branch.
+ **Fields**: ASSINGMENTS, QUIZZES, EXAM, VIVA, LAB-REPORTS, COURSE NAME, INSTRUCTORS NAME, MARKS, DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, REMINDER TIME.
+ **Database**: All course are added to the db with respect to each branches specifically.
  
 
  
@@ -31,8 +36,10 @@ Create an event under branch activities section in which we can create a new tas
 
 
 
- 3.CLUB Related Activities: 
-Create an event under CLUB activities section in which we can create a new task specific to a CLUB, with given sub features as MEETINGS, PARTIES, TUTORIAL, WORKSHOP. Then we can add common features such as DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME.  And almost all clubs are there like AERO-MODELLING CLUB, CODING CLUB ETC.
+ **3.CLUB Related Activities:**
+ **Description**: Create new event for a club.
+ **Fields**: MEETINGS, PARTIES, TUTORIAL, WORKSHOP, PROJECTS,DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME.
+ **Database**: All the clubs name were added in the database, like CODING CLUB, AERO-MODELLING etc.
  
 
 ![image](https://user-images.githubusercontent.com/84286157/130614286-9f5f6285-ed3d-4768-bdac-d9ddffb772b5.png)
@@ -45,10 +52,10 @@ Create an event under CLUB activities section in which we can create a new task 
 
 
 
-
-
- 4. OCCASSIONAL Activities: 
-Create an event under OCCASIONAL activities section in which we can create a new task specific to an OCCASION, with given sub features as MEETINGS, PARTIES, TUTORIAL, WORKSHOP. Then we can add common features such as DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME.  And almost all clubs are there like ALCHERINGA, TECHNICHE, UDGAM.
+**4. OCCASSIONAL Activities: **
+**Description**: Create a new event for special ocassions.
+**Fields**:MEETINGS, PARTIES, WORKSHOP, PROJECTS, DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME
+**Database**: ALl types of ocassional activities are added in the database. Like **Alcheringa**, **UDGAM**
  
 
 ![image](https://user-images.githubusercontent.com/84286157/130615002-a74164f7-9244-4da2-a9ea-dcf4e1b2a84e.png)
@@ -63,8 +70,11 @@ Create an event under OCCASIONAL activities section in which we can create a new
 
 
 
- 5.ORGANIZATIONAL Activities: 
-Create an event under ORGANIZATION activities section in which we can create a new task specific to An ORGANIZATION, with given sub features as MEETINGS, PARTIES, TUTORIAL, WORKSHOP, PROJECTS. Then we can add common features such as DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME.  And almost all clubs are there like SWC, CCD, IITG.AI, SAIL.
+**5.ORGANIZATIONAL Activities: **
+**Description**:  Create a new event for organization.
+**Fields**:MEETINGS, PARTIES, TUTORIAL, WORKSHOP, PROJECTS, DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME
+**Database**: All the organizations are added in the database. Like SWC, SAIL, IITG.AI
+
 
 ![image](https://user-images.githubusercontent.com/84286157/130615591-cca02da9-7f9c-4bd4-9f33-ee2762f5df55.png)
 ![image](https://user-images.githubusercontent.com/84286157/130615631-ebe65b87-6cf9-4ee6-aeb3-7fc22c8089d6.png)
@@ -76,9 +86,11 @@ Create an event under ORGANIZATION activities section in which we can create a n
 
 
 
- 6. OTHER Activities: 
-Create an event under OTHER activities section in which we can create a new task for other activities, with given activities as INTERNSHIP, PLACEMENT, HACKATHONS, SCHOLARSHIP PROGRAMS, VISTING FACULTY TALK, MINORS, COURSE REGISTRATION, COURSE DROP, COURSE FEEDBACK, FEE PAYMENT etc .Then we can add common features such as DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME.  
- 
+ **6. OTHER Activities: **
+ **Description**: Create event that is not related to above five categories.
+ **Fields**: INTERNSHIP, PLACEMENT, HACKATHONS, SCHOLARSHIP PROGRAMS, VISTING FACULTY TALK, MINORS, COURSE REGISTRATION, COURSE DROP, COURSE FEEDBACK, FEE PAYMENT,  DEADLINE,                  TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME.
+ **Database**: All these added to the database.
+
 
 ![image](https://user-images.githubusercontent.com/84286157/130616595-2ec52ae4-0aa2-4650-ac5b-db5e8f3abd55.png)
 
