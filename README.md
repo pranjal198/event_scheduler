@@ -41,7 +41,7 @@
  **Fields**: MEETINGS, PARTIES, TUTORIAL, WORKSHOP, PROJECTS,DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME.\
  **Database**: All the clubs name were added in the database, like CODING CLUB, AERO-MODELLING etc.\
  
-\
+
 ![image](https://user-images.githubusercontent.com/84286157/130614286-9f5f6285-ed3d-4768-bdac-d9ddffb772b5.png)\
 ![image](https://user-images.githubusercontent.com/84286157/130614347-8f409e4a-d291-4734-8c0d-597722fc7da3.png)\
 
