@@ -5,7 +5,7 @@
 
 
 **1. ACADEMIC Activities:**
-**Description**: Create an academic activity event.
+**Description**: Create an academic activity event.\n
 **Fields**: ASSINGMENTS, QUIZZES, EXAM, VIVA, LAB-REPORTS, COURSE NAME, INSTRUCTORS NAME, MARKS, DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, REMINDER TIME.
 **Database**: All COURSE NAMEs added to the db.
 
