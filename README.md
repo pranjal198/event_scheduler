@@ -70,7 +70,7 @@
 
 
 
-**5.ORGANIZATIONAL Activities: **\
+5.**ORGANIZATIONAL Activities: **\
 **Description**:  Create a new event for organization.\
 **Fields**:MEETINGS, PARTIES, TUTORIAL, WORKSHOP, PROJECTS, DEADLINE, TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME\
 **Database**: All the organizations are added in the database. Like SWC, SAIL, IITG.AI\
@@ -86,7 +86,7 @@
 
 
 
- **6. OTHER Activities: **\
+ 6. **OTHER Activities:**\
  **Description**: Create event that is not related to above five categories.\
  **Fields**: INTERNSHIP, PLACEMENT, HACKATHONS, SCHOLARSHIP PROGRAMS, VISTING FACULTY TALK, MINORS, COURSE REGISTRATION, COURSE DROP, COURSE FEEDBACK, FEE PAYMENT,  DEADLINE,                  TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME.\
  **Database**: All these added to the database.\
