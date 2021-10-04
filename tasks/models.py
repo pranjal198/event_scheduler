@@ -59,12 +59,43 @@ REM_CHOICE = (
     ("Custom", "Custom"),
 )
 
+# Create your models here.
+# class Cleanup(models.Model):
+#     task = models.ManyToManyField(Task,blank=True,related_name = 'task')
+#     bt = models.ManyToManyField(BT,blank=True,related_name = 'bt')
+#     ch = models.ManyToManyField(CH,blank=True,related_name = 'ch')
+#     cl = models.ManyToManyField(CL,blank=True,related_name = 'cl')
+#     ce = models.ManyToManyField(CE,blank=True,related_name = 'ce')
+#     cse = models.ManyToManyField(CSE,blank=True,related_name = 'cse')
+#     des = models.ManyToManyField(DES,blank=True,related_name = 'des')
+#     ece = models.ManyToManyField(ECE,blank=True,related_name = 'ece')
+#     eee = models.ManyToManyField(EEE,blank=True,related_name = 'eee')
+#     ma = models.ManyToManyField(MA,blank=True,related_name = 'ma')
+#     me = models.ManyToManyField(ME,blank=True,related_name = 'me')
+#     ph = models.ManyToManyField(PH,blank=True,related_name = 'ph')
+#     swc = models.ManyToManyField(SWC,blank=True,related_name = 'swc')
+#     codingclub = models.ManyToManyField(CODINGCLUB,blank=True,related_name = 'codingclub')
+#     aeroclub = models.ManyToManyField(AEROCLUB,blank=True,related_name = 'aeroclub')
+#     astroclub = models.ManyToManyField(ASTROCLUB,blank=True,related_name = 'astroclub')
+#     caclub = models.ManyToManyField(CACLUB,blank=True,related_name = 'caclub')
+#     eeclub = models.ManyToManyField(EECLUB,blank=True,related_name = 'eeclub')
+#     prakriticlub = models.ManyToManyField(PRAKRITICLUB,blank=True,related_name = 'prakriticlub')
+#     fncclub = models.ManyToManyField(FNCCLUB,blank=True,related_name = 'fncclub')
+#     roboticsclub = models.ManyToManyField(ROBOTICSCLUB,blank=True,related_name = 'roboticsclub')
+#     edclub = models.ManyToManyField(EDCLUB,blank=True,related_name = 'edclub')
+#     ugclub = models.ManyToManyField(UGCLUB,blank=True,related_name = 'ugclub')
+#     alcherclub = models.ManyToManyField(ALCHERCLUB,blank=True,related_name = 'alcherclub')
+#     technicheclub = models.ManyToManyField(TechnicheCLUB,blank=True,related_name = 'technicheclub')
+#     otherclub = models.ManyToManyField(OTHERCLUB,blank=True,related_name = 'otherclub')
+#     sailclub = models.ManyToManyField(SAILCLUB,blank=True,related_name = 'sailclub')
+#     aiclub = models.ManyToManyField(AICLUB,blank=True,related_name = 'aiclub')
+#     ccdclub = models.ManyToManyField(CCDCLUB,blank=True,related_name = 'ccdclub')
+
 
 # Create your models here.
 class Task(models.Model):
     CAT_CHOICE = (
         ("0", "Academic Activities"),
-
     )
     EVENT_TYPE=(
         ("0", "Select"),
@@ -73,10 +104,7 @@ class Task(models.Model):
         ("Exam","Exam"),
         ("Viva","Viva"),
         ("Lab Report","Lab Report"),
-
     )
-
-
     COURSENAME = (
         ("0", "Select"),
         ("BT101", "BT101"),
@@ -390,10 +418,7 @@ class Task(models.Model):
         ('PH422', 'PH422'),
         ('PHxxx', 'PHxxx'),
         ('PH4xx', 'PH4xx'),
-
     )
-
-
     title = models.CharField(max_length=20)
     description = models.TextField()
     event_type = models.CharField(max_length=40,choices = CAT_CHOICE,default="Academic Activities")
@@ -418,17 +443,6 @@ class Task(models.Model):
 
     def get_absolute_url(self):
         return reverse('tasks-detail', kwargs={"pk": self.pk})
-
-
-
-
-
-
-
-
-
-
-
 
 
 class BT(models.Model):
@@ -574,7 +588,6 @@ class CH(models.Model):
         return reverse('tasks-detail', kwargs={"pk": self.pk})
 
 
-
 class CL(models.Model):
     CAT_CHOICE = (
         ("0", "Branch Related Activity"),
@@ -648,7 +661,6 @@ class CL(models.Model):
 
     def get_absolute_url(self):
         return reverse('tasks-detail', kwargs={"pk": self.pk})
-
 
 
 class CE(models.Model):
@@ -734,7 +746,6 @@ class CE(models.Model):
         return reverse('tasks-detail', kwargs={"pk": self.pk})
 
 
-
 class CSE(models.Model):
     CAT_CHOICE = (
         ("0", "Branch Related Activity"),
@@ -806,7 +817,6 @@ class CSE(models.Model):
 
     def get_absolute_url(self):
         return reverse('tasks-detail', kwargs={"pk": self.pk})
-
 
 
 class DES(models.Model):
@@ -891,7 +901,6 @@ class DES(models.Model):
         return reverse('tasks-detail', kwargs={"pk": self.pk})
 
 
-
 class ECE(models.Model):
     CAT_CHOICE = (
         ("0", "Branch Related Activity"),
@@ -974,7 +983,6 @@ class ECE(models.Model):
 
     def get_absolute_url(self):
         return reverse('tasks-detail', kwargs={"pk": self.pk})
-
 
 
 class EEE(models.Model):
@@ -1134,8 +1142,6 @@ class MA(models.Model):
         return reverse('tasks-detail', kwargs={"pk": self.pk})
 
 
-
-
 class ME(models.Model):
     CAT_CHOICE = (
         ("0", "Branch Related Activity"),
@@ -1214,7 +1220,6 @@ class ME(models.Model):
 
     def get_absolute_url(self):
         return reverse('tasks-detail', kwargs={"pk": self.pk})
-
 
 
 class PH(models.Model):
@@ -1298,8 +1303,6 @@ class PH(models.Model):
         return reverse('tasks-detail', kwargs={"pk": self.pk})
 
 
-
-
 class SWC(models.Model):
     CAT_CHOICE = (
         ("0", "OCCASIONAL ACTIVITIES"),
@@ -1345,12 +1348,6 @@ class SWC(models.Model):
 
     def get_absolute_url(self):
         return reverse('tasks-detail', kwargs={"pk": self.pk})
-
-
-
-
-
-
 
 
 class CODINGCLUB(models.Model):
@@ -1619,7 +1616,6 @@ class PRAKRITICLUB(models.Model):
         return reverse('tasks-detail', kwargs={"pk": self.pk})
 
 
-
 class FNCCLUB(models.Model):
     CAT_CHOICE = (
         ("0", "CLUB RELATED ACTIVITIES"),
@@ -1749,12 +1745,6 @@ class EDCLUB(models.Model):
         return reverse('tasks-detail', kwargs={"pk": self.pk})
 
 
-
-
-
-
-
-
 class UGCLUB(models.Model):
     CAT_CHOICE = (
         ("0", "Organisation Related Activities"),
@@ -1796,7 +1786,6 @@ class UGCLUB(models.Model):
 
     def get_absolute_url(self):
         return reverse('tasks-detail', kwargs={"pk": self.pk})
-
 
 
 class ALCHERCLUB(models.Model):
@@ -1883,7 +1872,6 @@ class TechnicheCLUB(models.Model):
 
     def get_absolute_url(self):
         return reverse('tasks-detail', kwargs={"pk": self.pk})
-
 
 
 class OTHERCLUB(models.Model):
@@ -1989,7 +1977,6 @@ class SAILCLUB(models.Model):
         return reverse('tasks-detail', kwargs={"pk": self.pk})
 
 
-
 class AICLUB(models.Model):
     CAT_CHOICE = (
         ("0", "Organisation Activities"),
@@ -2038,7 +2025,6 @@ class AICLUB(models.Model):
 
     def get_absolute_url(self):
         return reverse('tasks-detail', kwargs={"pk": self.pk})
-
 
 
 class CCDCLUB(models.Model):
