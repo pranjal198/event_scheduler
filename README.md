@@ -91,7 +91,13 @@
  **Fields**: INTERNSHIP, PLACEMENT, HACKATHONS, SCHOLARSHIP PROGRAMS, VISTING FACULTY TALK, MINORS, COURSE REGISTRATION, COURSE DROP, COURSE FEEDBACK, FEE PAYMENT,  DEADLINE,                  TARGET BATCH, TARGET BRANCH, TIMING, and REMINDER TIME.\
  **Database**: All these added to the database.
 
+![image](https://user-images.githubuser content.com/84286157/130616595-2ec52ae4-0aa2-4650-ac5b-db5e8f3abd55.png)
 
-![image](https://user-images.githubusercontent.com/84286157/130616595-2ec52ae4-0aa2-4650-ac5b-db5e8f3abd55.png)
 
-
+7. **RSVP Options:**\
+**Description**: It get created automatically each time any event is created, It is unique for an unique event. There are total 29 types of RSVP Model for to hold details of each of 29 events{AEROCLUB, AICLUB, ALCHERCLUB, ASTROCLUB, BT, CACLUB, CCDCLUB, CE, CH, CL, CODINGCLUB, CSE, DES, ECE, EDCLUB, EECLUB, EEE, FNCCLUB, MA, ME, OTHERCLUB, PH, PRAKRITICLUB, SAILCLUB, SWC, Task, Techniche, UGCLUB, ROBOTICSCLUB}\
+**Fields**: YES(all the profiles who clicked yes), NO(all the profiles who clicked no), MAYBE(all the profiles who clicked maybe), EVENT(The event for which this rsvp is for).\
+**API Endpoint**: for each RSVP model there are in total **2** urls:-\
+1. "root_url/RSVP/{event_name}" : Lists all the RSVPs of {event_name} that has occured,occuring or will be occuring. It also has searching and ordering filters for the fields of YES, NO, MAYBE, EVENT.\
+2. "root_url/RSVP/{event_name}/<int:pk>/" : Provides options for GET, PUT, PATCH, DELETE requests for that specific instance of RSVP with id=pk\
+where event_name can be => {AEROCLUB, AICLUB, ALCHERCLUB, ASTROCLUB, BT, CACLUB, CCDCLUB, CE, CH, CL, CODINGCLUB, CSE, DES, ECE, EDCLUB, EECLUB, EEE, FNCCLUB, MA, ME, OTHERCLUB, PH, PRAKRITICLUB, SAILCLUB, SWC, Task, Techniche, UGCLUB, ROBOTICSCLUB} (the above name specifies also the event for which that api is for\ e.g. RSVP/SWC endpoint is for RSVP for events of SWC)
