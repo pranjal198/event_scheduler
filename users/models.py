@@ -13,7 +13,9 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.user.first_name} profile'
-    
+
+
+
 class Rsvp_Task(models.Model):
     yes = models.ManyToManyField(Profile,blank=True,related_name='Taskyes')
     maybe = models.ManyToManyField(Profile,blank=True,related_name='Taskmaybe')

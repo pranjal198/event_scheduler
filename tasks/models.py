@@ -437,7 +437,11 @@ class Task(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12,choices = REM_CHOICE,default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    
+    # My task on 10/18/2021- Soumadip Das
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -509,6 +513,9 @@ class BT(models.Model):
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -580,7 +587,9 @@ class CH(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -655,7 +664,9 @@ class CL(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -738,7 +749,9 @@ class CE(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -811,7 +824,9 @@ class CSE(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -893,7 +908,9 @@ class DES(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -977,7 +994,9 @@ class ECE(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -1061,7 +1080,9 @@ class EEE(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -1134,7 +1155,9 @@ class MA(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -1214,7 +1237,9 @@ class ME(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -1295,7 +1320,9 @@ class PH(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -1342,7 +1369,9 @@ class SWC(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -1387,7 +1416,9 @@ class CODINGCLUB(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -1433,7 +1464,9 @@ class AEROCLUB(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -1477,7 +1510,11 @@ class ASTROCLUB(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications = models.CharField(max_length=500, default="")
+    announcements = models.TextField(default="", null=True, blank=True,
+                                     help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(
+        upload_to='media/', blank=True, null=True)
     def __str__(self):
         return self.title
 
@@ -1521,7 +1558,9 @@ class CACLUB(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -1565,7 +1604,9 @@ class EECLUB(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -1608,7 +1649,9 @@ class PRAKRITICLUB(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -1651,7 +1694,9 @@ class FNCCLUB(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -1694,7 +1739,9 @@ class ROBOTICSCLUB(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -1737,7 +1784,11 @@ class EDCLUB(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications = models.CharField(max_length=500, default="")
+    announcements = models.TextField(default="", null=True, blank=True,
+                                     help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(
+        upload_to='media/', blank=True, null=True)
     def __str__(self):
         return self.title
 
@@ -1780,7 +1831,11 @@ class UGCLUB(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications = models.CharField(max_length=500, default="")
+    announcements = models.TextField(default="", null=True, blank=True,
+                                     help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(
+        upload_to='media/', blank=True, null=True)
     def __str__(self):
         return self.title
 
@@ -1823,7 +1878,9 @@ class ALCHERCLUB(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -1866,7 +1923,9 @@ class TechnicheCLUB(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -1919,7 +1978,9 @@ class OTHERCLUB(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
@@ -1969,7 +2030,11 @@ class SAILCLUB(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications = models.CharField(max_length=500, default="")
+    announcements = models.TextField(default="", null=True, blank=True,
+                                     help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(
+        upload_to='media/', blank=True, null=True)
     def __str__(self):
         return self.title
 
@@ -2019,7 +2084,11 @@ class AICLUB(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications = models.CharField(max_length=500, default="")
+    announcements = models.TextField(default="", null=True, blank=True,
+                                     help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(
+        upload_to='media/', blank=True, null=True)
     def __str__(self):
         return self.title
 
@@ -2069,7 +2138,9 @@ class CCDCLUB(models.Model):
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-
+    notifications=models.CharField(max_length=500,default="")
+    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
+    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
     def __str__(self):
         return self.title
 
