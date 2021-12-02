@@ -28,6 +28,7 @@ class Profile(models.Model):
         subscribed_tasks = self.rsvp_tasks.all()
         remained_tasks = all_tasks.intersection(subscribed_tasks)
         return remained_tasks
+    
     def get_new_club_tasks(self, club_name):
         all_tasks = my_task.objects.filter(club_name=club_name)
         subscribed_tasks = self.rsvp_tasks.all()

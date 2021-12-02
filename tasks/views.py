@@ -3,7 +3,6 @@ from .models import my_task
 from .serializer import TaskSerializer
 from django.http import HttpResponse, JsonResponse
 from rest_framework.parsers import JSONParser
-from .aserializer import TaskSerializer
 from rest_framework.response import Response
 from rest_framework import status, permissions
 from rest_framework.views import APIView

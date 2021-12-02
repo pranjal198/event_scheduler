@@ -7,7 +7,7 @@ from .celery import app
 from datetime import date, datetime,timedelta
 from django.core.mail import send_mail
 from tasks.models import my_task
-from users.Models import Profile
+from users.models import Profile
 @app.task(bind=True)
 def debug_task_custom_1(self):
     print('task started')

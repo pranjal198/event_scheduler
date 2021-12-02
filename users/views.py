@@ -14,7 +14,7 @@ from rest_framework import generics, mixins
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 import django_filters.rest_framework
-from .Models import Profile
+from .models import Profile
 from .serializer import  ProfileSerializer
 
 # Create your views here.
