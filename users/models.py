@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from tasks.models import my_task
+# from tasks.models import my_task
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -18,19 +18,22 @@ class Profile(models.Model):
         return self.rsvp_tasks.all()
     
     def get_not_rsvp_tasks(self):
-        all_tasks = my_task.objects.all()
-        subscribed_tasks = self.rsvp_tasks.all()
-        remained_tasks = all_tasks.difference(subscribed_tasks)
-        return remained_tasks
+        # all_tasks = my_task.objects.all()
+        # subscribed_tasks = self.rsvp_tasks.all()
+        # remained_tasks = all_tasks.difference(subscribed_tasks)
+        # return remained_tasks
+        return None
     
     def get_subscribed_club_tasks(self, club_name):
-        all_tasks = my_task.objects.filter(club_name=club_name)
-        subscribed_tasks = self.rsvp_tasks.all()
-        remained_tasks = all_tasks.intersection(subscribed_tasks)
-        return remained_tasks
+        # all_tasks = my_task.objects.filter(club_name=club_name)
+        # subscribed_tasks = self.rsvp_tasks.all()
+        # remained_tasks = all_tasks.intersection(subscribed_tasks)
+        # return remained_tasks
+        return None
     
     def get_new_club_tasks(self, club_name):
-        all_tasks = my_task.objects.filter(club_name=club_name)
-        subscribed_tasks = self.rsvp_tasks.all()
-        remained_tasks = all_tasks.difference(subscribed_tasks)
-        return remained_tasks
+        # all_tasks = my_task.objects.filter(club_name=club_name)
+        # subscribed_tasks = self.rsvp_tasks.all()
+        # remained_tasks = all_tasks.difference(subscribed_tasks)
+        # return remained_tasks
+        return None

@@ -16,6 +16,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 import django_filters.rest_framework
 from .models import Profile
 from .serializer import  ProfileSerializer
+from .tasks_helper import * 
+from tasks.serializer import TaskSerializer
 
 # Create your views here.
 def register(request):
@@ -60,7 +62,7 @@ def get_all_rsvp_tasks(request):
     try:
         profile = Profile.objects.get(user=request.user)
         qs = profile.get_rsvp_tasks()
-        serialised = ProfileSerializer(qs,many=True)
+        serialised = TaskSerializer(qs,many=True)
         return JsonResponse(serialised.data,safe=False)
     except:
         return JsonResponse({"message":"no rsvp tasks"},safe=False)
@@ -68,8 +70,8 @@ def get_all_rsvp_tasks(request):
 def get_all_other_tasks(request):
     try:
         profile = Profile.objects.get(user=request.user)
-        qs = profile.get_not_rsvp_tasks()
-        serialised = ProfileSerializer(qs,many=True)
+        qs = helper_get_not_rsvp_tasks(profile)
+        serialised = TaskSerializer(qs,many=True)
         return JsonResponse(serialised.data,safe=False)
     except:
         return JsonResponse({"message":"no new rsvp tasks"},safe=False)
@@ -78,10 +80,9 @@ def get_all_other_tasks(request):
 
 def get_rsvp_club_tasks(request,club_name):
     try:
-        club_name = request.get
         profile = Profile.objects.get(user=request.user)
-        qs = profile.get_subscribed_club_tasks(club_name)
-        serialised = ProfileSerializer(qs,many=True)
+        qs = helper_get_subscribed_club_tasks(profile,club_name)
+        serialised = TaskSerializer(qs,many=True)
         return JsonResponse(serialised.data,safe=False)
     except:
         return JsonResponse({"message":"no rsvp tasks for club"},safe=False)
@@ -89,8 +90,8 @@ def get_rsvp_club_tasks(request,club_name):
 def get_new_club_tasks(request,club_name):
     try:
         profile = Profile.objects.get(user=request.user)
-        qs = profile.get_new_club_tasks(club_name)
-        serialised = ProfileSerializer(qs,many=True)
+        qs = helper_get_new_club_tasks(profile,club_name)
+        serialised = TaskSerializer(qs,many=True)
         return JsonResponse(serialised.data,safe=False)
     except:
         return JsonResponse({"message":"no new rsvp tasks for the club"},safe=False)

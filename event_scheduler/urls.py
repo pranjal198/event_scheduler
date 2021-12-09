@@ -34,10 +34,10 @@ urlpatterns = [
     path('api/tasks/new/',views.myTaskCreateAPI.as_view(),name='new-task'),
 
     path('profile/',user_views.get_profile,name='profile'),
-    path('rsvp/all/',user_views.get_all_rsvp_tasks,name='profile'),
-    path('rsvp/allother/',user_views.get_all_other_tasks,name='profile'),
-    path('rsvp/allclub/<str:club_name>/',user_views.get_rsvp_club_tasks,name='profile'),
-    path('rsvp/newclub/<str:club_name>/',user_views.get_new_club_tasks,name='profile'),
+    path('rsvp/all/',user_views.get_all_rsvp_tasks,name='rsvp-all'),
+    path('rsvp/allother/',user_views.get_all_other_tasks,name='rsvp-all-other'),
+    path('rsvp/allclub/<str:club_name>/',user_views.get_rsvp_club_tasks,name='rsvp-allclub'),
+    path('rsvp/newclub/<str:club_name>/',user_views.get_new_club_tasks,name='rsvp-newclub'),
 
     # path('alltask/<int:pk>/',views.TASKSEE),
     # path("createtask/",views.CREATETASK),
