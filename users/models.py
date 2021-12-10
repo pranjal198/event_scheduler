@@ -16,24 +16,3 @@ class Profile(models.Model):
     def get_rsvp_tasks(self):
         # return the tasks which are related to this user (using the m2m relation my_task.rsvp_users)
         return self.rsvp_tasks.all()
-    
-    def get_not_rsvp_tasks(self):
-        # all_tasks = my_task.objects.all()
-        # subscribed_tasks = self.rsvp_tasks.all()
-        # remained_tasks = all_tasks.difference(subscribed_tasks)
-        # return remained_tasks
-        return None
-    
-    def get_subscribed_club_tasks(self, club_name):
-        # all_tasks = my_task.objects.filter(club_name=club_name)
-        # subscribed_tasks = self.rsvp_tasks.all()
-        # remained_tasks = all_tasks.intersection(subscribed_tasks)
-        # return remained_tasks
-        return None
-    
-    def get_new_club_tasks(self, club_name):
-        # all_tasks = my_task.objects.filter(club_name=club_name)
-        # subscribed_tasks = self.rsvp_tasks.all()
-        # remained_tasks = all_tasks.difference(subscribed_tasks)
-        # return remained_tasks
-        return None
