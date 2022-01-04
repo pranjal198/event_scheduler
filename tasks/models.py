@@ -45,18 +45,20 @@ class my_task(models.Model):
     deadline = models.DateField(default=timezone.localtime(timezone.now()),blank=True,null=True)
     time_from = models.TimeField(default=timezone.localtime(timezone.now()))
     time_to = models.TimeField(default=timezone.localtime(timezone.now()))
-
-    remainder_date = models.DateField(default=timezone.localtime(timezone.now()))
-    remainder_time = models.TimeField(default=timezone.localtime(timezone.now()))
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
+    remainder_date = models.DateField(default=timezone.localtime(timezone.now(
+    )), blank=True, null=True, help_text="add date only if remainder type is custom")
+    remainder_time = models.TimeField(default=timezone.localtime(timezone.now()),)
+    
     author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     # notifications=models.CharField(max_length=500,default="")
     announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
     resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
 
     rsvp_users = models.ManyToManyField(Profile,related_name="rsvp_tasks")
-    def _str_(self):
-        return self.title
+
+    def __str__(self):
+        return str(self.title)
 
     def get_absolute_url(self):
         return reverse('tasks-detail', kwargs={"pk": self.pk})

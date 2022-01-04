@@ -10,7 +10,7 @@ class Profile(models.Model):
     programme = models.CharField(max_length=13,default='0')
     department = models.CharField(max_length=50,default='0')
 
-    def _str_(self):
+    def __str__(self):
         return f'{self.user.first_name} profile'
 
     def get_rsvp_tasks(self):
