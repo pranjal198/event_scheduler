@@ -42,3 +42,10 @@ class myTaskCreateAPI(generics.GenericAPIView, mixins.CreateModelMixin):
 
     def post(self, request):
         return self.create(request)
+class myTaskUpdateAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
+    serializer_class = TaskSerializer
+    queryset = my_task.objects.all()
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def put(self, request, pk):
+        return self.update(request, pk)
