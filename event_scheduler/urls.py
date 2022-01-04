@@ -47,6 +47,7 @@ urlpatterns = [
     path('api/tasks/',views.myTaskListAPI.as_view(),name='all-tasks'),
     path('api/tasks/<int:pk>/',views.myTaskDetailAPI.as_view(),name='one-tasks'),
     path('api/tasks/new/',views.myTaskCreateAPI.as_view(),name='new-task'),
+    path('api/tasks/<int:pk>/update/',views.myTaskUpdateAPI.as_view(),name='edit-task'),
 
     path('profile/',user_views.get_profile,name='profile'),
     path('rsvp/all/',user_views.get_all_rsvp_tasks,name='rsvp-all'),
