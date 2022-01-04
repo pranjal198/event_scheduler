@@ -181,9 +181,16 @@ form {
 
 
   <div class="jumbotron">
+    {% if user.is_authenticated %}
+    <h1>Welcome</h1>
+    <p></p>
+    <h3> {{user.profile.name}}</h3>
 
+    <h4>Already Signed In</h4>
+    {% else %}
     <p class="lead">Microsoft Login/SignIn</p>
     <a class="btn btn-primary" href="/accounts/microsoft/login/?process=login" role="button">Sign-In</a>
+    {% endif %}
   </div>
 
 

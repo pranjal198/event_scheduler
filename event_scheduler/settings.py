@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.microsoft',
     'django_celery_beat',
-    'event_scheduler'
+    'event_scheduler',
+    'rest_framework_swagger'
 ]
 
 MIDDLEWARE = [
