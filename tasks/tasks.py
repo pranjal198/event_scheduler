@@ -8,6 +8,7 @@ from datetime import date, datetime, timedelta
 from django.core.mail import send_mail
 from tasks.models import my_task
 from users.models import Profile
+# All the celery tasks
 
 
 @app.task(bind=True)
@@ -46,24 +47,22 @@ def debug_task_daily(self):
             print(subject)
             message = 'Event description: '+event.description+'\nDate of event: '+event.date.strftime(
                 "%m/%d/%Y")+'\nFrom: '+event.time_from.strftime("%H:%M")+'\nTo: '+event.time_to.strftime("%H:%M")
-            for profileobj in profile_objs:
-                print(profileobj.user.email)
+            for rsvp_user in rsvp_users:
+                print(rsvp_user.user.email)
                 app.send_task('tasks.tasks.task_email', args=(
-                    email_from, profileobj.user.email, subject, message))
+                    email_from, rsvp_user.user.email, subject, message))
 
         events_2 = my_task.objects.filter(
             remainder="Week before", date=datetime.now().date()+timedelta(days=7))
         for event in events_2:
-            profile_objs = Profile.objects.filter(
-                batch=event.target_batch, department=event.target_branch)
+            rsvp_users = event.rsvp_users.all()
             subject = 'Remainder for the event- '+event.title
-            print(subject)
             message = 'Event description: '+event.description+'\nDate of event: '+event.date.strftime(
                 "%m/%d/%Y")+'\nFrom: '+event.time_from.strftime("%H:%M")+'\nTo: '+event.time_to.strftime("%H:%M")
-            for profileobj in profile_objs:
-                print(profileobj.user.email)
+            for rsvp_user in rsvp_users:
+                print(rsvp_user.user.email)
                 app.send_task('tasks.tasks.task_email', args=(
-                    email_from, profileobj.user.email, subject, message))
+                    email_from, rsvp_user.user.email, subject, message))
 
     except Exception as e:
         print(e)
@@ -78,16 +77,15 @@ def debug_task_weekly(self):
         events = my_task.objects.filter(
             remainder="Weekly", date__gte=datetime.now().date())
         for event in events:
-            profile_objs = Profile.objects.filter(
-                batch=event.target_batch, department=event.target_branch)
+            rsvp_users = event.rsvp_users.all()
             subject = 'Remainder for the event- '+event.title
             print(subject)
             message = 'Event description: '+event.description+'\nDate of event: '+event.date.strftime(
                 "%m/%d/%Y")+'\nFrom: '+event.time_from.strftime("%H:%M")+'\nTo: '+event.time_to.strftime("%H:%M")
-            for profileobj in profile_objs:
-                print(profileobj.user.email)
+            for rsvp_user in rsvp_users:
+                print(rsvp_user.user.email)
                 app.send_task('tasks.tasks.task_email', args=(
-                    email_from, profileobj.user.email, subject, message))
+                    email_from, rsvp_user.user.email, subject, message))
 
     except Exception as e:
         print(e)
@@ -102,16 +100,15 @@ def debug_task_monthly(self):
         events = my_task.objects.filter(
             remainder="Monthly", date__gte=datetime.now().date())
         for event in events:
-            profile_objs = Profile.objects.filter(
-                batch=event.target_batch, department=event.target_branch)
+            rsvp_users = event.rsvp_users.all()
             subject = 'Remainder for the event- '+event.title
             print(subject)
             message = 'Event description: '+event.description+'\nDate of event: '+event.date.strftime(
                 "%m/%d/%Y")+'\nFrom: '+event.time_from.strftime("%H:%M")+'\nTo: '+event.time_to.strftime("%H:%M")
-            for profileobj in profile_objs:
-                print(profileobj.user.email)
+            for rsvp_user in rsvp_users:
+                print(rsvp_user.user.email)
                 app.send_task('tasks.tasks.task_email', args=(
-                    email_from, profileobj.user.email, subject, message))
+                    email_from, rsvp_user.user.email, subject, message))
 
     except Exception as e:
         print(e)

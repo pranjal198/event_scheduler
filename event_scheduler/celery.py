@@ -18,7 +18,7 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'send-mail-custom': {
         'task': 'tasks.tasks.debug_task_custom',
-        'schedule': 30.0,
+        'schedule': crontab(hour=5, minute=30,),
         'args': (),
     },
     'send-mail-daily': {

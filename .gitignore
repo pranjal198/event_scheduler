@@ -1,3 +1,4 @@
+db.sqlite3
 event_scheduler/__pycache__/
 tasks/__pycache__/
 tasks/migrations/__pycache__/
