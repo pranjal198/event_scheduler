@@ -49,3 +49,12 @@ class myTaskUpdateAPI(generics.GenericAPIView, mixins.UpdateModelMixin):
 
     def put(self, request, pk):
         return self.update(request, pk)
+
+
+class myTaskDeleteAPI(generics.GenericAPIView, mixins.DestroyModelMixin):
+    serializer_class = TaskSerializer
+    queryset = my_task.objects.all()
+    permission_class = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def delete(self, request, pk):
+        return self.destroy(request, pk)
