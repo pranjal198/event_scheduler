@@ -42,8 +42,9 @@ urlpatterns = [
     path('login/',auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/',auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('accounts/', include('allauth.urls')),
-    path('profile/',user_views.profile, name='profile'),
-
+    path('profilee/',user_views.profile, name='profile'),
+    path('apiLogin/',user_views.create_generate_jwt, name='apilogin'),
+    
     path('api/tasks/',views.myTaskListAPI.as_view(),name='all-tasks'),
     path('api/tasks/<int:pk>/',views.myTaskDetailAPI.as_view(),name='one-tasks'),
     path('api/tasks/new/',views.myTaskCreateAPI.as_view(),name='new-task'),
