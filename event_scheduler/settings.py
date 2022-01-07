@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-rf99a037m=#1)qb=3l6!mx5ngmhb8t6d&&v(4mozk(8vl0nb$#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,21 +40,25 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'microsoft_authentication',
     'django.contrib.sites',
+    
     'rest_framework',
+    'rest_framework_swagger',
+    'corsheaders',
+    
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'microsoft_authentication',
     'allauth.socialaccount.providers.microsoft',
     'django_celery_beat',
     'event_scheduler',
-    'rest_framework_swagger'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -177,3 +181,15 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'schedulerevent9@gmail.com'
 EMAIL_HOST_PASSWORD = 'qigpglvkwjrldryy'
+
+CORS_ALLOW_ALL_ORIGINS: True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_SECURE = False
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
+]

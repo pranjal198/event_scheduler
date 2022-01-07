@@ -3,3 +3,5 @@ tasks/__pycache__/
 tasks/migrations/__pycache__/
 users/__pycache__/
 users/migrations/__pycache__/
+env/
+commands.txt
