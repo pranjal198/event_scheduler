@@ -57,7 +57,8 @@ urlpatterns = [
     path('rsvp/allclub/<str:club_name>/',user_views.get_rsvp_club_tasks,name='rsvp-allclub'),
     path('rsvp/newclub/<str:club_name>/',user_views.get_new_club_tasks,name='rsvp-newclub'),
 
-
+    path('rsvp/event/<int:pk>', views.rsvp_a_event, name='rsvp_a_event'),
+    path('unsubscribe/event/<int:pk>', views.unsub_a_event, name='unsub_a_event'),
 ]
 
 urlpatterns = urlpatterns+[

@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.http.response import HttpResponse
+from django.shortcuts import render,redirect
 from .models import my_task
 from .serializer import TaskSerializer
 from rest_framework.generics import GenericAPIView
@@ -7,6 +8,7 @@ from rest_framework import permissions
 from rest_framework import generics, mixins
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django.views.generic import ListView
+from users.models import Profile
 # from django.views.generic import
 # Create your views here.
 def index(request):
@@ -58,3 +60,19 @@ class myTaskDeleteAPI(generics.GenericAPIView, mixins.DestroyModelMixin):
 
     def delete(self, request, pk):
         return self.destroy(request, pk)
+
+
+def rsvp_a_event(request,pk):
+    print(pk)
+    event = my_task.objects.get(pk=pk)
+    event.rsvp_users.add(Profile.objects.get(user=request.user))
+    event.save()
+    return HttpResponse('event rsvped')
+
+
+def unsub_a_event(request, pk):
+    print(pk)
+    event = my_task.objects.get(pk=pk)
+    event.rsvp_users.remove(Profile.objects.get(user=request.user))
+    event.save()
+    return HttpResponse('event unsubscribed')
