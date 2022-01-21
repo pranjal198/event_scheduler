@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 from django.http.response import HttpResponse
 from django.shortcuts import render,redirect
 from .models import my_task
@@ -67,7 +68,7 @@ def rsvp_a_event(request,pk):
     event = my_task.objects.get(pk=pk)
     event.rsvp_users.add(Profile.objects.get(user=request.user))
     event.save()
-    return HttpResponse('event rsvped')
+    return JsonResponse({'message':'event rsvped'})
 
 
 def unsub_a_event(request, pk):
@@ -75,4 +76,4 @@ def unsub_a_event(request, pk):
     event = my_task.objects.get(pk=pk)
     event.rsvp_users.remove(Profile.objects.get(user=request.user))
     event.save()
-    return HttpResponse('event unsubscribed')
+    return JsonResponse({'message':'event unsubscribed'})
