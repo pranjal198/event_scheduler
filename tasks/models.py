@@ -66,6 +66,15 @@ class my_task(models.Model):
     def get_all_rsvp_users(self):
         return self.rsvp_users.all()
 
+    def __str__(self):
+        return str(self.title)
+
+    def get_absolute_url(self):
+        return reverse('tasks-detail', kwargs={"pk": self.pk})
+
+    def get_all_rsvp_users(self):
+        return self.rsvp_users.all()
+
 
 # rename to old_models.py
 # make a new models.py

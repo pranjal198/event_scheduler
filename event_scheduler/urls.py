@@ -45,11 +45,12 @@ urlpatterns = [
     path('profilee/',user_views.profile, name='profile'),
     path('apiLogin/',user_views.create_generate_jwt, name='apilogin'),
     
-    path('api/tasks/',views.myTaskListAPI.as_view(),name='all-tasks'),
-    path('api/tasks/<int:pk>/',views.myTaskDetailAPI.as_view(),name='one-tasks'),
-    path('api/tasks/new/',views.myTaskCreateAPI.as_view(),name='new-task'),
-    path('api/tasks/<int:pk>/update/',views.myTaskUpdateAPI.as_view(),name='edit-task'),
-    path('api/tasks/<int:pk>/delete/',views.myTaskDeleteAPI.as_view(),name='delete-task'),
+    path('api/task/all',views.Get_Task,name='task_list_all'),
+    path('api/task/<int:pk>/',views.get_task_detail,name='task_detail'),
+    path('api/task/new/',views.post_task_detail,name='new_task'),
+    path('api/task/<int:pk>/edit_few/',views.patch_task_detail,name='edit_few_task'),
+    path('api/task/<int:pk>/edit/',views.put_task_detail,name='edit_task'),
+    path('api/task/<int:pk>/delete/',views.delete_task_detail,name='delete_task'),
 
     path('profile/',user_views.get_profile,name='profile'),
     path('rsvp/all/',user_views.get_all_rsvp_tasks,name='rsvp-all'),
