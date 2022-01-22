@@ -2,9 +2,9 @@ from math import exp
 from django.contrib.auth.models import User
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+
 from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
-from django.http import JsonResponse, response
+from django.http import JsonResponse
 from .models import Profile
 from .serializer import  ProfileSerializer
 from .tasks_helper import * 
@@ -53,7 +53,6 @@ def get_profile(request):
     except:
         return JsonResponse({"message":"no such user"},safe=False)
 
-
 def get_all_rsvp_tasks(request):
     try:
         user,profile = get_user_from_request(request)
@@ -77,7 +76,6 @@ def get_all_other_tasks(request):
         return JsonResponse({"message":"no new rsvp tasks"},safe=False)
 
 # <str:club_name>
-
 def get_rsvp_club_tasks(request,club_name):
     try:
         user,profile = get_user_from_request(request)
@@ -182,17 +180,16 @@ def get_user_from_request(request):
         profile = Profile.objects.get(user=request.user)
         return request.user,profile
     token = request.COOKIES.get('jwt')
-    print(token)
     if not token:
-        raise AuthenticationFailed("Unauthenticated")
+        return JsonResponse({"message":"unauthenticated"},status=401)
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
     except jwt.ExpiredSignatureError:
-        raise AuthenticationFailed("Unauthenticated")
+        return JsonResponse({"message":"unauthenticated"},status=401)
     
     expires = int(time.time())
     if(payload['exp'] < expires ):
-        raise AuthenticationFailed("Unauthenticated")
+        return JsonResponse({"message":"unauthenticated"},status=401)
     
     user = User.objects.filter(id = payload['user_id']).first()
     profile = Profile.objects.filter(id = payload['profile_id']).first()

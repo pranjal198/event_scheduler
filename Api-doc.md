@@ -22,7 +22,36 @@ A web solution for organising and managing all Events
 
 ## Endpoints:-
 
-### 1 Create new Event
+### 1 Login Api
+- For logging in user using microsoft account
+- URL
+  ```http
+  GET apiLogin/
+  ```
+- Request body structure
+
+  | Parameter | Type | Required | Description |
+  | :--- | :--- | :--- | :--- |
+  | `token` | `string` | **Required** | Access token issued by Microsoft Azure |
+
+- Example Input
+  ```javascript
+  {
+    "token":"eyJ0eXAiOiJKV1QiLCJub25jZSI6ImZySTRVSThOSFpvdEZ4MTlvWmpTVFNLSzhUZFJZOFlaRDFJNjdvYTZEN2ciLCJhbGciOiJSUzI1NiIsIng1dCI6Ik1yNS1BVWliZkJpaTdOZDFqQmViYXhib1hXMCIsImtpZCI6Ik1yNS1BVWliZkJpaTdOZDFqQmViYXhib1hXMCJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDAiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC84NTBhYTc4ZC05NGUxLTRiYzYtOWNmMy04YzExYjUzMDcwMWMvIiwiaWF0IjoxNjQyODMzOTQ4LCJuYmYiOjE2NDI4MzM5NDgsImV4cCI6MTY0MjgzNzkyNywiYWNjdCI6MCwiYWNyIjoiMSIsImFpbyI6IkUyWmdZRmhtcWY0bW83WGorOVVWaThyTnZVTlVPS3dQTGVhS1hYNmVxV0JiNUgzeks2Y0EiLCJhbXIiOlsicHdkIl0sImFwcF9kaXNwbGF5bmFtZSI6IkV2ZW50IFNjaCIsImFwcGlkIjoiNTE2MDQzMjItYWM0Yi00YjQ1LWE1ZDEtZDZhOGY3MzcwMzhmIiwiYXBwaWRhY3IiOiIwIiwiZmFtaWx5X25hbWUiOiIyMDAxMDEwMTciLCJnaXZlbl9uYW1lIjoiQU5VUkFHIFJBVkkiLCJpZHR5cCI6InVzZXIiLCJpcGFkZHIiOiIyMDMuODkuOTcuNjciLCJuYW1lIjoiQU5VUkFHIFJBVkkiLCJvaWQiOiI4YzRmMjMyOC1jNDI3LTQyYTEtYWNhYS1mMjZjYWQwN2IyM2YiLCJwbGF0ZiI6IjMiLCJwdWlkIjoiMTAwMzIwMDBGNjdEQ0VGNiIsInJoIjoiMC5BU29BamFjS2hlR1V4a3VjODR3UnRUQndIQ0pEWUZGTHJFVkxwZEhXcVBjM0E0OHFBTDguIiwic2NwIjoib3BlbmlkIHByb2ZpbGUgVXNlci5SZWFkIGVtYWlsIiwic3ViIjoiQWNzRk14TEg3V3BELXR6cl9Tb1doTlhCTE5hUTRZdmRlaVMtb3NiZVZNTSIsInRlbmFudF9yZWdpb25fc2NvcGUiOiJBUyIsInRpZCI6Ijg1MGFhNzhkLTk0ZTEtNGJjNi05Y2YzLThjMTFiNTMwNzAxYyIsInVuaXF1ZV9uYW1lIjoiYW51cmFnLnJhdmlAaWl0Zy5hYy5pbiIsInVwbiI6ImFudXJhZy5yYXZpQGlpdGcuYWMuaW4iLCJ1dGkiOiJnT0w1dzRfZlAwQzdJQWtQeVp4b0FBIiwidmVyIjoiMS4wIiwieG1zX3N0Ijp7InN1YiI6ImtObS1WU1hmWDNzcHBNbUtQNEsycmh6cWpzZ1p0eGRWdFJRdmtQdjh5X2MifSwieG1zX3RjZHQiOjE1MjM1MjYwNzd9.QIYrMUzfSzvEbik3etTLtZpp-H_j4li9gVtY3kCAHVH2oIMs6IAu4-hURnp3o1T9hl_LflpnIJyLWF5Q3TJdnR9D-yera62ob18dUsnclyL9CR-nm4Uv5VC2rR_qGNSWylskCtMSjiL6LYF3NuJfyfiaTZOOm8CJ8KobN7P_ycq1ZnJ4Qtko2ZAO-YEvIkqUolipqh5AME8XAt7VchivDDabWRmzCNu_UngKuhcWKnPoD84saPyMOQIJlH_qeMW9RXNPH_DT5ToUePuemgYKEHz9VwM_V3u_DgpOTZooxBWtbIAGuChvobg6hX6Aahc9HK-AypmVwMKw10sn7cGZWQ"
+  }
+  ```
+- Example Response on success
+  ```javascript
+  {
+    "message": "success",
+    "status": 200
+  }
+  ```
+- Remarks:
+  - a jwt cookie is sent along with the request which will later be used in all apis to authenticate the user
+
+
+### 2 Create new Event
 - For creating a new event
 - URL
   ```http
@@ -40,12 +69,12 @@ A web solution for organising and managing all Events
   | `time_from` | `time` | **Required**| Event Start time |
   | `time_to` | `time` | **Required**| Event End time |
   | `remainder` | `string` | **Required**| Event Remainder type |
-  | `remainder_date` | `date` | **Required**| Event Remainder date |
-  | `remainder_time` | `time` | **Required**| Event Remainder time |
+  | `remainder_date` | `date` | **Not Required**| Event Remainder date |
+  | `remainder_time` | `time` | **Not Required**| Event Remainder time |
   | `announcements` | `string` | **Not Required**| Event Announcements |
   | `resources_upload` | `files` | **Not Required**| Event Resources |
   | `author` | `int` | **Not Required**| Event Author |
-  | `rsvp_users` | `list` | **Required**| Subscribed users |
+  | `rsvp_users` | `list` | **Not Required**| Subscribed users |
 
 - Example Input
   ```javascript
@@ -104,9 +133,6 @@ A web solution for organising and managing all Events
     - *AI CLUB*
     - *CCD CLUB*
     - *OTHER CLUB*
-    - *SWC*
-    - *SWC*
-    - *SWC*
   - *remainder* field must have following values :
     - *Daily*
     - *Weekly*
@@ -116,7 +142,7 @@ A web solution for organising and managing all Events
   - *remainder_date* field should only be provided when *remainder* field have the value : *Custom*
   - *resources_upload* field can contain files of any format
 
-### 2 Get Event detail
+### 3 Get Event detail
 - For getting info of event
 - URL
   ```http
@@ -159,11 +185,11 @@ A web solution for organising and managing all Events
     }
   ```
 
-### 3 Get All Events
+### 4 Get All Events
 - For getting all event's data
 - URL
   ```http
-  GET 'api/task/all
+  GET api/task/all
   ```
 - Request body structure
 
@@ -192,7 +218,7 @@ A web solution for organising and managing all Events
 - Remarks:
   - it send all events even user subscribed that event or not.
 
-### 4 Update Few Details of Events
+### 5 Update Few Details of Events
 - For updating few selected fields of an event
 - URL
   ```http
@@ -236,7 +262,7 @@ A web solution for organising and managing all Events
 - Remarks:
   - only send those fields to this api which user wants to be updated with their appropriate format as specified in event creation api.
 
-### 5 Update Whole Event
+### 6 Update Whole Event
 - For updating few fields/whole event
 - URL
   ```http
@@ -254,12 +280,12 @@ A web solution for organising and managing all Events
   | `time_from` | `time` | **Required**| Event Start time |
   | `time_to` | `time` | **Required**| Event End time |
   | `remainder` | `string` | **Required**| Event Remainder type |
-  | `remainder_date` | `date` | **Required**| Event Remainder date |
-  | `remainder_time` | `time` | **Required**| Event Remainder time |
+  | `remainder_date` | `date` | **Not Required**| Event Remainder date |
+  | `remainder_time` | `time` | **Not Required**| Event Remainder time |
   | `announcements` | `string` | **Not Required**| Event Announcements |
   | `resources_upload` | `files` | **Not Required**| Event Resources |
   | `author` | `int` | **Not Required**| Event Author |
-  | `rsvp_users` | `list` | **Required**| Subscribed users |
+  | `rsvp_users` | `list` | **Not Required**| Subscribed users |
 
 - Example Input
   ```javascript
@@ -307,7 +333,7 @@ A web solution for organising and managing all Events
 - Remarks:
   - prefer 4th api if you have to update few fields of a event.
   
-### 6 Deleting an Event
+### 7 Deleting an Event
 - For deleting an event
 - URL
   ```http
@@ -331,7 +357,7 @@ A web solution for organising and managing all Events
   - it only deletes the event if the request is sent by event creator or staff user.
 
 
-### 7 List all RSVPed Events
+### 8 List all RSVPed Events
 - For Listing all the events on which user has clicked RSVP
 - URL
   ```http
@@ -369,7 +395,7 @@ A web solution for organising and managing all Events
   - event 1,2,3 above means a whole structure of event as per event create api.
 
 
-### 8 List all not RSVPed Events
+### 9 List all not RSVPed Events
 - For Listing all the events on which user has not clicked RSVP
 - URL
   ```http
@@ -406,7 +432,7 @@ A web solution for organising and managing all Events
 - Remarks:
   - event 1,2,3 above means a whole structure of event as per event create api.
 
-### 9 List all RSVPed Events of specific club
+### 10 List all RSVPed Events of specific club
 - For Listing all the events of a club on which user has clicked RSVP
 - URL
   ```http
@@ -444,7 +470,7 @@ A web solution for organising and managing all Events
   - event 1,2,3 above means a whole structure of event as per event create api.
 
 
-### 10 List all not RSVPed Events of specific club
+### 11 List all not RSVPed Events of specific club
 - For Listing all the events of a club on which user has not clicked RSVP yet
 - URL
   ```http
@@ -482,7 +508,7 @@ A web solution for organising and managing all Events
   - event 1,2,3 above means a whole structure of event as per event create api.
 
 
-### 11 Adding RSVP of a user to specific event
+### 12 Adding RSVP of a user to specific event
 - For adding rsvp of a user to specific event
 - URL
   ```http
@@ -507,7 +533,7 @@ A web solution for organising and managing all Events
 - Remarks:
   - this api will add the user in the list of interested people in event.
 
-### 12 Removing RSVP of a user from specific event
+### 13 Removing RSVP of a user from specific event
 - For removing rsvp of a user from specific event
 - URL
   ```http

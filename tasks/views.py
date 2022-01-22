@@ -1,43 +1,14 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from django.http.response import HttpResponse
-from django.shortcuts import render,redirect
-from .models import my_task
-from .serializer import TaskSerializer
-from rest_framework.generics import GenericAPIView
-from rest_framework import permissions
-from rest_framework import generics, mixins
-from rest_framework.filters import SearchFilter, OrderingFilter
-from django.views.generic import ListView
-from users.models import Profile
-# from django.views.generic import
-# Create your views here.
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
+from users.views import get_user_from_request
 from .models import my_task
 from .serializer import TaskSerializer
-from rest_framework.generics import GenericAPIView
-from rest_framework import permissions
-from rest_framework import generics, mixins
-from rest_framework.filters import SearchFilter, OrderingFilter
 from django.views.generic import ListView
-from django.utils.decorators import method_decorator
-# from django.views.generic import
-# Create your views here.
-from tasks.models import my_task
-from users.decorators import club
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
-# from django.contrib.auth import users
-from django.contrib import messages
-from django.urls import reverse
-from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
+from users.decorators import club,login_is_required
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from tasks.serializer import TaskSerializer
 
 def index(request):
     param = {
@@ -54,7 +25,7 @@ class TaskListView(LoginRequiredMixin, ListView):
     ordering = ['date']
 
 
-@login_required
+@login_is_required
 @api_view(['GET'])
 def Get_Task(request):
     """
@@ -65,7 +36,7 @@ def Get_Task(request):
     return Response(serializer.data)
 
 
-@login_required
+@login_is_required
 @api_view(['GET'])
 def get_task_detail(request, pk):
     try:
@@ -75,12 +46,13 @@ def get_task_detail(request, pk):
     serializer = TaskSerializer(Task)
     return Response(serializer.data)
 
-@login_required
+@login_is_required
 @club
 @api_view(['POST'])
 def post_task_detail(request):
     serializer = TaskSerializer(data=request.data)
-    if request.data['club_name']!=request.user.profile.club_name:
+    user,profile = get_user_from_request(request)
+    if request.data['club_name']!=profile.club_name:
         return Response({'status':403 , 'message':'club name not matched'})
 
     if not serializer.is_valid():
@@ -91,18 +63,20 @@ def post_task_detail(request):
         return Response(serializer.data,status=status.HTTP_201_CREATED)
 
 
-@login_required
+@login_is_required
 @club
 @api_view(['PATCH'])
 def patch_task_detail(request,pk):
     try:
         Task = my_task.objects.get(pk=pk)
-    except Task.DoesNotExist:
+    except my_task.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     serializer = TaskSerializer(Task,data=request.data,partial=True)
-  
-    if request.data['club_name']!=request.user.profile.club_name:
+    
+    user,profile = get_user_from_request(request)
+    
+    if request.data['club_name']!=profile.club_name:
         return Response({'status':403 , 'message':'club name not matched'})
 
     if not serializer.is_valid():
@@ -113,18 +87,20 @@ def patch_task_detail(request,pk):
         return Response(serializer.data,status=status.HTTP_201_CREATED)
 
 
-@login_required
+@login_is_required
 @club
 @api_view(['PUT'])
 def put_task_detail(request,pk):
     try:
         Task = my_task.objects.get(pk=pk)
-    except Task.DoesNotExist:
+    except my_task.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     serializer = TaskSerializer(Task,data=request.data,partial=True)
+    
+    user,profile = get_user_from_request(request)
 
-    if request.data['club_name']!=request.user.profile.club_name:
+    if request.data['club_name']!=profile.club_name:
         return Response({'status':403 , 'message':'club name not matched'})
 
     if not serializer.is_valid():
@@ -135,30 +111,35 @@ def put_task_detail(request,pk):
         return Response(serializer.data,status=status.HTTP_201_CREATED)
 
 
-@login_required
+@login_is_required
 @club
 @api_view(['DELETE'])
 def delete_task_detail(request,pk):
     try:
         Task = my_task.objects.get(pk=pk)
-    except Task.DoesNotExist:
+    except my_task.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    user,profile = get_user_from_request(request)
 
+    if request.data['club_name']!=profile.club_name:
+        return Response({'status':403 , 'message':'club name not matched'})
+    
     Task.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
 
-
+@login_is_required
 def rsvp_a_event(request,pk):
-    print(pk)
     event = my_task.objects.get(pk=pk)
-    event.rsvp_users.add(Profile.objects.get(user=request.user))
+    user,profile = get_user_from_request(request)
+    event.rsvp_users.add(profile)
     event.save()
     return JsonResponse({'message':'event rsvped'})
 
-
+@login_is_required
 def unsub_a_event(request, pk):
-    print(pk)
     event = my_task.objects.get(pk=pk)
-    event.rsvp_users.remove(Profile.objects.get(user=request.user))
+    user,profile = get_user_from_request(request)
+    event.rsvp_users.remove(profile)
     event.save()
     return JsonResponse({'message':'event unsubscribed'})
