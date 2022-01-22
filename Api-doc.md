@@ -26,7 +26,7 @@ A web solution for organising and managing all Events
 - For logging in user using microsoft account
 - URL
   ```http
-  GET apiLogin/
+  POST apiLogin/
   ```
 - Request body structure
 
