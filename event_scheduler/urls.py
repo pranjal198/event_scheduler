@@ -37,39 +37,39 @@ from rest_framework.schemas import get_schema_view
 # )
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('',include('tasks.urls')),
-    path('login/',auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
-    path('logout/',auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
-    path('accounts/', include('allauth.urls')),
-    path('profilee/',user_views.profile, name='profile'),
-    path('apiLogin/',user_views.create_generate_jwt, name='apilogin'),
+    path('event-scheduler/admin/', admin.site.urls),
+    path('event-scheduler/',include('tasks.urls')),
+    path('event-scheduler/login/',auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
+    path('event-scheduler/logout/',auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+    path('event-scheduler/accounts/', include('allauth.urls')),
+    path('event-scheduler/profilee/',user_views.profile, name='profile'),
+    path('event-scheduler/apiLogin/',user_views.create_generate_jwt, name='apilogin'),
     
-    path('api/task/all',views.Get_Task,name='task_list_all'),
-    path('api/task/<int:pk>/',views.get_task_detail,name='task_detail'),
-    path('api/task/new/',views.post_task_detail,name='new_task'),
-    path('api/task/<int:pk>/edit_few/',views.patch_task_detail,name='edit_few_task'),
-    path('api/task/<int:pk>/edit/',views.put_task_detail,name='edit_task'),
-    path('api/task/<int:pk>/delete/',views.delete_task_detail,name='delete_task'),
+    path('event-scheduler/api/task/all',views.Get_Task,name='task_list_all'),
+    path('event-scheduler/api/task/<int:pk>/',views.get_task_detail,name='task_detail'),
+    path('event-scheduler/api/task/new/',views.post_task_detail,name='new_task'),
+    path('event-scheduler/api/task/<int:pk>/edit_few/',views.patch_task_detail,name='edit_few_task'),
+    path('event-scheduler/api/task/<int:pk>/edit/',views.put_task_detail,name='edit_task'),
+    path('event-scheduler/api/task/<int:pk>/delete/',views.delete_task_detail,name='delete_task'),
 
-    path('profile/',user_views.get_profile,name='profile'),
-    path('rsvp/all/',user_views.get_all_rsvp_tasks,name='rsvp-all'),
-    path('rsvp/allother/',user_views.get_all_other_tasks,name='rsvp-all-other'),
-    path('rsvp/allclub/<str:club_name>/',user_views.get_rsvp_club_tasks,name='rsvp-allclub'),
-    path('rsvp/newclub/<str:club_name>/',user_views.get_new_club_tasks,name='rsvp-newclub'),
+    path('event-scheduler/profile/',user_views.get_profile,name='profile'),
+    path('event-scheduler/rsvp/all/',user_views.get_all_rsvp_tasks,name='rsvp-all'),
+    path('event-scheduler/rsvp/allother/',user_views.get_all_other_tasks,name='rsvp-all-other'),
+    path('event-scheduler/rsvp/allclub/<str:club_name>/',user_views.get_rsvp_club_tasks,name='rsvp-allclub'),
+    path('event-scheduler/rsvp/newclub/<str:club_name>/',user_views.get_new_club_tasks,name='rsvp-newclub'),
 
-    path('rsvp/event/<int:pk>', views.rsvp_a_event, name='rsvp_a_event'),
-    path('unsubscribe/event/<int:pk>', views.unsub_a_event, name='unsub_a_event'),
+    path('event-scheduler/rsvp/event/<int:pk>', views.rsvp_a_event, name='rsvp_a_event'),
+    path('event-scheduler/unsubscribe/event/<int:pk>', views.unsub_a_event, name='unsub_a_event'),
 ]
 
 urlpatterns = urlpatterns+[
 
-   path('openapi/', get_schema_view(
+   path('event-scheduler/openapi/', get_schema_view(
         title="TaskAPI",
         description="API's_FOR_TASK_CREATION"
     ), name='openapi-schema'),
 
-    path('swagger/', TemplateView.as_view(
+    path('event-scheduler/swagger/', TemplateView.as_view(
         template_name='documentation.html',
         extra_context={'schema_url': 'openapi-schema'}
     ), name='swagger-ui'),
