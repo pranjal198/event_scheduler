@@ -39,6 +39,7 @@ from rest_framework.schemas import get_schema_view
 urlpatterns = [
     path('event-scheduler/admin/', admin.site.urls),
     path('event-scheduler/',include('tasks.urls')),
+    path('accounts/', include('allauth.urls')),
     path('event-scheduler/login/',auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('event-scheduler/logout/',auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('event-scheduler/accounts/', include('allauth.urls')),
