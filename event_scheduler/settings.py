@@ -172,7 +172,7 @@ CELERY_RESULT_SERIALIZER='json'
 CELERY_TASK_SELERIZER='json'
 CELERY_TIMEZONE = "Asia/Kolkata"
 
-
+ACCOUNT_EMAIL_VERIFICATION = "none"
 TIME_ZONE = "Asia/Kolkata"
 
 EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
