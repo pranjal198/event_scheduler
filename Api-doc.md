@@ -230,7 +230,7 @@ A web solution for organising and managing all Events
   | :--- | :--- | :--- | :--- |
   | `field name` | `field type` | | check description in create event api |
 
-- Example Input (*Note:- club_name cannot be a field in the input*)
+- Example Input (**Note:- club_name cannot be a field in the input**)
   ```javascript
     {
      "title": "Updated AP",
