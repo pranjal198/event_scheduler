@@ -53,7 +53,7 @@ def post_task_detail(request):
     serializer = TaskSerializer(data=request.data)
     user,profile = get_user_from_request(request)
     if request.data['club_name']!=profile.club_name:
-        return Response({'status':403 , 'message':'Task Is Not crated by '+profile.club_name})
+        return Response({'status':403 , 'message':'Club Name Not Matched '})
 
 
     if not serializer.is_valid():
@@ -78,7 +78,7 @@ def patch_task_detail(request,pk):
     user,profile = get_user_from_request(request)
 
     if Task.club_name!=profile.club_name:
-        return Response({'status':403 , 'message':'Task Is Not crated by '+profile.club_name})
+        return Response({'status':403 , 'message':'Task Is Not Created by '+profile.club_name})
     
     # if request.data['club_name']!=profile.club_name:
     #     return Response({'status':403 , 'message':'club name not matched'})
@@ -105,7 +105,7 @@ def put_task_detail(request,pk):
     user,profile = get_user_from_request(request)
 
     if Task.club_name!=profile.club_name:
-        return Response({'status':403 , 'message':'Task Is Not crated by '+profile.club_name})
+        return Response({'status':403 , 'message':'Task Is Not Created by '+profile.club_name})
 
     if Task.data['club_name']!=profile.club_name:
         return Response({'status':403 , 'message':'club name not matched'})
@@ -131,7 +131,7 @@ def delete_task_detail(request,pk):
 
 
     if Task.club_name!=profile.club_name:
-        return Response({'status':403 , 'message':'club name not matched'})
+        return Response({'status':403 , 'message':'Task Is Not Created by '+profile.club_name+" so you can't delete this task."})
     
     Task.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
@@ -142,7 +142,7 @@ def rsvp_a_event(request,pk):
     user,profile = get_user_from_request(request)
     event.rsvp_users.add(profile)
     event.save()
-    return JsonResponse({'message':'event rsvped'})
+    return JsonResponse({'message':"event RSVP'ed"})
 
 @login_is_required
 def unsub_a_event(request, pk):
@@ -150,4 +150,4 @@ def unsub_a_event(request, pk):
     user,profile = get_user_from_request(request)
     event.rsvp_users.remove(profile)
     event.save()
-    return JsonResponse({'message':'event unsubscribed'})
+    return JsonResponse({'message':'event Unsubscribed'})
