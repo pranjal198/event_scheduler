@@ -53,7 +53,8 @@ def post_task_detail(request):
     serializer = TaskSerializer(data=request.data)
     user,profile = get_user_from_request(request)
     if request.data['club_name']!=profile.club_name:
-        return Response({'status':403 , 'message':'club name not matched'})
+        return Response({'status':403 , 'message':'Task Is Not crated by '+profile.club_name})
+
 
     if not serializer.is_valid():
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
@@ -75,9 +76,12 @@ def patch_task_detail(request,pk):
     serializer = TaskSerializer(Task,data=request.data,partial=True)
     
     user,profile = get_user_from_request(request)
+
+    if Task.club_name!=profile.club_name:
+        return Response({'status':403 , 'message':'Task Is Not crated by '+profile.club_name})
     
-    if request.data['club_name']!=profile.club_name:
-        return Response({'status':403 , 'message':'club name not matched'})
+    # if request.data['club_name']!=profile.club_name:
+    #     return Response({'status':403 , 'message':'club name not matched'})
 
     if not serializer.is_valid():
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
@@ -100,7 +104,10 @@ def put_task_detail(request,pk):
     
     user,profile = get_user_from_request(request)
 
-    if request.data['club_name']!=profile.club_name:
+    if Task.club_name!=profile.club_name:
+        return Response({'status':403 , 'message':'Task Is Not crated by '+profile.club_name})
+
+    if Task.data['club_name']!=profile.club_name:
         return Response({'status':403 , 'message':'club name not matched'})
 
     if not serializer.is_valid():
@@ -122,7 +129,8 @@ def delete_task_detail(request,pk):
     
     user,profile = get_user_from_request(request)
 
-    if request.data['club_name']!=profile.club_name:
+
+    if Task.club_name!=profile.club_name:
         return Response({'status':403 , 'message':'club name not matched'})
     
     Task.delete()
