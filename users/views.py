@@ -120,7 +120,10 @@ def create_generate_jwt(request):
         decoded = jwt.decode(data['token'] , options={"verify_signature": False})
         roll = decoded['family_name']
         name = decoded['given_name']
-        email = decoded['unique_name']
+        if(decoded.get('unique_name')):
+            email = decoded['unique_name']
+        else:
+            email = decoded['email']
         exp = decoded['exp']
         if exp > int(time.time()):
             if verify_tenant(email):
@@ -130,6 +133,7 @@ def create_generate_jwt(request):
                 encoded_jwt = generate_token(profile)
                 response = JsonResponse({"message":"success","status":200})
                 set_cookie(response,'jwt',encoded_jwt,7)
+                response['jwt'] = encoded_jwt
                 return response
             return JsonResponse({"message":"not authorised for IIT Guwahati","status":400})
         return JsonResponse({"message":"invalid Token","status":400})

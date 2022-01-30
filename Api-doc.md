@@ -32,7 +32,7 @@ A web solution for organising and managing all Events
 
   | Parameter | Type | Required | Description |
   | :--- | :--- | :--- | :--- |
-  | `token` | `string` | **Required** | Access token issued by Microsoft Azure |
+  | `token` | `string` | **Required** | token issued by Microsoft Azure |
 
 - Example Input
   ```javascript
@@ -48,7 +48,8 @@ A web solution for organising and managing all Events
   }
   ```
 - Remarks:
-  - a jwt cookie is sent along with the request which will later be used in all apis to authenticate the user
+  - a *jwt token as cookie and header* is sent along with the *response* which will later be used in all apis to authenticate the user
+  - token will be *Access Token* in case of request from *Frontend Website* and *ID Token* in case of request from *App*
 
 
 ### 2 Create new Event
