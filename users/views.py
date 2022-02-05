@@ -102,6 +102,8 @@ def generate_token(profile):
     payload = {
         'user_id': profile.user.id,
         'profile_id': profile.id,
+        'club_name': profile.club_name,
+        'club_status': profile.club_status,
         'name': profile.name,
         'roll': profile.roll,
         'batch': profile.batch,
