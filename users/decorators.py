@@ -41,7 +41,9 @@ def login_is_required(function):
             return HttpResponseRedirect(reverse('tasks-home'))
         token = request.COOKIES.get('jwt')
         if not token:
-            return JsonResponse({"message":"unauthenticated"},status=401)
+            token = request.headers['Authorization']
+            if not token:
+                return JsonResponse({"message":"unauthenticated"},status=401)
         try:
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
         except jwt.ExpiredSignatureError:

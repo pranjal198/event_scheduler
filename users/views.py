@@ -178,6 +178,8 @@ def set_cookie(response, key, value, days_expire=7):
         # domain=settings.SESSION_COOKIE_DOMAIN,
         secure=settings.SESSION_COOKIE_SECURE or None,
     )
+    response['jwt'] = value
+    response['Access-Control-Expose-Headers'] = 'jwt'
     
 def get_user_from_request(request):
     if(request.user.username):
@@ -185,7 +187,9 @@ def get_user_from_request(request):
         return request.user,profile
     token = request.COOKIES.get('jwt')
     if not token:
-        return JsonResponse({"message":"unauthenticated"},status=401)
+        token = request.headers['Authorization']
+        if not token:
+            return JsonResponse({"message":"unauthenticated"},status=401)
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
     except jwt.ExpiredSignatureError:

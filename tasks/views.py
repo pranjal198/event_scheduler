@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import render
-from users.views import get_user_from_request
+from users.views import generate_token, get_user_from_request, set_cookie
 from .models import my_task
 from .serializer import TaskSerializer
 from django.views.generic import ListView
@@ -33,7 +33,11 @@ def Get_Task(request):
     """
     Task = my_task.objects.all()
     serializer = TaskSerializer(Task, many=True)
-    return Response(serializer.data)
+    response =  Response(serializer.data)
+    user,profile = get_user_from_request(request)
+    token = generate_token(profile)
+    set_cookie(response,'jwt',token)
+    return response
 
 
 @login_is_required
@@ -44,7 +48,11 @@ def get_task_detail(request, pk):
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = TaskSerializer(Task)
-    return Response(serializer.data)
+    response =  Response(serializer.data)
+    user,profile = get_user_from_request(request)
+    token = generate_token(profile)
+    set_cookie(response,'jwt',token)
+    return response
 
 @login_is_required
 @club
@@ -53,88 +61,133 @@ def post_task_detail(request):
     serializer = TaskSerializer(data=request.data)
     user,profile = get_user_from_request(request)
     if request.data['club_name']!=profile.club_name:
-        return Response({'status':403 , 'message':'Club Name Not Matched '})
+        response = Response({'status':403 , 'message':'Club Name Not Matched '})
+        token = generate_token(profile)
+        set_cookie(response,'jwt',token)
+        return response
 
 
     if not serializer.is_valid():
-        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        response = Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        token = generate_token(profile)
+        set_cookie(response,'jwt',token)
+        return response
 
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data,status=status.HTTP_201_CREATED)
+        response = Response(serializer.data,status=status.HTTP_201_CREATED)
+        token = generate_token(profile)
+        set_cookie(response,'jwt',token)
+        return response
 
 
 @login_is_required
 @club
 @api_view(['PATCH'])
 def patch_task_detail(request,pk):
+    user,profile = get_user_from_request(request)
     try:
         Task = my_task.objects.get(pk=pk)
     except my_task.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        response = Response(status=status.HTTP_404_NOT_FOUND)
+        token = generate_token(profile)
+        set_cookie(response,'jwt',token)
+        return response
 
     serializer = TaskSerializer(Task,data=request.data,partial=True)
     
-    user,profile = get_user_from_request(request)
 
     if Task.club_name!=profile.club_name:
-        return Response({'status':403 , 'message':'Task Is Not Created by '+profile.club_name})
+        response = Response({'status':403 , 'message':'Task Is Not Created by '+profile.club_name})
+        token = generate_token(profile)
+        set_cookie(response,'jwt',token)
+        return response
     
     # if request.data['club_name']!=profile.club_name:
     #     return Response({'status':403 , 'message':'club name not matched'})
 
     if not serializer.is_valid():
-        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        response = Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        token = generate_token(profile)
+        set_cookie(response,'jwt',token)
+        return response
 
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data,status=status.HTTP_201_CREATED)
+        response = Response(serializer.data,status=status.HTTP_201_CREATED)
+        token = generate_token(profile)
+        set_cookie(response,'jwt',token)
+        return response
 
 
 @login_is_required
 @club
 @api_view(['PUT'])
 def put_task_detail(request,pk):
+    user,profile = get_user_from_request(request)
     try:
         Task = my_task.objects.get(pk=pk)
     except my_task.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        response = Response(status=status.HTTP_404_NOT_FOUND)
+        token = generate_token(profile)
+        set_cookie(response,'jwt',token)
+        return response
 
     serializer = TaskSerializer(Task,data=request.data,partial=True)
     
-    user,profile = get_user_from_request(request)
 
     if Task.club_name!=profile.club_name:
-        return Response({'status':403 , 'message':'Task Is Not Created by '+profile.club_name})
+        response = Response({'status':403 , 'message':'Task Is Not Created by '+profile.club_name})
+        token = generate_token(profile)
+        set_cookie(response,'jwt',token)
+        return response
 
     if Task.data['club_name']!=profile.club_name:
-        return Response({'status':403 , 'message':'club name not matched'})
+        response = Response({'status':403 , 'message':'club name not matched'})
+        token = generate_token(profile)
+        set_cookie(response,'jwt',token)
+        return response
 
     if not serializer.is_valid():
-        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        response = Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        token = generate_token(profile)
+        set_cookie(response,'jwt',token)
+        return response
 
     if serializer.is_valid():
         serializer.save()
-        return Response(serializer.data,status=status.HTTP_201_CREATED)
+        response = Response(serializer.data,status=status.HTTP_201_CREATED)
+        token = generate_token(profile)
+        set_cookie(response,'jwt',token)
+        return response
 
 
 @login_is_required
 @club
 @api_view(['DELETE'])
 def delete_task_detail(request,pk):
+    user,profile = get_user_from_request(request)
     try:
         Task = my_task.objects.get(pk=pk)
     except my_task.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        response = Response(status=status.HTTP_404_NOT_FOUND)
+        token = generate_token(profile)
+        set_cookie(response,'jwt',token)
+        return response
     
-    user,profile = get_user_from_request(request)
 
 
     if Task.club_name!=profile.club_name:
-        return Response({'status':403 , 'message':'Task Is Not Created by '+profile.club_name+" so you can't delete this task."})
+        response = Response({'status':403 , 'message':'Task Is Not Created by '+profile.club_name+" so you can't delete this task."})
+        token = generate_token(profile)
+        set_cookie(response,'jwt',token)
+        return response
     
     Task.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
+    response = Response(status=status.HTTP_204_NO_CONTENT)
+    token = generate_token(profile)
+    set_cookie(response,'jwt',token)
+    return response
 
 @login_is_required
 def rsvp_a_event(request,pk):
@@ -142,7 +195,10 @@ def rsvp_a_event(request,pk):
     user,profile = get_user_from_request(request)
     event.rsvp_users.add(profile)
     event.save()
-    return JsonResponse({'message':"event RSVP'ed"})
+    response = JsonResponse({'message':"event RSVP'ed"})
+    token = generate_token(profile)
+    set_cookie(response,'jwt',token)
+    return response
 
 @login_is_required
 def unsub_a_event(request, pk):
@@ -150,4 +206,7 @@ def unsub_a_event(request, pk):
     user,profile = get_user_from_request(request)
     event.rsvp_users.remove(profile)
     event.save()
-    return JsonResponse({'message':'event Unsubscribed'})
+    response = JsonResponse({'message':'event Unsubscribed'})
+    token = generate_token(profile)
+    set_cookie(response,'jwt',token)
+    return response
