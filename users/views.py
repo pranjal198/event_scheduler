@@ -102,6 +102,8 @@ def generate_token(profile):
     payload = {
         'user_id': profile.user.id,
         'profile_id': profile.id,
+        'club_name': profile.club_name,
+        'club_status': profile.club_status,
         'name': profile.name,
         'roll': profile.roll,
         'batch': profile.batch,
@@ -131,7 +133,7 @@ def create_generate_jwt(request):
                 user = create_or_get_user(username,email,name,roll)
                 profile = Profile.objects.filter(user=user).first()
                 encoded_jwt = generate_token(profile)
-                response = JsonResponse({"message":"success","status":200})
+                response = JsonResponse({"message":"success","status":200,"jwt":encoded_jwt})
                 set_cookie(response,'jwt',encoded_jwt,7)
                 response['jwt'] = encoded_jwt
                 return response
