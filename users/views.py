@@ -106,6 +106,7 @@ def generate_token(profile):
         'club_status': profile.club_status,
         'name': profile.name,
         'roll': profile.roll,
+        'email': profile.user.email,
         'batch': profile.batch,
         'programme': profile.programme,
         'department': profile.department,
