@@ -50,9 +50,13 @@ urlpatterns = [
     path('event-scheduler/api/task/all',views.Get_Task,name='task_list_all'),
     path('event-scheduler/api/task/<int:pk>/',views.get_task_detail,name='task_detail'),
     path('event-scheduler/api/task/new/',views.post_task_detail,name='new_task'),
+    path('event-scheduler/api/task/<int:pk>/edit_json/',views.put_json_fields,name='edit_few_json'),
     path('event-scheduler/api/task/<int:pk>/edit_few/',views.patch_task_detail,name='edit_few_task'),
     path('event-scheduler/api/task/<int:pk>/edit/',views.put_task_detail,name='edit_task'),
     path('event-scheduler/api/task/<int:pk>/delete/',views.delete_task_detail,name='delete_task'),
+
+    path('event-scheduler/api/task/<int:pk>/add_view/',views.page_view,name='page_view'),
+    path('event-scheduler/api/task/<int:pk>/feedback/',views.feedback,name='feedback'),
 
     path('event-scheduler/profile/',user_views.get_profile,name='profile'),
     path('event-scheduler/rsvp/all/',user_views.get_all_rsvp_tasks,name='rsvp-all'),

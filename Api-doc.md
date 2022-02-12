@@ -38,7 +38,7 @@ A web solution for organising and managing all Events
   | :--- | :--- | :--- | :--- |
   | `token` | `string` | **Required** | token issued by Microsoft Azure |
 
-- Request body structure for microsoft login
+- Request body structure for password login
 
   | Parameter | Type | Required | Description |
   | :--- | :--- | :--- | :--- |
@@ -68,9 +68,159 @@ A web solution for organising and managing all Events
   }
   ```
 - Remarks:
-  - a *jwt token as cookie and header* is sent along with the *response* which will later be used in all apis to authenticate the user
-  - token will be *Access Token* in case of request from *Frontend Website* and *ID Token* in case of request from *App*
+  - a **jwt token as cookie and header** is sent along with the **response** which will later be used in all apis to authenticate the user
+  - token will be **Access Token** in case of request from **Frontend Website** and **ID Token** in case of request from **App**
 
+
+### Event Model
+- Example event
+  ```javascript
+  {
+      "club_name":"SWC",
+      
+      "title":"demo event",
+      "subtitle":"demo",
+      "image":"https://swc.iitg.ac.in/event-scheduler/media/images/img1.jpg",
+
+      "date":"2022-02-12",
+      "deadline":"2022-02-14",
+      "time_from": "00:12:00",
+      "time_to": "12:12:00",
+      "remainder": "Custom",
+      "remainder_date": "2022-02-11",
+      "remainder_time": "04:44:00",
+      
+      "host":[1,2,3],
+      "speaker":[1,2,3],
+      "guests":[
+          {
+              "id":1,
+              "name":"guest 1",
+              "email":"abc@gmail.com",
+              "designation":"SDE at Microsoft",
+              "batch":2014,
+          },
+          {
+              "id":2,
+              "name":"guest 2",
+              "email":"efg@gmail.com",
+              "designation":"Product Manager at Apple",
+              "batch":2015,
+          }
+          ],
+      "location":{
+          "offline":{
+              "latitude":"27.2046° N",
+              "longitude":"77.4977° E"
+          },
+          "online":{
+              "meet_url":"meet/google.com/abd-efg-hij",
+              "room_id":"abc123",
+              "password":"abc@123"
+          }
+      },
+      "announcement":{
+          "fixed":[
+              {
+                  "id":1,
+                  "announcement":"all participants must fill the google form"
+              },
+              {
+                  "id":2,
+                  "announcement":"share the links to your friends"
+              }
+          ],
+          "dynamic":[
+              {
+                  "id":1,
+                  "date":"2022-02-12",
+                  "time":"21:30:00",
+                  "announcement":"we will be starting at 10:00 pm"
+              },
+              {
+                  "id":2,
+                  "date":"2022-02-12",
+                  "time":"23:00:00",
+                  "announcement":"please fill the feedback form"
+              },
+          ],
+      },
+      "resources_upload":"https://swc.iitg.ac.in/event-scheduler/media/reources/info.pdf",
+      "drive_links":[
+          {
+              "id":1,
+              "filename":"guidelines.pdf",
+              "link":"drive.google.com/askddhswe/suiojsdoijsddsd"
+          },
+          {
+              "id":2,
+              "filename":"results.pdf",
+              "link":"drive.google.com/askddhswe/suiojsdoijsddsd"
+          },
+      ],
+      "payment":{
+          "paid":true,
+          "metadata":{
+              "price":499,
+              "link":"https://abcd.payment/com/?pay=499"
+          }
+      },
+      
+      "rsvp_users":[1,2,3,4,8,9],
+      "emails":{
+          "registration":{
+              "to":["a@gmail.com","b@yahoo.com"],
+              "sub":"register now for abc event",
+              "body":"abcd",
+          },
+          "scheduled":[
+              {
+                  "id":1,
+                  "to":["a@gmail.com","b@yahoo.com"],
+                  "sub":"hurry up register now for abc event",
+                  "body":"abcd",
+                  "date":"2022-02-15",
+                  "time":"09:00:00",
+              },
+              {
+                  "id":2,
+                  "to":["a@gmail.com","b@yahoo.com"],
+                  "sub":"join fast",
+                  "body":"abcd",
+                  "date":"2022-02-15",
+                  "time":"10:00:00",
+              },
+          ]
+      },
+      
+      "page_view":{
+          "2022-02-12": [1],
+          "2022-02-13": [2,9,45],
+          "2022-02-14": [3],
+          "2022-02-15": [4,8,9],
+          "2022-02-16": [5,2,3,1],
+          "2022-02-17": [7,4,5,9,1],
+      },
+      "feedback":{
+          "1":[1,2],
+          "2":[3],
+          "3":[4],
+          "4":[5,6],
+          "5":[7,8,9,10],
+      }
+  }
+  ```
+- All the operations on nested fields like **guests**, **location**, **announcement**, **drive_links**, **payment**, **emails** should be done by **7th, 8th and 9th API** only
+- All the lists containing numbers are actually user's profile id
+- In **location** field no need to give details of online as well as offline field, any one should work
+- **announcements** are of two types
+  - **fixed** (visible to all from the time of creation)
+  - **dynamic** (visible to all from the time specified)
+- **emails** are of two types
+  - **registration** (send to all at the time of event announcement)
+  - **scheduled** (send to all at the time specified)
+- **page_view** contains daily traffic on event's page
+- **feedback** contains user feedback after completion of event
 
 ### 2 Create new Event
 - For creating a new event
@@ -85,17 +235,6 @@ A web solution for organising and managing all Events
   | `club_name` | `string` | **Required**| Club name |
   | `title` | `string` | **Required**| Event Title |
   | `description` | `string` | **Required**| Event Description |
-  | `date` | `date` | **Required**| Event Date |
-  | `deadline` | `date` | **Not Required**| Event Deadline |
-  | `time_from` | `time` | **Required**| Event Start time |
-  | `time_to` | `time` | **Required**| Event End time |
-  | `remainder` | `string` | **Required**| Event Remainder type |
-  | `remainder_date` | `date` | **Not Required**| Event Remainder date |
-  | `remainder_time` | `time` | **Not Required**| Event Remainder time |
-  | `announcements` | `string` | **Not Required**| Event Announcements |
-  | `resources_upload` | `files` | **Not Required**| Event Resources |
-  | `author` | `int` | **Not Required**| Event Author |
-  | `rsvp_users` | `list` | **Not Required**| Subscribed users |
 
 - Example Input
   ```javascript
@@ -103,15 +242,6 @@ A web solution for organising and managing all Events
    "club_name": "SWC",
    "title": "AP",
    "description": "AAPPA",
-   "date": "2022-01-12",
-   "deadline": "2022-01-13",
-   "time_from": "00:12:00",
-   "time_to": "12:12:00",
-   "remainder": "Daily",
-   "remainder_time": "04:44:00",
-   "announcements": "",
-   "resources_upload": null,
-   "author": null
   }
 
   ```
@@ -121,17 +251,59 @@ A web solution for organising and managing all Events
     "id": 7,
     "club_name": "SWC",
     "title": "AP",
+    "subtitle": "",
     "description": "AAPPA",
-    "date": "2022-01-12",
-    "deadline": "2022-01-13",
-    "time_from": "00:12:00",
-    "time_to": "12:12:00",
-    "remainder": "Daily",
-    "remainder_date": "2022-01-21",
-    "remainder_time": "04:44:00",
-    "announcements": "",
+    "image": null,
+    "date": "2022-02-12",
+    "deadline": "2022-02-12",
+    "time_from": "15:42:37.071718",
+    "time_to": "15:42:37.071718",
+    "remainder": "None",
+    "remainder_date": "2022-02-12",
+    "remainder_time": "15:42:37.072713",
+    "guests": [],
+    "location": {
+      "offline": {
+        "latitude": "",
+        "longitude": ""
+      },
+      "online": {
+        "meet_url": "",
+        "room_id": "",
+        "password": ""
+      }
+    },
+    "announcement": {
+      "fixed": [],
+      "dynamic": []
+    },
     "resources_upload": null,
-    "author": null,
+    "drive_links": [],
+    "payment": {
+      "paid": false,
+      "metadata": {
+        "price": 0,
+        "link": ""
+      }
+    },
+    "emails": {
+      "registration": {
+        "to": [],
+        "sub": "",
+        "body": ""
+      },
+      "scheduled": []
+    },
+    "page_view": {},
+    "feedback": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": []
+    },
+    "host": [],
+    "speaker": [],
     "rsvp_users": []
   }
   ```
@@ -154,14 +326,15 @@ A web solution for organising and managing all Events
     - *AI CLUB*
     - *CCD CLUB*
     - *OTHER CLUB*
-  - *remainder* field must have following values :
-    - *Daily*
-    - *Weekly*
-    - *Monthly*
-    - *Week before*
-    - *Custom*
-  - *remainder_date* field should only be provided when *remainder* field have the value : *Custom*
-  - *resources_upload* field can contain files of any format
+  - Other not required field's data:
+   - *remainder* field must have following values :
+     - *Daily*
+     - *Weekly*
+     - *Monthly*
+     - *Week before*
+     - *Custom*
+   - *remainder_date* field should only be provided when *remainder* field have the value : *Custom*
+   - *resources_upload* field can contain files of any format
 
 ### 3 Get Event detail
 - For getting info of event
@@ -185,17 +358,59 @@ A web solution for organising and managing all Events
     "id": 7,
     "club_name": "SWC",
     "title": "AP",
+    "subtitle": "",
     "description": "AAPPA",
-    "date": "2022-01-12",
-    "deadline": "2022-01-13",
-    "time_from": "00:12:00",
-    "time_to": "12:12:00",
-    "remainder": "Daily",
-    "remainder_date": "2022-01-21",
-    "remainder_time": "04:44:00",
-    "announcements": "",
+    "image": null,
+    "date": "2022-02-12",
+    "deadline": "2022-02-12",
+    "time_from": "15:42:37.071718",
+    "time_to": "15:42:37.071718",
+    "remainder": "None",
+    "remainder_date": "2022-02-12",
+    "remainder_time": "15:42:37.072713",
+    "guests": [],
+    "location": {
+      "offline": {
+        "latitude": "",
+        "longitude": ""
+      },
+      "online": {
+        "meet_url": "",
+        "room_id": "",
+        "password": ""
+      }
+    },
+    "announcement": {
+      "fixed": [],
+      "dynamic": []
+    },
     "resources_upload": null,
-    "author": null,
+    "drive_links": [],
+    "payment": {
+      "paid": false,
+      "metadata": {
+        "price": 0,
+        "link": ""
+      }
+    },
+    "emails": {
+      "registration": {
+        "to": [],
+        "sub": "",
+        "body": ""
+      },
+      "scheduled": []
+    },
+    "page_view": {},
+    "feedback": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": []
+    },
+    "host": [],
+    "speaker": [],
     "rsvp_users": []
   }
   ```
@@ -240,16 +455,16 @@ A web solution for organising and managing all Events
   - it send all events even user subscribed that event or not.
 
 ### 5 Update Few Details of Events
-- For updating few selected fields of an event
+- For updating few selected fields of an event which can't be done using 7th, 8th and 9th api
 - URL
   ```http
   PATCH api/task/<int:pk>/edit_few/
   ```
-- Request body structure
+- Request body structure (only these fields must be updated via this api)
 
   | Parameter | Type | Required | Description |
   | :--- | :--- | :--- | :--- |
-  | `field name` | `field type` | | check description in create event api |
+  | `field name` | `field type` | | check description in create event api or see demo event object after login api |
 
 - Example Input (**Note:- club_name cannot be a field in the input**)
   ```javascript
@@ -263,69 +478,135 @@ A web solution for organising and managing all Events
   ```javascript
   {
     "id": 7,
-    "club_name": "CODING CLUB",
+    "club_name": "SWC",
     "title": "Updated AP",
+    "subtitle": "",
     "description": "no desc",
-    "date": "2022-01-12",
-    "deadline": "2022-01-13",
-    "time_from": "00:12:00",
-    "time_to": "12:12:00",
-    "remainder": "Daily",
-    "remainder_date": "2022-01-21",
-    "remainder_time": "04:44:00",
-    "announcements": "",
+    "image": null,
+    "date": "2022-02-12",
+    "deadline": "2022-02-12",
+    "time_from": "15:42:37.071718",
+    "time_to": "15:42:37.071718",
+    "remainder": "None",
+    "remainder_date": "2022-02-12",
+    "remainder_time": "15:42:37.072713",
+    "guests": [],
+    "location": {
+      "offline": {
+        "latitude": "",
+        "longitude": ""
+      },
+      "online": {
+        "meet_url": "",
+        "room_id": "",
+        "password": ""
+      }
+    },
+    "announcement": {
+      "fixed": [],
+      "dynamic": []
+    },
     "resources_upload": null,
-    "author": null,
+    "drive_links": [],
+    "payment": {
+      "paid": false,
+      "metadata": {
+        "price": 0,
+        "link": ""
+      }
+    },
+    "emails": {
+      "registration": {
+        "to": [],
+        "sub": "",
+        "body": ""
+      },
+      "scheduled": []
+    },
+    "page_view": {},
+    "feedback": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": []
+    },
+    "host": [],
+    "speaker": [],
     "rsvp_users": []
   }
   ```
 - Remarks:
-  - only send those fields to this api which user wants to be updated with their appropriate format as specified in event creation api.
+  - only send those fields to this api which user wants to be updated with their appropriate format as specified in event creation api or demo event object.
 
 ### 6 Update Whole Event
 - For updating few fields/whole event
+- Make sure to provide data in specified json format only
 - URL
   ```http
   PUT api/task/<int:pk>/edit/
   ```
-- Request body structure
-
-  | Parameter | Type | Required | Description |
-  | :--- | :--- | :--- | :--- |
-  | `club_name` | `string` | **Required**| Club name |
-  | `title` | `string` | **Required**| Event Title |
-  | `description` | `string` | **Required**| Event Description |
-  | `date` | `date` | **Required**| Event Date |
-  | `deadline` | `date` | **Not Required**| Event Deadline |
-  | `time_from` | `time` | **Required**| Event Start time |
-  | `time_to` | `time` | **Required**| Event End time |
-  | `remainder` | `string` | **Required**| Event Remainder type |
-  | `remainder_date` | `date` | **Not Required**| Event Remainder date |
-  | `remainder_time` | `time` | **Not Required**| Event Remainder time |
-  | `announcements` | `string` | **Not Required**| Event Announcements |
-  | `resources_upload` | `files` | **Not Required**| Event Resources |
-  | `author` | `int` | **Not Required**| Event Author |
-  | `rsvp_users` | `list` | **Not Required**| Subscribed users |
 
 - Example Input
   ```javascript
   {
+    "id": 7,
     "club_name": "SWC",
-    "title": "AP",
-    "description": "AAPPA",
-    "date": "2022-01-12",
-    "deadline": "2022-01-13",
-    "time_from": "00:12:00",
-    "time_to": "12:12:00",
-    "remainder": "Daily",
-    "remainder_date": "2022-01-21",
-    "remainder_time": "04:44:00",
-    "announcements": "",
+    "title": "updated title",
+    "subtitle": "",
+    "description": "updated decription",
+    "image": null,
+    "date": "2022-02-12",
+    "deadline": "2022-02-12",
+    "time_from": "15:42:37.071718",
+    "time_to": "15:42:37.071718",
+    "remainder": "None",
+    "remainder_date": "2022-02-12",
+    "remainder_time": "15:42:37.072713",
+    "guests": [],
+    "location": {
+      "offline": {
+        "latitude": "",
+        "longitude": ""
+      },
+      "online": {
+        "meet_url": "",
+        "room_id": "",
+        "password": ""
+      }
+    },
+    "announcement": {
+      "fixed": [],
+      "dynamic": []
+    },
     "resources_upload": null,
-    "author": null,
-    "rsvp_users": [
-        1
-    ]
+    "drive_links": [],
+    "payment": {
+      "paid": false,
+      "metadata": {
+        "price": 0,
+        "link": ""
+      }
+    },
+    "emails": {
+      "registration": {
+        "to": [],
+        "sub": "",
+        "body": ""
+      },
+      "scheduled": []
+    },
+    "page_view": {},
+    "feedback": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": []
+    },
+    "host": [],
+    "speaker": [],
+    "rsvp_users": []
   }
   ```
 - Example Response on success
@@ -333,27 +614,448 @@ A web solution for organising and managing all Events
   {
     "id": 7,
     "club_name": "SWC",
-    "title": "AP",
-    "description": "AAPPA",
-    "date": "2022-01-12",
-    "deadline": "2022-01-13",
-    "time_from": "00:12:00",
-    "time_to": "12:12:00",
-    "remainder": "Daily",
-    "remainder_date": "2022-01-21",
-    "remainder_time": "04:44:00",
-    "announcements": "",
+    "title": "updated title",
+    "subtitle": "",
+    "description": "updated description",
+    "image": null,
+    "date": "2022-02-12",
+    "deadline": "2022-02-12",
+    "time_from": "15:42:37.071718",
+    "time_to": "15:42:37.071718",
+    "remainder": "None",
+    "remainder_date": "2022-02-12",
+    "remainder_time": "15:42:37.072713",
+    "guests": [],
+    "location": {
+      "offline": {
+        "latitude": "",
+        "longitude": ""
+      },
+      "online": {
+        "meet_url": "",
+        "room_id": "",
+        "password": ""
+      }
+    },
+    "announcement": {
+      "fixed": [],
+      "dynamic": []
+    },
     "resources_upload": null,
-    "author": null,
-    "rsvp_users": [
-        1
-    ]
+    "drive_links": [],
+    "payment": {
+      "paid": false,
+      "metadata": {
+        "price": 0,
+        "link": ""
+      }
+    },
+    "emails": {
+      "registration": {
+        "to": [],
+        "sub": "",
+        "body": ""
+      },
+      "scheduled": []
+    },
+    "page_view": {},
+    "feedback": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": []
+    },
+    "host": [],
+    "speaker": [],
+    "rsvp_users": []
   }
   ```
 - Remarks:
-  - prefer 4th api if you have to update few fields of a event.
+  - prefer 4th api if you have to update few fields of an event.
+  - prefer 7th,8th and 9th api if you have to update nested json fields of an event.
   
-### 7 Deleting an Event
+### 7 Add/Update/Delete Nested Fields
+- For adding/updating/deleting all the nested fields individually
+- URL
+  ```http
+  PUT api/task/<int:pk>/edit_json/
+  ```
+- Request body structure
+
+  | Parameter | Type | Required | Description |
+  | :--- | :--- | :--- | :--- |
+  | `method` | `string` | **Required**| Any one of ADD/UPDATE/DELETE |
+  | `field` | `string` | **Required**| Field on which crud operations should be performed  |
+  | `mode` | `string` | **Not Required**| This value is required for specific fields, for more details see examples |
+  | `id` | `int` | **Not Required**| Only required for UPDATE and DELETE option |
+  | `data` | `json object` | **Not Required**| Only required for ADD and UPDATE option |
+
+#### field = guests
+  - It is a list of all guest objects
+  - Example Input for adding guests
+    ```javascript
+    {
+      "method": "ADD",
+      "field": "guests",
+      "data": {
+                  "name":"guest 1",
+                  "email":"abc@gmail.com",
+                  "designation":"SDE at Microsoft",
+                  "batch":2014,
+          }
+    }
+    ```
+  - Example Input for updating guests
+    ```javascript
+    {
+      "method": "UPDATE",
+      "field": "guests",
+      "id":1,
+      "data": {
+                  "name":"guest 2",
+                  "email":"efg@gmail.com",
+                  "designation":"SDE at Google",
+                  "batch":2015,
+          }
+    }
+    ```
+  - Example Input for deleting guests
+    ```javascript
+    {
+      "method": "DELETE",
+      "field": "guests",
+      "id":1
+    }
+    ```
+
+#### field = location
+  - It has two types:
+    - offline
+    - online
+  - No **ADD** option for location field
+  - Example Input for updating online location
+    ```javascript
+    {
+      "method": "UPDATE",
+      "field": "location",
+      "mode": "online",
+      "data": {
+              "meet_url":"meet/google.com/abd-efg-hij",
+              "room_id":"abc123",
+              "password":"abc@123"
+          }
+    }
+    ```
+  - Example Input for updating offline location
+    ```javascript
+    {
+      "method": "UPDATE",
+      "field": "location",
+      "mode": "offline",
+      "data": {
+              "latitude":"27.2046° N",
+              "longitude":"77.4977° E"
+          }
+    }
+    ```
+  - Example Input for deleting online location
+    ```javascript
+    {
+      "method": "DELETE",
+      "field": "location",
+      "mode": "online"
+    }
+    ```
+  - Example Input for deleting offline location
+    ```javascript
+    {
+      "method": "DELETE",
+      "field": "location",
+      "mode": "offline"
+    }
+    ```
+
+#### field = announcement
+  - It has two types:
+    - fixed
+    - dynamic
+  - Both types of announcement are list which contain individual announcement object
+  - Example Input for adding fixed announcement
+    ```javascript
+    {
+      "method": "ADD",
+      "field": "announcement",
+      "mode":"fixed",
+      "data": {
+                  "announcement":"all participants must fill the google form"
+          }
+    }
+    ```
+  - Example Input for adding dynamic announcement
+    ```javascript
+    {
+      "method": "ADD",
+      "field": "announcement",
+      "mode":"dynamic",
+      "data": {
+                  "date":"2022-02-12",
+                  "time":"21:30:00",
+                  "announcement":"we will be starting at 10:00 pm"
+          }
+    }
+    ```
+  - Example Input for updating fixed announcement
+    ```javascript
+    {
+      "method": "UPDATE",
+      "field": "announcement",
+      "mode":"fixed",
+      "id":1,
+      "data": {
+                  "announcement":"we will be starting at 10:30 pm"
+          }
+    }
+    ```
+  - Example Input for updating dynamic announcement
+    ```javascript
+    {
+      "method": "UPDATE",
+      "field": "announcement",
+      "mode":"dynamic",
+      "id":1,
+      "data": {
+                  "date":"2022-02-12",
+                  "time":"21:30:00",
+                  "announcement":"we will be starting at 10:30 pm"
+          }
+    }
+    ```
+  - Example Input for deleting fixed/dynamic announcement
+    ```javascript
+    {
+      "method": "DELETE",
+      "field": "announcement",
+      "mode":"fixed/dynamic",
+      "id":1
+    }
+    ```
+
+#### field = drive_links
+  - It is a list of all drive_links objects
+  - Example Input for adding drive_links
+    ```javascript
+    {
+      "method": "ADD",
+      "field": "drive_links",
+      "data": {
+                  "filename":"guidelines.pdf",
+                  "link":"drive.google.com/askddhswe/suiojsdoijsddsd"
+          }
+    }
+    ```
+  - Example Input for updating drive_links
+    ```javascript
+    {
+      "method": "UPDATE",
+      "field": "drive_links",
+      "id":1,
+      "data": {
+                  "filename":"rules.pdf",
+                  "link":"drive.google.com/123456789/suiojsdoijsddsd"
+          }
+    }
+    ```
+  - Example Input for deleting drive_links
+    ```javascript
+    {
+      "method": "DELETE",
+      "field": "drive_links",
+      "id":1
+    }
+    ```
+
+#### field = payment
+  - It has two types:
+    - paid (boolean)
+    - metadata (other payment related data)
+  - No need to provide values for **paid** parameter, it automatically sets according to method i.e. ADD/UPDATE make it true and DELETE makes it false
+  - Example Input for adding payment
+    ```javascript
+    {
+      "method": "ADD",
+      "field": "payment",
+      "data": {
+              "price":499,
+              "link":"https://abcd.payment/com/?pay=499"
+          }
+    }
+    ```
+  - Example Input for updating payment
+    ```javascript
+    {
+      "method": "UPDATE",
+      "field": "payment",
+      "data": {
+              "price":699,
+              "link":"https://efgh.payment/com/?pay=699"
+          }
+    }
+    ```
+  - Example Input for deleting payment
+    ```javascript
+    {
+      "method": "DELETE",
+      "field": "payment",
+    }
+    ```
+
+#### field = emails
+  - It has two types:
+    - registration (single object)
+    - scheduled (list of email objects)
+    - 
+  - Example Input for adding registration emails
+    ```javascript
+    {
+      "method": "ADD",
+      "field": "emails",
+      "mode":"registration",
+      "data": {
+                  "to":["a@gmail.com","b@yahoo.com"],
+                  "sub":"register now for abc event",
+                  "body":"abcd",
+          }
+    }
+    ```
+  - Example Input for adding scheduled emails
+    ```javascript
+    {
+      "method": "ADD",
+      "field": "emails",
+      "mode":"scheduled",
+      "data": {
+                  "to":["a@gmail.com","b@yahoo.com"],
+                  "sub":"join fast",
+                  "body":"abcd",
+                  "date":"2022-02-15",
+                  "time":"10:00:00",
+          }
+    }
+    ```
+  - Example Input for updating registration emails
+    ```javascript
+    {
+      "method": "UPDATE",
+      "field": "emails",
+      "mode":"registration",
+      "data": {
+                  "to":["a@gmail.com","b@yahoo.com"],
+                  "sub":"register now for abc event",
+                  "body":"abcd",
+          }
+    }
+    ```
+  - Example Input for updating scheduled emails
+    ```javascript
+    {
+      "method": "UPDATE",
+      "field": "emails",
+      "mode":"scheduled",
+      "id":1,
+      "data": {
+                  "to":["a@gmail.com","b@yahoo.com"],
+                  "sub":"join fast",
+                  "body":"abcd",
+                  "date":"2022-02-15",
+                  "time":"10:00:00",
+          }
+    }
+    ```
+  - Example Input for deleting registration emails
+    ```javascript
+    {
+      "method": "DELETE",
+      "field": "emails",
+      "mode":"registration"
+    }
+    ```
+  - Example Input for deleting scheduled emails
+    ```javascript
+    {
+      "method": "DELETE",
+      "field": "emails",
+      "mode":"scheduled",
+      "id":1
+    }
+    ```
+
+  - Example response on error
+    ```javascript
+    {
+      "message":"please provide vaild parameters",
+      "status":404
+    }
+    ```
+- Remarks:
+     - just by providing proper values for **method** and **field** this api can do crud operations for that field successfully.
+     - each time on success, the whole event data will be returned through response
+  
+### 8 Add page view to event analytics data
+- For adding views for event page
+- URL
+  ```http
+  GET api/task/<int:pk>/add_view/
+  ```
+- Request body structure
+
+  | Parameter | Type | Required | Description |
+  | :--- | :--- | :--- | :--- |
+  | `none` | `none` | **none**| none |
+
+- Example Input
+  ```javascript
+  {
+  }
+  ```
+- Example Response on success
+  ```javascript
+  {
+    "message": "ok"
+  }
+  ```
+- Remarks:
+  - call this api when user visits the event detail page
+  
+### 9 Adding feedback of user
+- For adding feedback of user
+- URL
+  ```http
+  GET api/task/<int:pk>/feedback/
+  ```
+- Request body structure
+
+  | Parameter | Type | Required | Description |
+  | :--- | :--- | :--- | :--- |
+  | `rating` | `string` | **Required**| 1 to 5 |
+
+- Example Input
+  ```javascript
+  {
+    "rating": "4"
+  }
+  ```
+- Example Response on success
+  ```javascript
+  {
+    "message": "feedback added"
+  }
+  ```
+- Remarks:
+  - please note that **rating** is **string**, not **int**
+  - if user has already given feedback then previous feedback will be erasen and current feedback will be added
+  
+### 10 Deleting an Event
 - For deleting an event
 - URL
   ```http
@@ -377,7 +1079,7 @@ A web solution for organising and managing all Events
   - it only deletes the event if the request is sent by event creator or staff user.
 
 
-### 8 List all RSVPed Events
+### 11 List all RSVPed Events
 - For Listing all the events on which user has clicked RSVP
 - URL
   ```http
@@ -415,7 +1117,7 @@ A web solution for organising and managing all Events
   - event 1,2,3 above means a whole structure of event as per event create api.
 
 
-### 9 List all not RSVPed Events
+### 12 List all not RSVPed Events
 - For Listing all the events on which user has not clicked RSVP
 - URL
   ```http
@@ -452,7 +1154,7 @@ A web solution for organising and managing all Events
 - Remarks:
   - event 1,2,3 above means a whole structure of event as per event create api.
 
-### 10 List all RSVPed Events of specific club
+### 13 List all RSVPed Events of specific club
 - For Listing all the events of a club on which user has clicked RSVP
 - URL
   ```http
@@ -490,7 +1192,7 @@ A web solution for organising and managing all Events
   - event 1,2,3 above means a whole structure of event as per event create api.
 
 
-### 11 List all not RSVPed Events of specific club
+### 14 List all not RSVPed Events of specific club
 - For Listing all the events of a club on which user has not clicked RSVP yet
 - URL
   ```http
@@ -528,7 +1230,7 @@ A web solution for organising and managing all Events
   - event 1,2,3 above means a whole structure of event as per event create api.
 
 
-### 12 Adding RSVP of a user to specific event
+### 15 Adding RSVP of a user to specific event
 - For adding rsvp of a user to specific event
 - URL
   ```http
@@ -553,7 +1255,7 @@ A web solution for organising and managing all Events
 - Remarks:
   - this api will add the user in the list of interested people in event.
 
-### 13 Removing RSVP of a user from specific event
+### 16 Removing RSVP of a user from specific event
 - For removing rsvp of a user from specific event
 - URL
   ```http
