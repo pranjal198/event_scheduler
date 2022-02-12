@@ -1,3 +1,4 @@
+from operator import truediv
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -37,10 +38,12 @@ CLUB_CHOICE = (
 
 class my_task(models.Model):
     club_name = models.CharField(max_length=20,choices=CLUB_CHOICE)
+    
     title = models.CharField(max_length=20)
+    subtitle = models.CharField(max_length=50,default="",blank=True)
     description = models.TextField()
-    # target_batch = models.CharField(max_length=13, choices=BAT_CHOICE, default="Self")
-    # target_branch = models.CharField(max_length=45, choices=DEP_CHOICE, default="Self")
+    image = models.ImageField(upload_to='media/images',blank=True,null=True)
+    
     date = models.DateField(default=timezone.localtime(timezone.now()).date())
     deadline = models.DateField(default=timezone.localtime(timezone.now()).date(),blank=True,null=True)
     time_from = models.TimeField(default=timezone.localtime(timezone.now()).time())
@@ -50,12 +53,21 @@ class my_task(models.Model):
     )).date(), blank=True, null=True, help_text="add date only if remainder type is custom")
     remainder_time = models.TimeField(default=timezone.localtime(timezone.now()).time(),)
     
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    # notifications=models.CharField(max_length=500,default="")
-    announcements=models.TextField(default="",null=True,blank=True,help_text="announcements should be seperated by comma, so that we can list them as points")
-    resources_upload = models.FileField(upload_to='media/',blank=True,null=True)
+    host = models.ManyToManyField(Profile,related_name="event_host",blank=True,null=True)
+    speaker = models.ManyToManyField(Profile,related_name="event_speaker",blank=True,null=True)
+    guests = models.JSONField(default=list,null=True, blank=True)
+    location = models.JSONField(default=dict,null=True, blank=True)
+    
+    announcement = models.JSONField(default=dict,null=True, blank=True)
+    resources_upload = models.FileField(upload_to='media/resources',blank=True,null=True)
+    drive_links = models.JSONField(default=list,null=True, blank=True)
+    payment = models.JSONField(default=dict,null=True, blank=True)
 
     rsvp_users = models.ManyToManyField(Profile,related_name="rsvp_tasks",blank=True,null=True)
+    emails = models.JSONField(default=dict,null=True, blank=True)
+    
+    page_view = models.JSONField(default=dict,null=True, blank=True)
+    feedback = models.JSONField(default=dict,null=True, blank=True)
 
     def __str__(self):
         return str(self.title)
