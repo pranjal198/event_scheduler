@@ -45,6 +45,7 @@ urlpatterns = [
     path('event-scheduler/accounts/', include('allauth.urls')),
     path('event-scheduler/profilee/',user_views.profile, name='profile'),
     path('event-scheduler/apiLogin/',user_views.create_generate_jwt, name='apilogin'),
+    path('event-scheduler/passwordLogin/',user_views.login_via_password, name='passwordlogin'),
     
     path('event-scheduler/api/task/all',views.Get_Task,name='task_list_all'),
     path('event-scheduler/api/task/<int:pk>/',views.get_task_detail,name='task_detail'),

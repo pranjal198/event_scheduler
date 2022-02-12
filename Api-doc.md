@@ -23,28 +23,48 @@ A web solution for organising and managing all Events
 ## Endpoints:-
 
 ### 1 Login Api
-- For logging in user using microsoft account
-- URL
+- For logging in user using microsoft account/username & password
+- URL for microsoft login
   ```http
   POST apiLogin/
   ```
-- Request body structure
+- URL for password login
+  ```http
+  POST passwordLogin/
+  ```
+- Request body structure for microsoft login
 
   | Parameter | Type | Required | Description |
   | :--- | :--- | :--- | :--- |
   | `token` | `string` | **Required** | token issued by Microsoft Azure |
 
-- Example Input
+- Request body structure for microsoft login
+
+  | Parameter | Type | Required | Description |
+  | :--- | :--- | :--- | :--- |
+  | `username` | `string` | **Required** | username |
+  | `password` | `string` | **Required** | password |
+
+- Example Input 1
   ```javascript
   {
     "token":"eyJ0eXAiOiJKV1QiLCJub25jZSI6ImZySTRVSThOSFpvdEZ4MTlvWmpTVFNLSzhUZFJZOFlaRDFJNjdvYTZEN2ciLCJhbGciOiJSUzI1NiIsIng1dCI6Ik1yNS1BVWliZkJpaTdOZDFqQmViYXhib1hXMCIsImtpZCI6Ik1yNS1BVWliZkJpaTdOZDFqQmViYXhib1hXMCJ9.eyJhdWQiOiIwMDAwMDAwMy0wMDAwLTAwMDAtYzAwMC0wMDAwMDAwMDAwMDAiLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC84NTBhYTc4ZC05NGUxLTRiYzYtOWNmMy04YzExYjUzMDcwMWMvIiwiaWF0IjoxNjQyODMzOTQ4LCJuYmYiOjE2NDI4MzM5NDgsImV4cCI6MTY0MjgzNzkyNywiYWNjdCI6MCwiYWNyIjoiMSIsImFpbyI6IkUyWmdZRmhtcWY0bW83WGorOVVWaThyTnZVTlVPS3dQTGVhS1hYNmVxV0JiNUgzeks2Y0EiLCJhbXIiOlsicHdkIl0sImFwcF9kaXNwbGF5bmFtZSI6IkV2ZW50IFNjaCIsImFwcGlkIjoiNTE2MDQzMjItYWM0Yi00YjQ1LWE1ZDEtZDZhOGY3MzcwMzhmIiwiYXBwaWRhY3IiOiIwIiwiZmFtaWx5X25hbWUiOiIyMDAxMDEwMTciLCJnaXZlbl9uYW1lIjoiQU5VUkFHIFJBVkkiLCJpZHR5cCI6InVzZXIiLCJpcGFkZHIiOiIyMDMuODkuOTcuNjciLCJuYW1lIjoiQU5VUkFHIFJBVkkiLCJvaWQiOiI4YzRmMjMyOC1jNDI3LTQyYTEtYWNhYS1mMjZjYWQwN2IyM2YiLCJwbGF0ZiI6IjMiLCJwdWlkIjoiMTAwMzIwMDBGNjdEQ0VGNiIsInJoIjoiMC5BU29BamFjS2hlR1V4a3VjODR3UnRUQndIQ0pEWUZGTHJFVkxwZEhXcVBjM0E0OHFBTDguIiwic2NwIjoib3BlbmlkIHByb2ZpbGUgVXNlci5SZWFkIGVtYWlsIiwic3ViIjoiQWNzRk14TEg3V3BELXR6cl9Tb1doTlhCTE5hUTRZdmRlaVMtb3NiZVZNTSIsInRlbmFudF9yZWdpb25fc2NvcGUiOiJBUyIsInRpZCI6Ijg1MGFhNzhkLTk0ZTEtNGJjNi05Y2YzLThjMTFiNTMwNzAxYyIsInVuaXF1ZV9uYW1lIjoiYW51cmFnLnJhdmlAaWl0Zy5hYy5pbiIsInVwbiI6ImFudXJhZy5yYXZpQGlpdGcuYWMuaW4iLCJ1dGkiOiJnT0w1dzRfZlAwQzdJQWtQeVp4b0FBIiwidmVyIjoiMS4wIiwieG1zX3N0Ijp7InN1YiI6ImtObS1WU1hmWDNzcHBNbUtQNEsycmh6cWpzZ1p0eGRWdFJRdmtQdjh5X2MifSwieG1zX3RjZHQiOjE1MjM1MjYwNzd9.QIYrMUzfSzvEbik3etTLtZpp-H_j4li9gVtY3kCAHVH2oIMs6IAu4-hURnp3o1T9hl_LflpnIJyLWF5Q3TJdnR9D-yera62ob18dUsnclyL9CR-nm4Uv5VC2rR_qGNSWylskCtMSjiL6LYF3NuJfyfiaTZOOm8CJ8KobN7P_ycq1ZnJ4Qtko2ZAO-YEvIkqUolipqh5AME8XAt7VchivDDabWRmzCNu_UngKuhcWKnPoD84saPyMOQIJlH_qeMW9RXNPH_DT5ToUePuemgYKEHz9VwM_V3u_DgpOTZooxBWtbIAGuChvobg6hX6Aahc9HK-AypmVwMKw10sn7cGZWQ"
   }
   ```
+- Example Input 2
+  ```javascript
+  {
+    "username": "abcd",
+    "password": "efgh"
+  }
+  ```
+
 - Example Response on success
   ```javascript
   {
     "message": "success",
-    "status": 200
+    "status": 200,
+    "jwt":"token....."
   }
   ```
 - Remarks:

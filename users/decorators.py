@@ -11,6 +11,8 @@ from users.views import get_user_from_request
 def club(function):
     def _function(request, *args, **kwargs):
         user,profile = get_user_from_request(request)
+        if user.is_superuser:
+            return function(request, *args, **kwargs)
         if not profile.club_status:
             if not request.user.username:
                 return JsonResponse({"message":"unauthenticated"},status=401)
@@ -24,6 +26,8 @@ def club(function):
 def swagger(function):
     def _function(request, *args, **kwargs):
         user,profile = get_user_from_request(request)
+        if user.is_superuser:
+            return function(request, *args, **kwargs)
         if not profile.club_status:
             messages.info(request, 'You Are Not A Club Member')
             return HttpResponseRedirect(reverse('tasks-home'))

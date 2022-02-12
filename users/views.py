@@ -2,7 +2,7 @@ from math import exp
 from django.contrib.auth.models import User
 from django.shortcuts import render,redirect
 from django.contrib import messages
-
+from django.contrib.auth import authenticate
 from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
 from django.http import JsonResponse
 from .models import Profile
@@ -115,6 +115,27 @@ def generate_token(profile):
     }
     encoded_jwt = jwt.encode(payload,settings.SECRET_KEY , algorithm="HS256")
     return encoded_jwt
+
+@csrf_exempt
+def login_via_password(request):
+    try:
+        data=json.loads(request.body)
+        username = data['username']
+        password = data['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                profile = Profile.objects.filter(user=user).first()
+                encoded_jwt = generate_token(profile)
+                response = JsonResponse({"message":"success","status":200,"jwt":encoded_jwt})
+                set_cookie(response,'jwt',encoded_jwt,7)
+                response['jwt'] = encoded_jwt
+                return response
+            return JsonResponse({"message":"user is unactive","status":400})
+        return JsonResponse({"message":"invalid username/password","status":400})
+    except:
+        print("error")
+        return JsonResponse({"message":"error occured","status":400})
 
 @csrf_exempt
 def create_generate_jwt(request):

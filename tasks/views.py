@@ -60,7 +60,7 @@ def get_task_detail(request, pk):
 def post_task_detail(request):
     serializer = TaskSerializer(data=request.data)
     user,profile = get_user_from_request(request)
-    if request.data['club_name']!=profile.club_name:
+    if request.data['club_name']!=profile.club_name and not user.is_superuser:
         response = Response({'status':403 , 'message':'Club Name Not Matched '})
         token = generate_token(profile)
         set_cookie(response,'jwt',token)
@@ -97,7 +97,7 @@ def patch_task_detail(request,pk):
     serializer = TaskSerializer(Task,data=request.data,partial=True)
     
 
-    if Task.club_name!=profile.club_name:
+    if Task.club_name!=profile.club_name and not user.is_superuser:
         response = Response({'status':403 , 'message':'Task Is Not Created by '+profile.club_name})
         token = generate_token(profile)
         set_cookie(response,'jwt',token)
@@ -136,13 +136,13 @@ def put_task_detail(request,pk):
     serializer = TaskSerializer(Task,data=request.data,partial=True)
     
 
-    if Task.club_name!=profile.club_name:
+    if Task.club_name!=profile.club_name and not user.is_superuser:
         response = Response({'status':403 , 'message':'Task Is Not Created by '+profile.club_name})
         token = generate_token(profile)
         set_cookie(response,'jwt',token)
         return response
 
-    if Task.data['club_name']!=profile.club_name:
+    if Task.data['club_name']!=profile.club_name and not user.is_superuser:
         response = Response({'status':403 , 'message':'club name not matched'})
         token = generate_token(profile)
         set_cookie(response,'jwt',token)
@@ -177,7 +177,7 @@ def delete_task_detail(request,pk):
     
 
 
-    if Task.club_name!=profile.club_name:
+    if Task.club_name!=profile.club_name and not user.is_superuser:
         response = Response({'status':403 , 'message':'Task Is Not Created by '+profile.club_name+" so you can't delete this task."})
         token = generate_token(profile)
         set_cookie(response,'jwt',token)
