@@ -105,9 +105,13 @@ def post_task_detail(request):
         '4':[],
         '5':[]
     }
-    data['page_view'] = {
-        
-    }
+    data['all_ids'] = {
+        'guests':0,
+        'fixed':0,
+        'dynamic':0,
+        'drive_links':0,
+        'scheduled':0,
+        }
     serializer = TaskSerializer(data=request.data)
     if not serializer.is_valid():
         response = Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
@@ -225,7 +229,8 @@ def put_json_fields(request,pk):
     try:
         if data['field'] == 'guests':
             if data['method'] == 'ADD':
-                data['data']['id']=len(event.guests)+1
+                event.all_ids['guests'] += 1
+                data['data']['id'] = event.all_ids['guests']
                 event.guests.append(data['data'])
                 event.save()
                 serializer = TaskSerializer(event)
@@ -279,7 +284,8 @@ def put_json_fields(request,pk):
                 
         if data['field'] == 'announcement':
             if data['method'] == 'ADD':
-                data['data']['id']=len(event.announcement[data['mode']])+1
+                event.all_ids[data['mode']] += 1
+                data['data']['id']=event.all_ids[data['mode']]
                 event.announcement[data['mode']].append(data['data'])
                 event.save()
                 serializer = TaskSerializer(event)
@@ -310,7 +316,8 @@ def put_json_fields(request,pk):
                 
         if data['field'] == 'drive_links':
             if data['method'] == 'ADD':
-                data['data']['id']=len(event.drive_links)+1
+                event.all_ids['drive_links'] += 1
+                data['data']['id']=event.all_ids['drive_links']
                 event.drive_links.append(data['data'])
                 event.save()
                 serializer = TaskSerializer(event)
@@ -366,7 +373,8 @@ def put_json_fields(request,pk):
         if data['field'] == 'emails':
             if data['method'] == 'ADD':
                 if data['mode']=='scheduled':
-                    data['data']['id']=len(event.emails[data['mode']])+1
+                    event.all_ids['scheduled'] += 1
+                    data['data']['id']=event.all_ids['scheduled']
                     event.emails[data['mode']].append(data['data'])
                 else:
                     event.emails[data['mode']]=data['data']

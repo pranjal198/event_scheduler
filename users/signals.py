@@ -1,9 +1,11 @@
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save,post_delete,pre_save
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from .models import Profile
 from users import models as user_model
-from tasks import models as task_model
+from tasks.models import my_task 
+from django.core.files.storage import default_storage
+import shutil
 
 
 @receiver(post_save,sender = User)
@@ -65,3 +67,27 @@ def create_profile(sender,instance,created,**kwargs):
 @receiver(post_save,sender = User)
 def save_profile(sender,instance,**kwargs):
     instance.profile.save()
+    
+
+@receiver(post_delete, sender=my_task)
+def delete_associated_files(sender, instance, **kwargs):
+    """Remove all files of an image after deletion."""
+    path = instance.image.name
+    if path:
+        arr = path.split('/');
+        folder = 'media/'+arr[0]+'/'+arr[1]
+        shutil.rmtree(folder)
+        
+@receiver(pre_save, sender=my_task)
+def pre_save_image(sender, instance, *args, **kwargs):
+    """ instance old image file will delete from os """
+    try:
+        old_img = my_task.objects.get(id=instance.id).image
+        try:
+            new_img = instance.image
+        except:
+            new_img = None
+        if new_img != old_img:
+            default_storage.delete(old_img.name)
+    except:
+        pass

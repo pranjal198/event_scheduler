@@ -34,6 +34,9 @@ CLUB_CHOICE = (
     ("CCD CLUB", "CCD CLUB"),
     ("OTHER CLUB", "OTHER CLUB"),
 )
+def event_image_path(instance, filename):
+    ext = filename.split('.')[-1]
+    return 'events/event-{}/event_logo.{}'.format(instance.id,ext)
 
 
 class my_task(models.Model):
@@ -42,7 +45,7 @@ class my_task(models.Model):
     title = models.CharField(max_length=20)
     subtitle = models.CharField(max_length=50,default="",blank=True)
     description = models.TextField()
-    image = models.ImageField(upload_to='media/images',blank=True,null=True)
+    image = models.ImageField(upload_to=event_image_path,blank=True,null=True)
     
     date = models.DateField(default=timezone.localtime(timezone.now()).date())
     deadline = models.DateField(default=timezone.localtime(timezone.now()).date(),blank=True,null=True)
@@ -68,6 +71,7 @@ class my_task(models.Model):
     
     page_view = models.JSONField(default=dict,null=True, blank=True)
     feedback = models.JSONField(default=dict,null=True, blank=True)
+    all_ids = models.JSONField(default=dict,null=True, blank=True)
 
     def __str__(self):
         return str(self.title)

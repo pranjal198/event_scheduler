@@ -21,6 +21,8 @@ from users import views as user_views
 from django.contrib.auth import views as auth_views
 from tasks import views
 from rest_framework.schemas import get_schema_view
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 # schema_view = get_schema_view(
@@ -66,7 +68,7 @@ urlpatterns = [
 
     path('event-scheduler/rsvp/event/<int:pk>', views.rsvp_a_event, name='rsvp_a_event'),
     path('event-scheduler/unsubscribe/event/<int:pk>', views.unsub_a_event, name='unsub_a_event'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns = urlpatterns+[
 
