@@ -68,11 +68,41 @@ A web solution for organising and managing all Events
   }
   ```
 - Remarks:
-  - a **jwt token as cookie and header** is sent along with the **response** which will later be used in all apis to authenticate the user
-  - token will be **Access Token** in case of request from **Frontend Website** and **ID Token** in case of request from **App**
+  - A **jwt token as cookie, header and as a jwt field** is sent along with the **response** which will later be used in all apis to authenticate the user
+  - Token will be **Access Token** in case of request from **Frontend Website** and **ID Token** in case of request from **App**
+  - In all other api's, request must be sent along with **Authorization** header and its value must be the **jwt token** sent by Login API
+  - Example:- **request['Authorization'] = eyJ0eXai...........**
 
 
 ### Event Model
+- Event structure
+
+  | Parameter | Type | Required | Description |
+  | :--- | :--- | :--- | :--- |
+  | `club_name` | `string` | **Required**| Club name |
+  | `title` | `string` | **Required**| Event Title |
+  | `subtitle` | `string` | **Required**| Event Subtitle |
+  | `description` | `string` | **Not Required**| Event Description |
+  | `image` | `image` | **Not Required**| Event Image/Logo |
+  | `date` | `date` | **Not Required**| Event Starting date |
+  | `deadline` | `date` | **Not Required**| Event End date |
+  | `time_from` | `time` | **Not Required**| Event Starting Time |
+  | `time_to` | `time` | **Not Required**| Event End Time |
+  | `remainder` | `string` | **Not Required**| Event Remainder type |
+  | `remainder_date` | `time` | **Not Required**| Event Remainder Date |
+  | `remainder_time` | `time` | **Not Required**| Event Remainder Time |
+  | `host` | `list` | **Not Required**| List of Event Host's profile id |
+  | `speaker` | `list` | **Not Required**| List of Event Speaker's profile id |
+  | `guests` | `json` | **Not Required**| List of Event Guests |
+  | `Location` | `json` | **Not Required**| Object of Event location data |
+  | `announcement` | `json` | **Not Required**| Object of Event announcement data |
+  | `resources_upload` | `json` | **Not Required**| List of Event resources files |
+  | `drive_links` | `json` | **Not Required**| List of Event drive links |
+  | `payment` | `json` | **Not Required**| Object of Event payment data |
+  | `rsvp_users` | `list` | **Not Required**| List of Event attendee's profile id |
+  | `emails` | `json` | **Not Required**| Object of Event email data |
+  | `page_view` | `json` | **Not Required**| Object of Event daily traffic data |
+  | `feedback` | `json` | **Not Required**| Object of Event feedback data |
 - Example event
   ```javascript
   {
@@ -80,12 +110,13 @@ A web solution for organising and managing all Events
       
       "title":"demo event",
       "subtitle":"demo",
-      "image":"https://swc.iitg.ac.in/event-scheduler/media/images/img1.jpg",
+      "description":"descriptive",
+      "image":"/event-scheduler/media/events/event-1/event_logo.jpg",
 
       "date":"2022-02-12",
       "deadline":"2022-02-14",
       "time_from": "00:12:00",
-      "time_to": "12:12:00",
+      "time_from": "12:12:00",
       "remainder": "Custom",
       "remainder_date": "2022-02-11",
       "remainder_time": "04:44:00",
@@ -145,7 +176,18 @@ A web solution for organising and managing all Events
               },
           ],
       },
-      "resources_upload":"https://swc.iitg.ac.in/event-scheduler/media/reources/info.pdf",
+      "resources_upload":[
+            {
+                "id": 1,
+                "filename": "testfile",
+                "url": "/event-scheduler/media/events/event-2/resources/testfile.pdf"
+            },
+            {
+                "id": 2,
+                "filename": "rules",
+                "url": "/event-scheduler/media/events/event-2/resources/rules.jpeg"
+            },
+      ]
       "drive_links":[
           {
               "id":1,
@@ -210,7 +252,7 @@ A web solution for organising and managing all Events
       }
   }
   ```
-- All the operations on nested fields like **guests**, **location**, **announcement**, **drive_links**, **payment**, **emails** should be done by **7th, 8th and 9th API** only
+- All the operations on nested fields like **guests**, **location**, **announcement**, **drive_links**, **payment**, **emails** and **resources_upload** should be done by **7th, 8th and 9th API** only
 - All the lists containing numbers are actually user's profile id
 - In **location** field no need to give details of online as well as offline field, any one should work
 - **announcements** are of two types
@@ -256,11 +298,11 @@ A web solution for organising and managing all Events
     "image": null,
     "date": "2022-02-12",
     "deadline": "2022-02-12",
-    "time_from": "15:42:37.071718",
-    "time_to": "15:42:37.071718",
+    "time_from": "15:42:37",
+    "time_to": "15:42:37",
     "remainder": "None",
     "remainder_date": "2022-02-12",
-    "remainder_time": "15:42:37.072713",
+    "remainder_time": "15:42:37",
     "guests": [],
     "location": {
       "offline": {
@@ -277,7 +319,7 @@ A web solution for organising and managing all Events
       "fixed": [],
       "dynamic": []
     },
-    "resources_upload": null,
+    "resources_upload": [],
     "drive_links": [],
     "payment": {
       "paid": false,
@@ -308,6 +350,8 @@ A web solution for organising and managing all Events
   }
   ```
 - Remarks:
+  - The above 3 fields **club_name** , **title** , **description** is always required, along with that you can also send other fields data, but make sure to adhere to the format as of event structure
+  - we suggest that, better not provide any other data here and use other api's to perform the other operations
   - *club_name* field must have following values : 
     - *SWC*
     - *CODING CLUB*
@@ -334,7 +378,7 @@ A web solution for organising and managing all Events
      - *Week before*
      - *Custom*
    - *remainder_date* field should only be provided when *remainder* field have the value : *Custom*
-   - *resources_upload* field can contain files of any format
+
 
 ### 3 Get Event detail
 - For getting info of event
@@ -363,11 +407,11 @@ A web solution for organising and managing all Events
     "image": null,
     "date": "2022-02-12",
     "deadline": "2022-02-12",
-    "time_from": "15:42:37.071718",
-    "time_to": "15:42:37.071718",
+    "time_from": "15:42:37",
+    "time_to": "15:42:37",
     "remainder": "None",
     "remainder_date": "2022-02-12",
-    "remainder_time": "15:42:37.072713",
+    "remainder_time": "15:42:37",
     "guests": [],
     "location": {
       "offline": {
@@ -384,7 +428,7 @@ A web solution for organising and managing all Events
       "fixed": [],
       "dynamic": []
     },
-    "resources_upload": null,
+    "resources_upload": [],
     "drive_links": [],
     "payment": {
       "paid": false,
@@ -485,11 +529,11 @@ A web solution for organising and managing all Events
     "image": null,
     "date": "2022-02-12",
     "deadline": "2022-02-12",
-    "time_from": "15:42:37.071718",
-    "time_to": "15:42:37.071718",
+    "time_from": "15:42:37",
+    "time_to": "15:42:37",
     "remainder": "None",
     "remainder_date": "2022-02-12",
-    "remainder_time": "15:42:37.072713",
+    "remainder_time": "15:42:37",
     "guests": [],
     "location": {
       "offline": {
@@ -506,7 +550,7 @@ A web solution for organising and managing all Events
       "fixed": [],
       "dynamic": []
     },
-    "resources_upload": null,
+    "resources_upload": [],
     "drive_links": [],
     "payment": {
       "paid": false,
@@ -558,11 +602,11 @@ A web solution for organising and managing all Events
     "image": null,
     "date": "2022-02-12",
     "deadline": "2022-02-12",
-    "time_from": "15:42:37.071718",
-    "time_to": "15:42:37.071718",
+    "time_from": "15:42:37",
+    "time_to": "15:42:37",
     "remainder": "None",
     "remainder_date": "2022-02-12",
-    "remainder_time": "15:42:37.072713",
+    "remainder_time": "15:42:37",
     "guests": [],
     "location": {
       "offline": {
@@ -579,7 +623,7 @@ A web solution for organising and managing all Events
       "fixed": [],
       "dynamic": []
     },
-    "resources_upload": null,
+    "resources_upload": [],
     "drive_links": [],
     "payment": {
       "paid": false,
@@ -641,7 +685,7 @@ A web solution for organising and managing all Events
       "fixed": [],
       "dynamic": []
     },
-    "resources_upload": null,
+    "resources_upload": [],
     "drive_links": [],
     "payment": {
       "paid": false,
@@ -689,7 +733,8 @@ A web solution for organising and managing all Events
   | `field` | `string` | **Required**| Field on which crud operations should be performed  |
   | `mode` | `string` | **Not Required**| This value is required for specific fields, for more details see examples |
   | `id` | `int` | **Not Required**| Only required for UPDATE and DELETE option |
-  | `data` | `json object` | **Not Required**| Only required for ADD and UPDATE option |
+  | `file` | `file` | **Not Required**| Only required for resources_upload field |
+  | `data` | `json/string` | **Not Required**| Only required for ADD and UPDATE option |
 
 #### field = guests
   - It is a list of all guest objects
@@ -990,13 +1035,38 @@ A web solution for organising and managing all Events
     }
     ```
 
-  - Example response on error
+#### field = resources_upload
+  - It is a list of all resources objects
+  - **file** field can have file of any format
+  - **data** field must be a **string**, having filename (without extension)
+  - file will be saved as **filename.ext** 
+  - no **UPDATE** method available for this option
+  - Example Input for adding resources
     ```javascript
     {
-      "message":"please provide vaild parameters",
-      "status":404
+      "method": "ADD",
+      "field": "resources_upload",
+      "file::<file of any format>
+      "data": "filename"
     }
     ```
+  - Example Input for deleting resources
+    ```javascript
+    {
+      "method": "DELETE",
+      "field": "resources_upload",
+      "id":1
+    }
+    ```
+
+
+- Example response on error
+  ```javascript
+  {
+    "message":"please provide vaild parameters",
+    "status":404
+  }
+  ```
 - Remarks:
      - just by providing proper values for **method** and **field** this api can do crud operations for that field successfully.
      - each time on success, the whole event data will be returned through response

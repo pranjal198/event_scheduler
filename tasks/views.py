@@ -10,6 +10,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.utils import timezone
+from django.core.files.storage import default_storage
 
 def index(request):
     param = {
@@ -66,7 +67,7 @@ def post_task_detail(request):
         token = generate_token(profile)
         set_cookie(response,'jwt',token)
         return response
-
+    print(request.data)
     data = request.data
     data['location'] = {
         'offline':{
@@ -111,6 +112,7 @@ def post_task_detail(request):
         'dynamic':0,
         'drive_links':0,
         'scheduled':0,
+        'resources_upload':0,
         }
     serializer = TaskSerializer(data=request.data)
     if not serializer.is_valid():
@@ -239,9 +241,9 @@ def put_json_fields(request,pk):
             if data['method'] == 'UPDATE':
                 id = data['id']
                 data['data']['id']=id
-                for guest in event.guests:
-                    if guest['id'] == id:
-                        found = guest
+                for resource in event.guests:
+                    if resource['id'] == id:
+                        found = resource
                 event.guests.remove(found)
                 event.guests.append(data['data'])
                 event.save()
@@ -250,9 +252,9 @@ def put_json_fields(request,pk):
                 
             if data['method'] == 'DELETE':
                 id = data['id']
-                for guest in event.guests:
-                    if guest['id'] == id:
-                        found = guest
+                for resource in event.guests:
+                    if resource['id'] == id:
+                        found = resource
                 event.guests.remove(found)
                 event.save()
                 serializer = TaskSerializer(event)
@@ -413,6 +415,45 @@ def put_json_fields(request,pk):
                 event.save()
                 serializer = TaskSerializer(event)
                 response = JsonResponse({'message':serializer.data})
+                
+        if data['field'] == 'resources_upload':
+            if data['method'] == 'ADD':
+                event.all_ids['resources_upload'] += 1
+                new_data = {}
+                new_data['id'] = event.all_ids['resources_upload']
+                new_data['filename'] = data['data']
+                uploaded_file = request.FILES['file']
+                filename = uploaded_file.name
+                ext = filename.split('.')[1]
+                new_name = data['data']+'.'+ext
+                default_storage.save('events/event-'+str(event.id)+'/resources/'+new_name,uploaded_file)
+                file_url = default_storage.url('events/event-'+str(event.id)+'/resources/'+new_name)
+                new_data['url']=file_url
+                event.resources_upload.append(new_data)
+                event.save()
+                serializer = TaskSerializer(event)
+                response = JsonResponse({'message':serializer.data})
+                
+            if data['method'] == 'DELETE':
+                id = data['id']
+                for resource in event.resources_upload:
+                    if resource['id'] == id:
+                        found = resource
+                url = found['url']
+                arr = url.split('/')
+                l = False
+                path = 'events'
+                for item in arr:
+                    if l:
+                        path += '/'+item
+                    if item == 'events':
+                        l = True
+                default_storage.delete(path)
+                event.resources_upload.remove(found)
+                event.save()
+                serializer = TaskSerializer(event)
+                response = JsonResponse({'message':serializer.data})
+            
     except:
         response = JsonResponse({'message':"please provide vaild parameters","status":404})
     token = generate_token(profile)

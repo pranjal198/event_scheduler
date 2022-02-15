@@ -1,3 +1,4 @@
+import datetime
 from operator import truediv
 from django.db import models
 from django.utils import timezone
@@ -47,26 +48,25 @@ class my_task(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to=event_image_path,blank=True,null=True)
     
-    date = models.DateField(default=timezone.localtime(timezone.now()).date())
-    deadline = models.DateField(default=timezone.localtime(timezone.now()).date(),blank=True,null=True)
-    time_from = models.TimeField(default=timezone.localtime(timezone.now()).time())
-    time_to = models.TimeField(default=timezone.localtime(timezone.now()).time())
+    date = models.DateField(default=timezone.localdate)
+    deadline = models.DateField(default=timezone.localdate,blank=True,null=True)
+    time_from = models.TimeField(default=datetime.time)
+    time_to = models.TimeField(default=datetime.time)
     remainder = models.CharField(max_length=12, choices=REM_CHOICE, default="None")
-    remainder_date = models.DateField(default=timezone.localtime(timezone.now(
-    )).date(), blank=True, null=True, help_text="add date only if remainder type is custom")
-    remainder_time = models.TimeField(default=timezone.localtime(timezone.now()).time(),)
+    remainder_date = models.DateField(default=timezone.localdate, blank=True, null=True, help_text="add date only if remainder type is custom")
+    remainder_time = models.TimeField(default=datetime.time)
     
-    host = models.ManyToManyField(Profile,related_name="event_host",blank=True,null=True)
-    speaker = models.ManyToManyField(Profile,related_name="event_speaker",blank=True,null=True)
+    host = models.ManyToManyField(Profile,related_name="event_host",blank=True)
+    speaker = models.ManyToManyField(Profile,related_name="event_speaker",blank=True)
     guests = models.JSONField(default=list,null=True, blank=True)
     location = models.JSONField(default=dict,null=True, blank=True)
     
     announcement = models.JSONField(default=dict,null=True, blank=True)
-    resources_upload = models.FileField(upload_to='media/resources',blank=True,null=True)
+    resources_upload = models.JSONField(default=list,null=True, blank=True)
     drive_links = models.JSONField(default=list,null=True, blank=True)
     payment = models.JSONField(default=dict,null=True, blank=True)
 
-    rsvp_users = models.ManyToManyField(Profile,related_name="rsvp_tasks",blank=True,null=True)
+    rsvp_users = models.ManyToManyField(Profile,related_name="rsvp_tasks",blank=True)
     emails = models.JSONField(default=dict,null=True, blank=True)
     
     page_view = models.JSONField(default=dict,null=True, blank=True)
