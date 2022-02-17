@@ -1,12 +1,16 @@
 from django.db.models.signals import post_save,post_delete,pre_save
 from django.contrib.auth.models import User
-from django.dispatch import receiver
+from django.dispatch import receiver,Signal
 from .models import Profile
-from users import models as user_model
+from django_celery_beat.models import PeriodicTask, CrontabSchedule
 from tasks.models import my_task 
 from django.core.files.storage import default_storage
 import shutil
+import tasks.tasks
 
+schedule_add = Signal(providing_args=['instance','field','id','data'])
+schedule_update = Signal(providing_args=['instance','field','id','data'])
+schedule_delete = Signal(providing_args=['instance','field','id'])
 
 @receiver(post_save,sender = User)
 def create_profile(sender,instance,created,**kwargs):
@@ -91,3 +95,96 @@ def pre_save_image(sender, instance, *args, **kwargs):
             default_storage.delete(old_img.name)
     except:
         pass
+    
+@receiver(schedule_add)
+def add_schedule(sender, **kwargs):
+    event = kwargs['instance']
+    id = kwargs['id']
+    data = kwargs['data']
+    if data['time'][3]!='0':
+        minute=  data['time'][3]+data['time'][4] 
+    else:
+        minute = data['time'][4]
+    if data['time'][0]!='0':
+        hour=  data['time'][0]+data['time'][1] 
+    else:
+        hour = data['time'][1]
+        
+    if data['date'][8]!='0':
+        date=  data['date'][8]+data['date'][9] 
+    else:
+        date = data['date'][9]
+    if data['date'][5]!='0':
+        month=  data['date'][5]+data['date'][6] 
+    else:
+        month = data['date'][6]
+    cron,created = CrontabSchedule.objects.get_or_create(
+        minute=minute,
+        hour=hour,
+        day_of_month=date,
+        month_of_year=month,
+    )
+    if kwargs['field'] == 'announcement':
+        PeriodicTask.objects.create(
+            name=f'event-{event.id}-announcement-{id}',
+            task='add_announcement',
+            crontab=cron,
+            args=f'''[{event.id},{id}]''',
+            one_off=True,
+        )
+    if kwargs['field'] == 'emails':
+        PeriodicTask.objects.create(
+            name=f'event-{event.id}-emails-{id}',
+            task='add_emails',
+            crontab=cron,
+            args=f'''[{event.id},{id}]''',
+            one_off=True,
+        )
+    
+@receiver(schedule_update)
+def update_schedule(sender, **kwargs):
+    event = kwargs['instance']
+    id = kwargs['id']
+    data = kwargs['data']
+    if data['time'][3]!='0':
+        minute=  data['time'][3]+data['time'][4] 
+    else:
+        minute = data['time'][4]
+    if data['time'][0]!='0':
+        hour=  data['time'][0]+data['time'][1] 
+    else:
+        hour = data['time'][1]
+        
+    if data['date'][8]!='0':
+        date=  data['date'][8]+data['date'][9] 
+    else:
+        date = data['date'][9]
+    if data['date'][5]!='0':
+        month=  data['date'][5]+data['date'][6] 
+    else:
+        month = data['date'][6]
+    cron,created = CrontabSchedule.objects.get_or_create(
+        minute=minute,
+        hour=hour,
+        day_of_month=date,
+        month_of_year=month,
+    )
+    if kwargs['field'] == 'announcement':
+        task = PeriodicTask.objects.get(name=f'event-{event.id}-announcement-{id}')
+        task.crontab = cron
+        task.save()
+    if kwargs['field'] == 'emails':
+        task = PeriodicTask.objects.get(name=f'event-{event.id}-emails-{id}')
+        task.crontab = cron
+        task.save()
+    
+@receiver(schedule_delete)
+def delete_schedule(sender, **kwargs):
+    event = kwargs['instance']
+    id = kwargs['id']
+    if kwargs['field'] == 'announcement':
+        task = PeriodicTask.objects.get(name=f'event-{event.id}-announcement-{id}')
+        task.delete()
+    if kwargs['field'] == 'emails':
+        task = PeriodicTask.objects.get(name=f'event-{event.id}-emails-{id}')
+        task.delete()

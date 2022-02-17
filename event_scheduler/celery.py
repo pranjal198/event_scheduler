@@ -13,7 +13,7 @@ django.setup()
 
 app.conf.timezone = 'Asia/Kolkata'
 
-app.autodiscover_tasks()
+app.autodiscover_tasks(force=True)
 
 app.conf.beat_schedule = {
     'send-mail-custom': {

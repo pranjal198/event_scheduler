@@ -117,3 +117,38 @@ def debug_task_monthly(self):
 @app.task()
 def task_email(email_from, email_to, subject, message):
     send_mail(subject, message, email_from, [email_to])
+    
+from celery import shared_task
+@shared_task(name='add_announcement',queue='celery')
+def add_announcement(event_id,annc_id):
+    event = my_task.objects.get(id=event_id)
+    for announcement in event.announcement['dynamic']:
+        if announcement['id'] == annc_id:
+            found = announcement
+            break
+    event.all_ids['fixed'] += 1
+    data = {'id':event.all_ids['fixed'],'announcement':found['announcement']}
+    event.announcement['fixed'].append(data)
+    event.announcement['dynamic'].remove(found)
+    event.save()
+    return "Announcement added"
+
+from celery import shared_task
+@shared_task(name='add_emails',queue='celery')
+def add_emails(event_id,email_id):
+    event = my_task.objects.get(id=event_id)
+    for email in event.emails['scheduled']:
+            if email['id'] == email_id:
+                found = email
+                break
+    recipients = []
+    if found['to'] == ['*']:
+        rsvp_users = event.rsvp_users.all()
+        for rsvp_user in rsvp_users:
+            recipients.append(rsvp_user.user.email)
+    else:
+        for emailid in found['to']:
+            recipients.append(emailid)
+    send_mail(found['sub'], found['body'], settings.EMAIL_HOST_USER, recipients)
+    return "Email sent"
+    

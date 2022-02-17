@@ -1101,7 +1101,7 @@ A web solution for organising and managing all Events
 - For adding feedback of user
 - URL
   ```http
-  GET api/task/<int:pk>/feedback/
+  POST api/task/<int:pk>/feedback/
   ```
 - Request body structure
 

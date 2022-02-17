@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.utils import timezone
 from django.core.files.storage import default_storage
+from users.signals import schedule_add,schedule_update,schedule_delete
 
 def index(request):
     param = {
@@ -228,234 +229,239 @@ def put_json_fields(request,pk):
         set_cookie(response,'jwt',token)
         return response
     data = request.data
-    try:
-        if data['field'] == 'guests':
-            if data['method'] == 'ADD':
-                event.all_ids['guests'] += 1
-                data['data']['id'] = event.all_ids['guests']
-                event.guests.append(data['data'])
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
+    # try:
+    if data['field'] == 'guests':
+        if data['method'] == 'ADD':
+            event.all_ids['guests'] += 1
+            data['data']['id'] = event.all_ids['guests']
+            event.guests.append(data['data'])
+            event.save()
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
 
-            if data['method'] == 'UPDATE':
-                id = data['id']
-                data['data']['id']=id
-                for resource in event.guests:
-                    if resource['id'] == id:
-                        found = resource
-                event.guests.remove(found)
-                event.guests.append(data['data'])
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
-                
-            if data['method'] == 'DELETE':
-                id = data['id']
-                for resource in event.guests:
-                    if resource['id'] == id:
-                        found = resource
-                event.guests.remove(found)
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
-                
-        if data['field'] == 'location':
-            if data['method'] == 'UPDATE':
-                event.location[data['mode']] = data['data']
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
-                
-            if data['method'] == 'DELETE':
-                demo = {
-                        'offline':{
-                            'latitude':'',
-                            'longitude':''
-                        },
-                        'online':{
-                            'meet_url':'',
-                            'room_id':'',
-                            'password':''
-                        }
-                }
-                event.location[data['mode']] = demo[data['mode']]
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
-                
-        if data['field'] == 'announcement':
-            if data['method'] == 'ADD':
-                event.all_ids[data['mode']] += 1
-                data['data']['id']=event.all_ids[data['mode']]
-                event.announcement[data['mode']].append(data['data'])
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
-
-            if data['method'] == 'UPDATE':
-                id = data['id']
-                data['data']['id']=id
-                for announcement in event.announcement[data['mode']]:
-                    if announcement['id'] == id:
-                        found = announcement
-                event.announcement[data['mode']].remove(found)
-                event.announcement[data['mode']].append(data['data'])
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
-                
-            if data['method'] == 'DELETE':
-                id = data['id']
-                data['data']['id']=id
-                for announcement in event.announcement[data['mode']]:
-                    if announcement['id'] == id:
-                        found = announcement
-                event.announcement[data['mode']].remove(found)
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
-                
-        if data['field'] == 'drive_links':
-            if data['method'] == 'ADD':
-                event.all_ids['drive_links'] += 1
-                data['data']['id']=event.all_ids['drive_links']
-                event.drive_links.append(data['data'])
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
-
-            if data['method'] == 'UPDATE':
-                id = data['id']
-                data['data']['id']=id
-                for drive_link in event.drive_links:
-                    if drive_link['id'] == id:
-                        found = drive_link
-                event.drive_links.remove(found)
-                event.drive_links.append(data['data'])
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
-                
-            if data['method'] == 'DELETE':
-                id = data['id']
-                data['data']['id']=id
-                for drive_link in event.drive_links:
-                    if drive_link['id'] == id:
-                        found = drive_link
-                event.drive_links.remove(found)
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
-                
-        if data['field'] == 'payment':
-            if data['method'] == 'ADD':
-                event.payment['paid']=True
-                event.payment['metadata']=data['data']
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
-
-            if data['method'] == 'UPDATE':
-                event.payment['metadata']=data['data']
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
-                
-            if data['method'] == 'DELETE':
-                event.payment['paid']=False
-                event.payment['metadata']={
-                                        'price':0,
-                                        'link':''
-                                    }
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
-                
-        if data['field'] == 'emails':
-            if data['method'] == 'ADD':
-                if data['mode']=='scheduled':
-                    event.all_ids['scheduled'] += 1
-                    data['data']['id']=event.all_ids['scheduled']
-                    event.emails[data['mode']].append(data['data'])
-                else:
-                    event.emails[data['mode']]=data['data']
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
-
-            if data['method'] == 'UPDATE':
-                if data['mode']=='scheduled':
-                    id = data['id']
-                    data['data']['id']=id
-                    for email in event.emails[data['mode']]:
-                        if email['id'] == id:
-                            found = email
-                    event.emails[data['mode']].remove(found)
-                    event.emails[data['mode']].append(data['data'])
-                else:
-                    event.emails[data['mode']]=data['data']
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
-                
-            if data['method'] == 'DELETE':
-                if data['mode']=='scheduled':
-                    id = data['id']
-                    for email in event.emails[data['mode']]:
-                        if email['id'] == id:
-                            found = email
-                    event.emails[data['mode']].remove(found)
-                else:
-                    event.emails[data['mode']]={
-                                                'to':[],
-                                                'sub':'',
-                                                'body':''
-                                            }
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
-                
-        if data['field'] == 'resources_upload':
-            if data['method'] == 'ADD':
-                event.all_ids['resources_upload'] += 1
-                new_data = {}
-                new_data['id'] = event.all_ids['resources_upload']
-                new_data['filename'] = data['data']
-                uploaded_file = request.FILES['file']
-                filename = uploaded_file.name
-                ext = filename.split('.')[1]
-                new_name = data['data']+'.'+ext
-                default_storage.save('events/event-'+str(event.id)+'/resources/'+new_name,uploaded_file)
-                file_url = default_storage.url('events/event-'+str(event.id)+'/resources/'+new_name)
-                new_data['url']=file_url
-                event.resources_upload.append(new_data)
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
-                
-            if data['method'] == 'DELETE':
-                id = data['id']
-                for resource in event.resources_upload:
-                    if resource['id'] == id:
-                        found = resource
-                url = found['url']
-                arr = url.split('/')
-                l = False
-                path = 'events'
-                for item in arr:
-                    if l:
-                        path += '/'+item
-                    if item == 'events':
-                        l = True
-                default_storage.delete(path)
-                event.resources_upload.remove(found)
-                event.save()
-                serializer = TaskSerializer(event)
-                response = JsonResponse({'message':serializer.data})
+        if data['method'] == 'UPDATE':
+            id = data['id']
+            data['data']['id']=id
+            for resource in event.guests:
+                if resource['id'] == id:
+                    found = resource
+            event.guests.remove(found)
+            event.guests.append(data['data'])
+            event.save()
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
             
-    except:
-        response = JsonResponse({'message':"please provide vaild parameters","status":404})
+        if data['method'] == 'DELETE':
+            id = data['id']
+            for resource in event.guests:
+                if resource['id'] == id:
+                    found = resource
+            event.guests.remove(found)
+            event.save()
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
+            
+    if data['field'] == 'location':
+        if data['method'] == 'UPDATE':
+            event.location[data['mode']] = data['data']
+            event.save()
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
+            
+        if data['method'] == 'DELETE':
+            demo = {
+                    'offline':{
+                        'latitude':'',
+                        'longitude':''
+                    },
+                    'online':{
+                        'meet_url':'',
+                        'room_id':'',
+                        'password':''
+                    }
+            }
+            event.location[data['mode']] = demo[data['mode']]
+            event.save()
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
+            
+    if data['field'] == 'announcement':
+        if data['method'] == 'ADD':
+            event.all_ids[data['mode']] += 1
+            data['data']['id']=event.all_ids[data['mode']]
+            event.announcement[data['mode']].append(data['data'])
+            event.save()
+            schedule_add.send(sender=my_task,instance=event,field="announcement",id=event.all_ids[data['mode']],data=data['data'])
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
+
+        if data['method'] == 'UPDATE':
+            id = data['id']
+            data['data']['id']=id
+            for announcement in event.announcement[data['mode']]:
+                if announcement['id'] == id:
+                    found = announcement
+            event.announcement[data['mode']].remove(found)
+            event.announcement[data['mode']].append(data['data'])
+            event.save()
+            schedule_update.send(sender=my_task,instance=event,field="announcement",id=id,data=data['data'])
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
+            
+        if data['method'] == 'DELETE':
+            id = data['id']
+            schedule_delete.send(sender=my_task,instance=event,field="announcement",id=id)
+            for announcement in event.announcement[data['mode']]:
+                if announcement['id'] == id:
+                    found = announcement
+            event.announcement[data['mode']].remove(found)
+            event.save()
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
+            
+    if data['field'] == 'drive_links':
+        if data['method'] == 'ADD':
+            event.all_ids['drive_links'] += 1
+            data['data']['id']=event.all_ids['drive_links']
+            event.drive_links.append(data['data'])
+            event.save()
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
+
+        if data['method'] == 'UPDATE':
+            id = data['id']
+            data['data']['id']=id
+            for drive_link in event.drive_links:
+                if drive_link['id'] == id:
+                    found = drive_link
+            event.drive_links.remove(found)
+            event.drive_links.append(data['data'])
+            event.save()
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
+            
+        if data['method'] == 'DELETE':
+            id = data['id']
+            data['data']['id']=id
+            for drive_link in event.drive_links:
+                if drive_link['id'] == id:
+                    found = drive_link
+            event.drive_links.remove(found)
+            event.save()
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
+            
+    if data['field'] == 'payment':
+        if data['method'] == 'ADD':
+            event.payment['paid']=True
+            event.payment['metadata']=data['data']
+            event.save()
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
+
+        if data['method'] == 'UPDATE':
+            event.payment['metadata']=data['data']
+            event.save()
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
+            
+        if data['method'] == 'DELETE':
+            event.payment['paid']=False
+            event.payment['metadata']={
+                                    'price':0,
+                                    'link':''
+                                }
+            event.save()
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
+            
+    if data['field'] == 'emails':
+        if data['method'] == 'ADD':
+            if data['mode']=='scheduled':
+                event.all_ids['scheduled'] += 1
+                data['data']['id']=event.all_ids['scheduled']
+                event.emails[data['mode']].append(data['data'])
+                schedule_add.send(sender=my_task,instance=event,field="emails",id=event.all_ids['scheduled'],data=data['data'])
+            else:
+                event.emails[data['mode']]=data['data']
+            event.save()
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
+
+        if data['method'] == 'UPDATE':
+            if data['mode']=='scheduled':
+                id = data['id']
+                data['data']['id']=id
+                for email in event.emails[data['mode']]:
+                    if email['id'] == id:
+                        found = email
+                event.emails[data['mode']].remove(found)
+                event.emails[data['mode']].append(data['data'])
+                schedule_update.send(sender=my_task,instance=event,field="emails",id=id,data=data['data'])
+            else:
+                event.emails[data['mode']]=data['data']
+            event.save()
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
+            
+        if data['method'] == 'DELETE':
+            if data['mode']=='scheduled':
+                id = data['id']
+                for email in event.emails[data['mode']]:
+                    if email['id'] == id:
+                        found = email
+                schedule_delete.send(sender=my_task,instance=event,field="emails",id=id)
+                event.emails[data['mode']].remove(found)
+            else:
+                event.emails[data['mode']]={
+                                            'to':[],
+                                            'sub':'',
+                                            'body':''
+                                        }
+            event.save()
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
+            
+    if data['field'] == 'resources_upload':
+        if data['method'] == 'ADD':
+            event.all_ids['resources_upload'] += 1
+            new_data = {}
+            new_data['id'] = event.all_ids['resources_upload']
+            new_data['filename'] = data['data']
+            uploaded_file = request.FILES['file']
+            filename = uploaded_file.name
+            ext = filename.split('.')[1]
+            new_name = data['data']+'.'+ext
+            default_storage.save('events/event-'+str(event.id)+'/resources/'+new_name,uploaded_file)
+            file_url = default_storage.url('events/event-'+str(event.id)+'/resources/'+new_name)
+            new_data['url']=file_url
+            event.resources_upload.append(new_data)
+            event.save()
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
+            
+        if data['method'] == 'DELETE':
+            id = data['id']
+            for resource in event.resources_upload:
+                if resource['id'] == id:
+                    found = resource
+            url = found['url']
+            arr = url.split('/')
+            l = False
+            path = 'events'
+            for item in arr:
+                if l:
+                    path += '/'+item
+                if item == 'events':
+                    l = True
+            default_storage.delete(path)
+            event.resources_upload.remove(found)
+            event.save()
+            serializer = TaskSerializer(event)
+            response = JsonResponse({'message':serializer.data})
+        
+    # except:
+    #     response = JsonResponse({'message':"please provide vaild parameters","status":404})
     token = generate_token(profile)
     set_cookie(response,'jwt',token)
     return response
@@ -528,7 +534,7 @@ def page_view(request,pk):
     return response
     
 @login_is_required
-@api_view(['GET'])
+@api_view(['POST'])
 def feedback(request,pk):
     event = my_task.objects.get(pk=pk)
     user,profile = get_user_from_request(request)

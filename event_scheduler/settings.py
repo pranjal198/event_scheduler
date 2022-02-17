@@ -173,14 +173,13 @@ CELERY_TASK_SELERIZER='json'
 CELERY_TIMEZONE = "Asia/Kolkata"
 
 ACCOUNT_EMAIL_VERIFICATION = "none"
-TIME_ZONE = "Asia/Kolkata"
 
 EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'schedulerevent9@gmail.com'
-EMAIL_HOST_PASSWORD = 'qigpglvkwjrldryy'
+EMAIL_HOST_PASSWORD = 'mayckxrkzvtizcrd'
 
 CORS_ALLOW_ALL_ORIGINS: True
 
