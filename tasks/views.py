@@ -291,6 +291,10 @@ def put_json_fields(request,pk):
             data['data']['id']=event.all_ids[data['mode']]
             event.announcement[data['mode']].append(data['data'])
             event.save()
+            if data['mode']=='fixed':
+                """
+                    Send the Notification of follwing announcement to its rsvp_users via websockets
+                """
             schedule_add.send(sender=my_task,instance=event,field="announcement",id=event.all_ids[data['mode']],data=data['data'])
             serializer = TaskSerializer(event)
             response = JsonResponse({'message':serializer.data})
@@ -304,6 +308,10 @@ def put_json_fields(request,pk):
             event.announcement[data['mode']].remove(found)
             event.announcement[data['mode']].append(data['data'])
             event.save()
+            if data['mode']=='fixed':
+                """
+                    Send the Notification of follwing announcement update to its rsvp_users via websockets
+                """
             schedule_update.send(sender=my_task,instance=event,field="announcement",id=id,data=data['data'])
             serializer = TaskSerializer(event)
             response = JsonResponse({'message':serializer.data})
@@ -325,6 +333,9 @@ def put_json_fields(request,pk):
             data['data']['id']=event.all_ids['drive_links']
             event.drive_links.append(data['data'])
             event.save()
+            """
+                Send the Notification of follwing drive_links uploaded to its rsvp_users via websockets
+            """
             serializer = TaskSerializer(event)
             response = JsonResponse({'message':serializer.data})
 
@@ -337,6 +348,9 @@ def put_json_fields(request,pk):
             event.drive_links.remove(found)
             event.drive_links.append(data['data'])
             event.save()
+            """
+                Send the Notification of follwing drive_links updated to its rsvp_users via websockets
+            """
             serializer = TaskSerializer(event)
             response = JsonResponse({'message':serializer.data})
             
@@ -437,6 +451,9 @@ def put_json_fields(request,pk):
             new_data['url']=file_url
             event.resources_upload.append(new_data)
             event.save()
+            """
+                Send the Notification of follwing resouce uploaded to its rsvp_users via websockets
+            """
             serializer = TaskSerializer(event)
             response = JsonResponse({'message':serializer.data})
             

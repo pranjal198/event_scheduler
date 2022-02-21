@@ -131,6 +131,9 @@ def add_announcement(event_id,annc_id):
     event.announcement['fixed'].append(data)
     event.announcement['dynamic'].remove(found)
     event.save()
+    """
+        Send the Notification of follwing announcement to its rsvp_users via websockets
+    """
     return "Announcement added"
 
 from celery import shared_task
@@ -151,4 +154,12 @@ def add_emails(event_id,email_id):
             recipients.append(emailid)
     send_mail(found['sub'], found['body'], settings.EMAIL_HOST_USER, recipients)
     return "Email sent"
+    
+@shared_task(name='send_remainder',queue='celery')
+def send_remainder(event_id):
+    event = my_task.objects.get(id=event_id)
+    """
+        Send the remainder of follwing event to its rsvp_users via websockets
+    """
+    return "Remainder sent"
     
