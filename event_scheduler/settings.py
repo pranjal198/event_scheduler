@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'microsoft_authentication',
     'allauth.socialaccount.providers.microsoft',
     'django_celery_beat',
+    'channels',
     'event_scheduler',
 ]
 
@@ -86,7 +87,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'event_scheduler.wsgi.application'
-
+ASGI_APPLICATION = 'event_scheduler.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

@@ -91,11 +91,14 @@ class my_task(models.Model):
     def get_all_rsvp_users(self):
         return self.rsvp_users.all()
 
+class Notification(models.Model):
+    task = models.ForeignKey(my_task, on_delete=models.CASCADE)
+    message = models.TextField()
+    sent = models.BooleanField(default=False)
 
-# rename to old_models.py
-# make a new models.py
-# expain why to do this
-# do this for all files
+    class Meta:
+        ordering = ['-broadcast_on']
+
 demo = {
     "club_name":"SWC",
     

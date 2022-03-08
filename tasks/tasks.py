@@ -8,6 +8,9 @@ from datetime import date, datetime, timedelta
 from django.core.mail import send_mail
 from tasks.models import my_task
 from users.models import Profile
+from channels.layers import get_channel_layer
+from asgiref.sync import async_to_sync
+import asyncio
 # All the celery tasks
 
 
@@ -131,9 +134,21 @@ def add_announcement(event_id,annc_id):
     event.announcement['fixed'].append(data)
     event.announcement['dynamic'].remove(found)
     event.save()
-    """
-        Send the Notification of follwing announcement to its rsvp_users via websockets
-    """
+    try:
+        channel_layer = get_channel_layer()
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        loop.run_until_complete(channel_layer.group_send(
+            "notification_broadcast",
+            {
+                'type': 'send_notification',
+                'message': 'Announcement added in "+event.title"'
+            }
+        ))
+            
+        return 'Done'
+    except:
+        print('error')
     return "Announcement added"
 
 from celery import shared_task
