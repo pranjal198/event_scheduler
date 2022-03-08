@@ -20,6 +20,7 @@ from django.views.generic import TemplateView
 from users import views as user_views
 from django.contrib.auth import views as auth_views
 from tasks import views
+from club import views as club_views
 from rest_framework.schemas import get_schema_view
 from django.conf import settings
 from django.conf.urls.static import static
@@ -56,6 +57,16 @@ urlpatterns = [
     path('event-scheduler/api/task/<int:pk>/edit_few/',views.patch_task_detail,name='edit_few_task'),
     path('event-scheduler/api/task/<int:pk>/edit/',views.put_task_detail,name='edit_task'),
     path('event-scheduler/api/task/<int:pk>/delete/',views.delete_task_detail,name='delete_task'),
+
+
+    path('event-scheduler/api/club/all',club_views.Get_Club,name='club_list_all'),
+    path('event-scheduler/api/club/<int:pk>/',club_views.get_club_detail,name='club_detail'),
+    path('event-scheduler/api/club/new/',club_views.post_club_detail,name='new_club'),
+    # path('event-scheduler/api/club/<int:pk>/edit_json/',club_views.put_json_fields,name='edit_few_json'),
+    path('event-scheduler/api/club/<int:pk>/edit_few/',club_views.patch_club_detail,name='edit_few_club'),
+    # path('event-scheduler/api/club/<int:pk>/edit/',club_views.put_task_detail,name='edit_task'),
+    path('event-scheduler/api/club/<int:pk>/delete/',club_views.delete_club_detail,name='delete_club'),
+
 
     path('event-scheduler/api/task/<int:pk>/add_view/',views.page_view,name='page_view'),
     path('event-scheduler/api/task/<int:pk>/feedback/',views.feedback,name='feedback'),

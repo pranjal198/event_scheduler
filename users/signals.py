@@ -96,42 +96,46 @@ def pre_save_image(sender, instance, *args, **kwargs):
             default_storage.delete(old_img.name)
     except:
         pass
-    old_event = my_task.objects.get(id=instance.id)
-    if old_event.remainder == instance.remainder:
-        task = PeriodicTask.objects.filter(name=f'event-{old_event.id}-remainder-{old_event.remainder}').first()
-        if instance.remainder == 'Custom':
-            custom_remainder_apply(instance,task)
-        if instance.remainder == 'Daily':
-            daily_remainder_apply(instance,task)
-        if instance.remainder == 'Weekly':
-            weekly_remainder_apply(instance,task)
-        if instance.remainder == 'Monthly':
-            monthly_remainder_apply(instance,task)
-        if instance.remainder == 'Week before':
-            weekbefore_remainder_apply(instance,task)
-    else:
-        task = PeriodicTask.objects.filter(name=f'event-{old_event.id}-remainder-{old_event.remainder}').first()
-        if task:
-            task.delete()
-        if instance.remainder == 'Custom':
-            print("custom......")
-            custom_remainder_apply(instance)
-            
-        if instance.remainder == 'Daily':
-            print("daily......")
-            daily_remainder_apply(instance)
-            
-        if instance.remainder == 'Weekly':
-            print("weekly......")
-            weekly_remainder_apply(instance)
-            
-        if instance.remainder == 'Monthly':
-            print("monthly......")
-            monthly_remainder_apply(instance)
-            
-        if instance.remainder == 'Week before':
-            print("week before......")
-            weekbefore_remainder_apply(instance)
+    old_event = my_task.objects.filter(id=instance.id).first()
+    try:
+
+        if old_event.remainder == instance.remainder:
+            task = PeriodicTask.objects.filter(name=f'event-{old_event.id}-remainder-{old_event.remainder}').first()
+            if instance.remainder == 'Custom':
+                custom_remainder_apply(instance,task)
+            if instance.remainder == 'Daily':
+                daily_remainder_apply(instance,task)
+            if instance.remainder == 'Weekly':
+                weekly_remainder_apply(instance,task)
+            if instance.remainder == 'Monthly':
+                monthly_remainder_apply(instance,task)
+            if instance.remainder == 'Week before':
+                weekbefore_remainder_apply(instance,task)
+        else:
+            task = PeriodicTask.objects.filter(name=f'event-{old_event.id}-remainder-{old_event.remainder}').first()
+            if task:
+                task.delete()
+            if instance.remainder == 'Custom':
+                print("custom......")
+                custom_remainder_apply(instance)
+                
+            if instance.remainder == 'Daily':
+                print("daily......")
+                daily_remainder_apply(instance)
+                
+            if instance.remainder == 'Weekly':
+                print("weekly......")
+                weekly_remainder_apply(instance)
+                
+            if instance.remainder == 'Monthly':
+                print("monthly......")
+                monthly_remainder_apply(instance)
+                
+            if instance.remainder == 'Week before':
+                print("week before......")
+                weekbefore_remainder_apply(instance)
+    except:
+        pass
     
 @receiver(schedule_add)
 def add_schedule(sender, **kwargs):
