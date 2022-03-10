@@ -4,30 +4,58 @@ from django.contrib.auth.models import User
 
 
 CLUB_CHOICE = (
-    ("Select", "Select"),
+    ("0", "Select"),
     ("SWC", "SWC"),
+    ("ACADEMIC INITIATIVE CLUB","ACADEMIC INITIATIVE CLUB"),
+    ("ACUMEN CLUB","ACUMEN CLUB"),
+    ("AEROMODELLING CLUB","AEROMODELLING CLUB"),
+    ("AI CLUB","AI CLUB"),
+    ("ALCHER","ALCHER"),
+    ("ANCHORENZA CLUB","ANCHORENZA CLUB"),
+    ("ASTRO CLUB","ASTRO CLUB"),
+    ("ATHLETICS CLUB","ATHLETICS CLUB"),
+    ("AQUATICS CLUB","AQUATICS CLUB"),
+    ("AUTOMOBILE CLUB","AUTOMOBILE CLUB"),   
+    ("BADMINTON CLUB","BADMINTON CLUB"), 
+    ("BASKETBALL CLUB","BASKETBALL CLUB"),
     ("CODING CLUB", "CODING CLUB"),
-    ("AERO CLUB", "AERO CLUB"),
-    ("ASTRO CLUB", "ASTRO CLUB"),
     ("CA CLUB", "CA CLUB"),
-    ("EE CLUB", "EE CLUB"),
-    ("PRAKRITI CLUB", "PRAKRITI CLUB"),
-    ("FNC CLUB", "FNC CLUB"),
-    ("ROBOTICS CLUB", "ROBOTICS CLUB"),
-    ("ED CLUB", "ED CLUB"),
-    ("UG CLUB", "UG CLUB"),
-    ("ALCHER CLUB", "ALCHER CLUB"),
-    ("TECHNICHE CLUB", "TECHNICHE CLUB"),
-    ("SAIL CLUB", "SAIL CLUB"),
-    ("AI CLUB", "AI CLUB"),
     ("CCD CLUB", "CCD CLUB"),
-    ("OTHER CLUB", "OTHER CLUB"),
+    ("CRICKET CLUB","CRICKET CLUB"),
+    ("DANCE CLUB","DANCE CLUB"),
+    ("DRAMA CLUB","DRAMA CLUB"),
+    ("EE CLUB", "EE CLUB"),
+    ("ED CLUB", "ED CLUB"),
+    ("FNC CLUB", "FNC CLUB"),
+    ("FINE ARTS CLUB","FINE ARTS CLUB"),
+    ("FOOTBALL CLUB","FOOTBALL CLUB"),
+    ("HOCKEY CLUB","HOCKEY CLUB"),
+    ("LITERARY CLUB","LITERARY CLUB"),
+    ("MOVIE CLUB","MOVIE CLUB"),
+    ("MUSIC CLUB","MUSIC CLUB"),
+    ("PHOTOGRAPHY CLUB","PHOTOGRAPHY CLUB"),
+    ("PRAKRITI CLUB", "PRAKRITI CLUB"),
+    ("RADIOG CLUB","RADIOG CLUB"),
+    ("RED RIBBON CLUB","RED RIBBON CLUB"),
+    ("RIGHTS AND RESPONSIBILITIES CLUB","RIGHTS AND RESPONSIBILITIES CLUB"),
+    ("ROBOTICS CLUB", "ROBOTICS CLUB"),
+    ("SAATHI COUNSELLING CLUB","SAATHI COUNSELLING CLUB"),
+    ("SAIL", "SAIL"),
+    ("SOCIAL SERVICE CLUB","SOCIAL SERVICE CLUB"),
+    ("SQUASH CLUB","SQUASH CLUB"),
+    ("TABLE TENNIS CLUB","TABLE TENNIS CLUB"),
+    ("TECHNICHE", "TECHNICHE"),
+    ("TENNIS CLUB","TENNIS CLUB"),
+    ("UG CLUB", "UG CLUB"),
+    ("VOLLEYBALL CLUB","VOLLEY BALL CLUB"),
+    ("WEIGHTLIFTING CLUB","WEIGHTLIFTING CLUB"),
+    ("YOUTH EMPOWERMENT CLUB","YOUTH EMPOWERMENT CLUB")
 )
 
 
 
 class Profile(models.Model):
-    club_name = models.CharField(max_length=20,choices=CLUB_CHOICE,default='Not A Club Member')
+    club_name = models.CharField(max_length=50,choices=CLUB_CHOICE,default='Not A Club Member')
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50,default='0')
     roll = models.CharField(max_length=9,default='0')
