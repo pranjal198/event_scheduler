@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import render
+import jwt
 from users.views import generate_token, get_user_from_request, set_cookie
 from .models import my_task
 from .serializer import TaskSerializer
@@ -12,6 +13,7 @@ from rest_framework import status
 from django.utils import timezone
 from django.core.files.storage import default_storage
 from users.signals import schedule_add,schedule_update,schedule_delete
+from event_scheduler import settings
 
 def index(request):
     param = {
@@ -565,3 +567,52 @@ def feedback(request,pk):
     token = generate_token(profile)
     set_cookie(response,'jwt',token)
     return response
+
+@login_is_required
+@club
+@api_view(['POST'])
+def invite_guest(request):
+    data = request.data
+    payload = {}
+    payload['name'] = data['name']
+    payload['email'] = data['email']
+    payload['event_id'] = data['event_id']
+    payload['accepted'] = False
+    message = data['message']
+    try:
+        event = my_task.objects.get(id=payload['event_id'])
+        event.all_ids['guests'] += 1
+        payload['id'] = event.all_ids['guests']
+        event.guests.append(payload)
+        event.save()
+        encoded_jwt = jwt.encode(payload,settings.SECRET_KEY , algorithm="HS256")
+        url = "localhost:3000/"+payload['event_id']+"/"+encoded_jwt
+        """
+            send email to guest containing message and url
+        """
+        return Response(status=status.HTTP_200_OK)
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def accept_invite(request):
+    data = request.data
+    encoded_jwt = data['jwt']
+    try:
+        payload = jwt.decode(encoded_jwt, settings.SECRET_KEY, algorithms=['HS256'])
+    except jwt.ExpiredSignatureError:
+        return JsonResponse({"message":"unauthorised guest"},status=401)
+    id = payload['id']
+    payload['accepted'] = True
+    try:
+        event = my_task.objects.get(id=payload['event_id'])
+        for resource in event.guests:
+            if resource['id'] == id:
+                found = resource
+        event.guests.remove(found)
+        event.guests.append(payload)
+        event.save()
+        return Response("accepted",status=status.HTTP_200_OK)
+    except:
+        return Response("event doesn't exists",status=status.HTTP_400_BAD_REQUEST)

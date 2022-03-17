@@ -58,10 +58,10 @@ CLUB_CHOICE = (
 
 def event_image_path(instance, filename):
     ext = filename.split('.')[-1]
-    return 'events/event-{}/event_logo.{}'.format(instance.id,ext)
+    return 'clubs/{}.{}'.format(instance.id,ext)
 
 
-class club(models.Model):
+class Club(models.Model):
     club_name = models.CharField(max_length=50,choices=CLUB_CHOICE)
     title = models.CharField(max_length=50,default="None",null=False)
     description = models.TextField()

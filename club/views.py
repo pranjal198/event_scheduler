@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import render
 from users.views import generate_token, get_user_from_request, set_cookie
-from .models import club
+from .models import Club
 from .serializer import ClubSerializer
 from django.views.generic import ListView
 from users.decorators import club as clubs,login_is_required
@@ -17,14 +17,14 @@ from rest_framework import status
 
 def index(request):
 	param = {
-		'clubs': club.objects.all()
+		'clubs': Club.objects.all()
 	}
 	return render(request, 'clubs/index.html', param)
 
 
 
 class ClubListView(LoginRequiredMixin, ListView):
-	model = club
+	model = Club
 	template_name = 'clubs/index.html'
 	context_object_name = 'clubs'
 	ordering = ['date']
@@ -36,7 +36,7 @@ def Get_Club(request):
 	"""
 	List all Clubs, or create a new Club
 	"""
-	Club = club.objects.all()
+	Club = Club.objects.all()
 	serializer = ClubSerializer(Club, many=True)
 	response =  Response(serializer.data)
 	user,profile = get_user_from_request(request)
@@ -52,7 +52,7 @@ def get_club_detail(request, pk):
 	List Club according to the request parameter in the url
 	"""
 	try:
-		Club = club.objects.get(pk=pk)
+		Club = Club.objects.get(pk=pk)
 	except:
 		return Response(status=status.HTTP_404_NOT_FOUND)
 	serializer = ClubSerializer(Club)
@@ -83,7 +83,7 @@ def post_club_detail(request):
 	print(request.data)
 	data = request.data    
 	serializer = ClubSerializer(data=request.data)
-	if club.objects.filter(club_name=profile.club_name).exists():
+	if Club.objects.filter(club_name=profile.club_name).exists():
 		raise serializers.ValidationError('This Club already exists')
 
 	if not serializer.is_valid():
@@ -110,8 +110,8 @@ def patch_club_detail(request,pk):
 	"""
 	user,profile = get_user_from_request(request)
 	try:
-		Club = club.objects.get(pk=pk)
-	except club.DoesNotExist:
+		Club = Club.objects.get(pk=pk)
+	except Club.DoesNotExist:
 		response = Response(status=status.HTTP_404_NOT_FOUND)
 		token = generate_token(profile)
 		set_cookie(response,'jwt',token)
@@ -120,7 +120,7 @@ def patch_club_detail(request,pk):
 	serializer = ClubSerializer(Club,data=request.data,partial=True)
 	
 
-	if Club.club_name!=profile.club_name and not user.is_superuser:
+	if Club.Club_name!=profile.club_name and not user.is_superuser:
 		response = Response({'status':403 , 'message':'Club Profile Is Not Created by '+profile.club_name+', so you cannot edit this club details'})
 		token = generate_token(profile)
 		set_cookie(response,'jwt',token)
@@ -152,8 +152,8 @@ def put_club_detail(request,pk):
 	"""
 	user,profile = get_user_from_request(request)
 	try:
-		Club = club.objects.get(pk=pk)
-	except club.DoesNotExist:
+		Club = Club.objects.get(pk=pk)
+	except Club.DoesNotExist:
 		response = Response(status=status.HTTP_404_NOT_FOUND)
 		token = generate_token(profile)
 		set_cookie(response,'jwt',token)
@@ -195,8 +195,8 @@ def put_club_detail(request,pk):
 def delete_club_detail(request,pk):
 	user,profile = get_user_from_request(request)
 	try:
-		event = club.objects.get(pk=pk)
-	except club.DoesNotExist:
+		event = Club.objects.get(pk=pk)
+	except Club.DoesNotExist:
 		response = Response(status=status.HTTP_404_NOT_FOUND)
 		token = generate_token(profile)
 		set_cookie(response,'jwt',token)

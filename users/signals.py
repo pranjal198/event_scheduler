@@ -1,6 +1,8 @@
 from django.db.models.signals import post_save,post_delete,pre_save
 from django.contrib.auth.models import User
 from django.dispatch import receiver,Signal
+from club.models import Club
+from users.decorators import club
 from users.tasks_helper import *
 from .models import Profile
 from django_celery_beat.models import PeriodicTask, CrontabSchedule
@@ -82,7 +84,21 @@ def delete_associated_files(sender, instance, **kwargs):
         arr = path.split('/');
         folder = 'media/'+arr[0]+'/'+arr[1]
         shutil.rmtree(folder)
-        
+
+@receiver(pre_save, sender=Club)
+def pre_save_image(sender, instance, *args, **kwargs):
+    """ instance old image file will delete from os """
+    try:
+        old_img = Club.objects.get(id=instance.id).image
+        try:
+            new_img = instance.image
+        except:
+            new_img = None
+        if new_img != old_img:
+            default_storage.delete(old_img.name)
+    except:
+        pass
+
 @receiver(pre_save, sender=my_task)
 def pre_save_image(sender, instance, *args, **kwargs):
     """ instance old image file will delete from os """
