@@ -62,9 +62,7 @@ urlpatterns = [
     path('event-scheduler/api/club/all',club_views.Get_Club,name='club_list_all'),
     path('event-scheduler/api/club/<int:pk>/',club_views.get_club_detail,name='club_detail'),
     path('event-scheduler/api/club/new/',club_views.post_club_detail,name='new_club'),
-    # path('event-scheduler/api/club/<int:pk>/edit_json/',club_views.put_json_fields,name='edit_few_json'),
     path('event-scheduler/api/club/<int:pk>/edit_few/',club_views.patch_club_detail,name='edit_few_club'),
-    # path('event-scheduler/api/club/<int:pk>/edit/',club_views.put_task_detail,name='edit_task'),
     path('event-scheduler/api/club/<int:pk>/delete/',club_views.delete_club_detail,name='delete_club'),
 
 

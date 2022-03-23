@@ -36,8 +36,8 @@ def Get_Club(request):
 	"""
 	List all Clubs, or create a new Club
 	"""
-	Club = Club.objects.all()
-	serializer = ClubSerializer(Club, many=True)
+	club = Club.objects.all()
+	serializer = ClubSerializer(club, many=True)
 	response =  Response(serializer.data)
 	user,profile = get_user_from_request(request)
 	token = generate_token(profile)
@@ -52,10 +52,10 @@ def get_club_detail(request, pk):
 	List Club according to the request parameter in the url
 	"""
 	try:
-		Club = Club.objects.get(pk=pk)
+		club = Club.objects.get(pk=pk)
 	except:
 		return Response(status=status.HTTP_404_NOT_FOUND)
-	serializer = ClubSerializer(Club)
+	serializer = ClubSerializer(club)
 	response =  Response(serializer.data)
 	user,profile = get_user_from_request(request)
 	token = generate_token(profile)
@@ -110,8 +110,8 @@ def patch_club_detail(request,pk):
 	"""
 	user,profile = get_user_from_request(request)
 	try:
-		Club = Club.objects.get(pk=pk)
-	except Club.DoesNotExist:
+		club = Club.objects.get(pk=pk)
+	except club.DoesNotExist:
 		response = Response(status=status.HTTP_404_NOT_FOUND)
 		token = generate_token(profile)
 		set_cookie(response,'jwt',token)
@@ -120,7 +120,7 @@ def patch_club_detail(request,pk):
 	serializer = ClubSerializer(Club,data=request.data,partial=True)
 	
 
-	if Club.Club_name!=profile.club_name and not user.is_superuser:
+	if club.club_name!=profile.club_name and not user.is_superuser:
 		response = Response({'status':403 , 'message':'Club Profile Is Not Created by '+profile.club_name+', so you cannot edit this club details'})
 		token = generate_token(profile)
 		set_cookie(response,'jwt',token)
@@ -152,8 +152,8 @@ def put_club_detail(request,pk):
 	"""
 	user,profile = get_user_from_request(request)
 	try:
-		Club = Club.objects.get(pk=pk)
-	except Club.DoesNotExist:
+		club = Club.objects.get(pk=pk)
+	except club.DoesNotExist:
 		response = Response(status=status.HTTP_404_NOT_FOUND)
 		token = generate_token(profile)
 		set_cookie(response,'jwt',token)
