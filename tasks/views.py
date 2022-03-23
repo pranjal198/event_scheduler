@@ -30,7 +30,7 @@ class TaskListView(LoginRequiredMixin, ListView):
     ordering = ['date']
 
 
-@login_is_required
+
 @api_view(['GET'])
 def Get_Task(request):
     """
@@ -45,7 +45,7 @@ def Get_Task(request):
     return response
 
 
-@login_is_required
+
 @api_view(['GET'])
 def get_task_detail(request, pk):
     try:
